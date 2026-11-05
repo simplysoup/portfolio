@@ -1,12 +1,13 @@
-THE DIRECTORY — Nicholas Bode's personal portfolio
+Directory 11 — offline preview
 
-Open OPEN_PORTFOLIO.html in Chrome or Firefox after extracting this archive.
-If an Android document viewer blocks JavaScript, use a normal web server or
-refer to the included motion video; document viewers may refuse scripts.
+Extract the ZIP and open OPEN_PORTFOLIO.html with a real browser, not a document viewer.
 
-To run the full source site locally:
-  uv sync
-  uv run python scripts/build.py
-  uv run python -m http.server 8000 --directory dist
+The website is most reliable when served over HTTP/HTTPS. From the source ZIP:
 
-The site is not deployed to a public URL.
+    uv sync
+    uv run python scripts/build.py
+    uv run python -m http.server 8000 --bind 0.0.0.0 --directory dist
+
+Then visit http://localhost:8000 on desktop, or http://YOUR_LAN_IP:8000 from a phone on the same Wi-Fi network.
+
+The font uses a monospaced fallback stack. No reference-site font files are included.

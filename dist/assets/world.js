@@ -10,19 +10,27 @@
   let active=null,busy=false,queuedKey=undefined,menuOpen=false,artClean=()=>{},homeRoot=null;
   const $=(sel,ctx=document)=>ctx.querySelector(sel);
   const $$=(sel,ctx=document)=>[...ctx.querySelectorAll(sel)];
-  function run(node,frames,options={}){
-    if(!node||reduce.matches)return Promise.resolve();
+  // Keep the final animation state before clearing the animation object.
+  async function run(node,frames,options={}){
+    if(!node||reduce.matches)return;
     const ani=node.animate(frames,{fill:'both',...options});
-    return ani.finished.catch(()=>{}).then(()=>{try{ani.cancel()}catch{}});
+    try{await ani.finished}catch{return}
+    for(const [k,v] of Object.entries(frames[frames.length-1])){
+      if(!['offset','easing','composite'].includes(k))node.style[k]=v;
+    }
+    ani.cancel();
   }
   async function curtain(action){
     const wipe=$('[data-wipe]');
     if(reduce.matches||!wipe){action();return}
-    const bars=$$('i',wipe);wipe.style.visibility='visible';
-    await Promise.all(bars.map((bar,i)=>run(bar,[{transform:'translateY(102%)'},{transform:'translateY(0)'}],{duration:440,delay:i*45,easing:EASE})));
+    wipe.style.visibility='visible';
+    wipe.style.clipPath='inset(100% 0 0 0)';
+    await run(wipe,[{clipPath:'inset(100% 0 0 0)'},{clipPath:'inset(0 0 0 0)'}],{duration:550,easing:EASE});
     action();
-    await Promise.all(bars.map((bar,i)=>run(bar,[{transform:'translateY(0)'},{transform:'translateY(-102%)'}],{duration:480,delay:i*45,easing:EASE})));
+    await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
+    await run(wipe,[{clipPath:'inset(0 0 0 0)'},{clipPath:'inset(0 0 100% 0)'}],{duration:630,easing:EASE});
     wipe.style.visibility='hidden';
+    wipe.style.clipPath='inset(100% 0 0 0)';
   }
   function setRoomSync(key){
     const root=$('[data-world]');if(!root)return;
@@ -60,23 +68,33 @@
     artClean=initializeArt(w);
   }
   window.initWorld=refresh;
-  async function openMenu(){
-    const m=$('[data-world-map]'),toggle=$('[data-map-toggle]');if(!m||menuOpen)return;
-    menuOpen=true;m.inert=false;m.style.visibility='visible';m.setAttribute('aria-hidden','false');
-    toggle.setAttribute('aria-expanded','true');document.body.classList.add('map-open');
-    await run(m,[{clipPath:'inset(0 0 100% 0)',opacity:1},{clipPath:'inset(0 0 0% 0)',opacity:1}],{duration:780,easing:EASE});
-    m.style.opacity='1';m.style.clipPath='inset(0 0 0 0)';
-    $$('a',m).forEach((a,i)=>run(a,[{opacity:0,transform:'translateY(34px)'},{opacity:1,transform:'translateY(0)'}],{duration:680,delay:i*60,easing:EXPO}));
-    if(menuOpen)$('nav a',m)?.focus({preventScroll:true});
+  let menuAnimation=null;
+  async function setMenu(open,{focus=true,instant=false}={}){
+    const m=$('[data-world-map]'),toggle=$('[data-map-toggle]');if(!m)return;
+    if(menuAnimation){
+      // Start from the actual position when a rapid tap reverses the curtain.
+      m.style.clipPath=getComputedStyle(m).clipPath;
+      menuAnimation.cancel();menuAnimation=null;
+    }
+    const wasOpen=menuOpen;menuOpen=open;
+    m.style.visibility='visible';
+    toggle.setAttribute('aria-expanded',String(open));
+    document.body.classList.toggle('map-open',open);
+    if(open){m.inert=false;m.setAttribute('aria-hidden','false')}
+    const from=m.style.clipPath|| (wasOpen?'inset(0 0 0 0)':'inset(0 0 100% 0)');
+    const to=open?'inset(0 0 0 0)':'inset(0 0 100% 0)';
+    if(!instant&&!reduce.matches){
+      const anim=m.animate([{clipPath:from},{clipPath:to}],{duration:open?570:470,easing:EASE,fill:'both'});
+      menuAnimation=anim;
+      try{await anim.finished}catch{return}
+      if(menuAnimation!==anim)return;
+      menuAnimation=null;m.style.clipPath=to;anim.cancel();
+    } else m.style.clipPath=to;
+    if(!open){m.style.visibility='hidden';m.inert=true;m.setAttribute('aria-hidden','true');if(focus)toggle.focus({preventScroll:true})}
+    else if(focus)$('nav a',m)?.focus({preventScroll:true});
   }
-  async function closeMenu({focus=true,instant=false}={}){
-    const m=$('[data-world-map]'),toggle=$('[data-map-toggle]');if(!m||!menuOpen)return;
-    menuOpen=false;
-    if(!instant)await run(m,[{clipPath:'inset(0 0 0 0)',opacity:1},{clipPath:'inset(0 0 100% 0)',opacity:1}],{duration:560,easing:EASE});
-    m.style.visibility='hidden';m.style.opacity='0';m.style.clipPath='inset(0 0 100% 0)';m.inert=true;m.setAttribute('aria-hidden','true');
-    toggle.setAttribute('aria-expanded','false');document.body.classList.remove('map-open');
-    if(focus)toggle.focus({preventScroll:true});
-  }
+  const openMenu=()=>setMenu(true);
+  const closeMenu=(options={})=>setMenu(false,options);
   document.addEventListener('click',e=>{
     const toggle=e.target.closest('[data-map-toggle]');if(toggle){menuOpen?closeMenu():openMenu();return}
     const clos=e.target.closest('[data-room-close]');if(clos){goto(null);return}
@@ -108,14 +126,7 @@
       goto(chapters[(i+chapters.length)%chapters]);
     }
   });
-  let tx=0,ty=0;
-  document.addEventListener('touchstart',e=>{if(!active||menuOpen||!e.touches.length)return;tx=e.touches[0].clientX;ty=e.touches[0].clientY},{passive:true});
-  document.addEventListener('touchend',e=>{
-    if(!active||menuOpen||!e.changedTouches.length)return;
-    if(e.target.closest('a, button, input, textarea'))return;
-    const x=e.changedTouches[0].clientX-tx,y=e.changedTouches[0].clientY-ty;
-    if(Math.abs(x)>90&&Math.abs(y)<Math.abs(x)*.65){let i=chapters.indexOf(active)+(x<0?1:-1);goto(chapters[(i+chapters.length)%chapters])}
-  },{passive:true});
+  // No chapter swipe navigation: phone swipes should scroll content normally.
   window.addEventListener('popstate',()=>{if($('[data-world]'))goto(chapters.includes(location.hash.slice(1))?location.hash.slice(1):null,{history:false,instant:true})});
   window.addEventListener('hashchange',()=>{if($('[data-world]')&&!location.hash.startsWith('#/'))goto(chapters.includes(location.hash.slice(1))?location.hash.slice(1):null,{history:false,instant:true})});
   /* An interference sculpture: radial engraved rings with independent phase and

@@ -40,3 +40,84 @@ body.map-open .menu-cross{border-color:#263b2e}
 .world-wipe i::after{position:absolute;left:-.15em;top:50%;transform:translateY(-53%) rotate(-6deg);font:italic clamp(180px,28vw,520px)/.75 Georgia,serif;letter-spacing:-.16em;opacity:.12;color:#e0e9db;pointer-events:none}
 .world-wipe i:nth-child(1)::after{content:"N"}.world-wipe i:nth-child(2)::after{content:"I"}.world-wipe i:nth-child(3)::after{content:"C";color:#101c18;opacity:.21}.world-wipe i:nth-child(4)::after{content:"K"}
 @media(max-width:550px){.world-wipe i::after{font-size:41vw;left:-.36em}}
+
+/* V11 — one typographic voice and an uninterrupted scene transition.
+   Inspired by the references' consistency, but independently designed. */
+:root{--world-type:'Cousine','Liberation Mono','DejaVu Sans Mono',ui-monospace,monospace}
+body,body a,body button,body input,body textarea,
+.world-header,.world-map,.directory-stage,.room,.room-pager,
+.is-document .page-head,.is-document .article-header,.is-document .prose,
+.is-document .site-footer{font-family:var(--world-type)!important}
+.world-brand,.brand-name,.brand-mark,.world-header-descriptor,
+.map-topline,.map-bottomline,.map-destinations a span,.map-destinations a i,
+.map-destinations a strong,.directory-intro,.directory-guide p,
+.directory-guide>span,.directory-floor,.dir-num,.dir-name,.dir-desc,.dir-arrow,
+.room-top,.room-kicker,.room-head h2,.room-head h2 em,.room-intro,
+.room-list a span,.room-list a strong,.room-list a b,.about-word,.about-vertical,
+.room-smallnote,.graphic-stamp,.music-overlay,.room-pager button,
+.is-document .page-head h1,.is-document .article-header h1,
+.is-document .prose h2,.is-document .prose h3,.is-document .footer-top h2{
+  font-family:var(--world-type)!important;
+  font-style:normal!important;
+}
+.brand-mark{font-size:24px;font-weight:700;letter-spacing:-.09em}
+.brand-name{font-size:12px;letter-spacing:-.015em;font-weight:500}
+.brand-slash{transform:none;font-weight:400}
+.world-header-descriptor,.world-menu-trigger{font-size:10px;letter-spacing:.08em}
+.directory-guide p{font-size:clamp(16px,2vw,25px);font-weight:400;line-height:1.5;letter-spacing:-.035em;max-width:540px}
+.directory-link{overflow:visible;min-width:0}
+.dir-name{font-size:clamp(51px,6.9vw,100px);line-height:1.2;font-weight:500;letter-spacing:-.065em;text-transform:lowercase;white-space:nowrap;padding-block:.07em}
+.dir-desc{letter-spacing:.045em;line-height:1.65}
+.dir-arrow{font-size:25px}
+.map-destinations a{align-items:center;min-height:0;padding:clamp(12px,2.1vh,23px) 0}
+.map-destinations a strong{font-size:clamp(34px,7vh,76px);font-weight:500;letter-spacing:-.06em;line-height:1.25;white-space:nowrap;padding-block:.04em;text-transform:lowercase}
+.map-destinations a i{line-height:1.5}
+.world-map{overflow-y:auto;overscroll-behavior:contain}
+.room-head{align-items:start}
+.room-head h2{font-size:clamp(48px,6vw,96px);font-weight:500;letter-spacing:-.06em;line-height:1.17;overflow:visible;padding-block:.08em}
+.room-head h2 em{letter-spacing:inherit}
+.room-intro{font-size:clamp(14px,1.3vw,18px);line-height:1.65;letter-spacing:-.018em}
+.room-list a strong{font-size:clamp(18px,2.45vw,34px);line-height:1.4;letter-spacing:-.035em}
+.about-word{font-size:clamp(160px,25vw,390px);line-height:1.2;letter-spacing:-.1em}
+.world-wipe{display:block;background:#c9e4cd;clip-path:inset(100% 0 0 0);overflow:hidden;will-change:clip-path;contain:paint}
+.world-wipe:before{content:'NB / INDEX';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font:500 clamp(13px,2.5vw,27px)/1.4 var(--world-type);letter-spacing:.08em;color:#15231c;white-space:nowrap}
+.world-wipe:after{content:'';position:absolute;top:calc(50% + 30px);left:50%;width:60px;height:1px;transform:translateX(-50%);background:#15231c;opacity:.45}
+.world-wipe i{display:none}
+.is-document .page-head h1,.is-document .article-header h1{font-size:clamp(36px,5.5vw,66px);font-weight:500;line-height:1.24;letter-spacing:-.055em;overflow:visible}
+.is-document .prose h2{font-size:clamp(25px,3vw,36px);line-height:1.38;font-weight:500;letter-spacing:-.025em}
+.is-document .prose h3{font-size:clamp(19px,2.2vw,25px);line-height:1.4}
+.is-document .prose{font-size:14px;line-height:1.9}
+.is-document .footer-top h2{font-size:clamp(32px,4vw,52px);line-height:1.3}
+.directory-link,.map-destinations a,.room-head,.room-list a{clip-path:none}
+@media(max-width:880px){
+ .directory-link{grid-template-columns:42px minmax(0,1fr) 28px}
+ .dir-name{font-size:clamp(44px,8.5vw,74px);letter-spacing:-.07em}
+ .room-head h2{font-size:clamp(35px,6.5vw,64px);line-height:1.21}
+ .map-destinations a strong{font-size:clamp(34px,6.5vh,66px)}
+}
+@media(max-width:550px){
+ body.is-home{overflow:auto}
+ .directory-stage{height:auto;min-height:100svh;overflow-y:auto}
+ .directory-intro{line-height:1.5}
+ .directory-guide p{font-size:clamp(16px,4vw,21px);line-height:1.47}
+ .directory-links{margin:clamp(20px,4vh,42px) 0}
+ .directory-link{min-height:clamp(70px,10.5svh,95px);grid-template-columns:36px minmax(0,1fr) 20px;gap:4px}
+ .dir-name{font-size:clamp(34px,8.8vw,51px);letter-spacing:-.075em;line-height:1.28;white-space:nowrap}
+ .dir-arrow{font-size:19px;padding-right:0}
+ .map-destinations a{grid-template-columns:30px minmax(0,1fr);gap:6px;padding:clamp(10px,1.6vh,16px) 0}
+ .map-destinations a strong{font-size:clamp(32px,8.2vw,53px);line-height:1.29}
+ .room-head h2{font-size:clamp(32px,8vw,49px);line-height:1.24;letter-spacing:-.07em}
+ .room-intro{font-size:14px;margin-top:22px}
+ .room-list a strong{font-size:clamp(16px,4.1vw,23px);line-height:1.4;overflow-wrap:break-word}
+ .room-top{font-size:9px;letter-spacing:.04em}
+ .room{overscroll-behavior:contain;touch-action:pan-y}
+ .room-pager button{min-width:44px;min-height:44px}
+ .world-map{padding-bottom:max(28px,env(safe-area-inset-bottom))}
+ .map-bottomline{font-size:8px;letter-spacing:.055em}
+}
+@media(prefers-reduced-motion:reduce){.world-wipe{display:none}}
+/* Visibility is controlled by the menu's clip and visibility, not opacity. */
+.world-map{opacity:1}
+/* On touch screens the fixed pager obscured project links. INDEX remains
+   available at the top and each chapter has a back-to-index control. */
+@media(max-width:550px){.room-pager,.room-pager.is-visible{display:none!important}}
