@@ -7,8 +7,8 @@
   <meta property="og:type" content="website"><meta property="og:title" content="Testing incremental models with dbt and DuckDB · Nicholas Bode"><meta property="og:description" content="A local DuckDB + dbt analytics pipeline that makes incremental correctness and data-quality failures visible.">
   <meta property="og:image" content="/assets/og-cover.png"><meta name="twitter:card" content="summary_large_image">
   <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
-  <link rel="stylesheet" href="/assets/styles.css"><link rel="stylesheet" href="/assets/world.css">
-  <script defer src="/assets/site.js"></script><script defer src="/assets/world.js"></script>
+  <link rel="stylesheet" href="/assets/styles.css"><link rel="stylesheet" href="/assets/world.css"><link rel="stylesheet" href="/assets/scrollchapters.css">
+  <script defer src="/assets/site.js"></script><script defer src="/assets/scrollchapters.js"></script><script defer src="/assets/world.js"></script>
 </head>
 <body class="is-document">
 <a class="skip-link" href="#main">Skip to content</a>
@@ -64,28 +64,28 @@
 </thead>
 <tbody>
 <tr>
-<td><code>order_id</code> merge key</td>
-<td>A changed historical order replaces its former fact state</td>
+<td data-label="Contract"><code>order_id</code> merge key</td>
+<td data-label="Why it matters">A changed historical order replaces its former fact state</td>
 </tr>
 <tr>
-<td>Source-relative freshness</td>
-<td>Staleness is evaluated against actual input, not an arbitrary calendar offset</td>
+<td data-label="Contract">Source-relative freshness</td>
+<td data-label="Why it matters">Staleness is evaluated against actual input, not an arbitrary calendar offset</td>
 </tr>
 <tr>
-<td>Customer dimension</td>
-<td>Avoids duplicating mutable customer attributes inside the fact table</td>
+<td data-label="Contract">Customer dimension</td>
+<td data-label="Why it matters">Avoids duplicating mutable customer attributes inside the fact table</td>
 </tr>
 <tr>
-<td>Null-quantity warning</td>
-<td>Known sample problems remain inspectable rather than silently disappearing</td>
+<td data-label="Contract">Null-quantity warning</td>
+<td data-label="Why it matters">Known sample problems remain inspectable rather than silently disappearing</td>
 </tr>
 <tr>
-<td>Failing tests gate CI</td>
-<td>Schema or data errors can stop a build instead of becoming green dashboards</td>
+<td data-label="Contract">Failing tests gate CI</td>
+<td data-label="Why it matters">Schema or data errors can stop a build instead of becoming green dashboards</td>
 </tr>
 <tr>
-<td>Idempotency integration test</td>
-<td>Repeat runs should not generate additional facts</td>
+<td data-label="Contract">Idempotency integration test</td>
+<td data-label="Why it matters">Repeat runs should not generate additional facts</td>
 </tr>
 </tbody>
 </table>

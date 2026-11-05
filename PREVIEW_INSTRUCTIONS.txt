@@ -1,15 +1,11 @@
-THE DIRECTORY 12 — OFFLINE PREVIEW
+THE DIRECTORY 13 / INTERACTIVE PREVIEW
 
 1. Extract the ZIP.
-2. Open OPEN_PORTFOLIO.html in a normal browser (Chrome, Firefox, Safari), rather than inside a document viewer.
-3. The four destination rows open chapters. The four small links below them open the actual project articles immediately, with no intermediate page.
-4. INDEX in the top-right corner opens a full-screen navigation layer; its bottom row also links directly to all four showcases.
-5. The MUSIC chapter shows an original, illustrative moving piano roll. It intentionally becomes static when the device requests reduced motion.
+2. Open OPEN_PORTFOLIO.html in Chrome, Firefox, or Safari (not inside an Android file previewer).
+3. Scroll beyond the four-door index to experience the four full-screen showcases.
+4. Each scene has a direct link to the complete case study.
 
-Android file viewers sometimes block scripts. If animations or navigation do not work, use a hosted site, or serve the dist directory on a local network:
+For the most reliable mobile experience, serve the site over HTTP/HTTPS.
+Offline preview scripts may be disabled by Android document viewers.
 
-  uv sync
-  uv run python scripts/build.py
-  uv run python -m http.server 8000 --bind 0.0.0.0 --directory dist
-
-Then open http://YOUR_COMPUTER_IP:8000 on your phone.
+Full source includes the prebuilt deployable dist/ folder.

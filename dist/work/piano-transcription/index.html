@@ -7,8 +7,8 @@
   <meta property="og:type" content="website"><meta property="og:title" content="From expressive piano audio to editable notation · Nicholas Bode"><meta property="og:description" content="An audio-to-MIDI-to-score pipeline that makes timing preservation and notation loss explicit.">
   <meta property="og:image" content="/assets/og-cover.png"><meta name="twitter:card" content="summary_large_image">
   <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
-  <link rel="stylesheet" href="/assets/styles.css"><link rel="stylesheet" href="/assets/world.css">
-  <script defer src="/assets/site.js"></script><script defer src="/assets/world.js"></script>
+  <link rel="stylesheet" href="/assets/styles.css"><link rel="stylesheet" href="/assets/world.css"><link rel="stylesheet" href="/assets/scrollchapters.css">
+  <script defer src="/assets/site.js"></script><script defer src="/assets/scrollchapters.js"></script><script defer src="/assets/world.js"></script>
 </head>
 <body class="is-document">
 <a class="skip-link" href="#main">Skip to content</a>
@@ -67,28 +67,28 @@
 </thead>
 <tbody>
 <tr>
-<td>Hand assignment</td>
-<td>Grand staff uses a pitch split, not learned left/right-hand identification</td>
+<td data-label="Area">Hand assignment</td>
+<td data-label="Current limitation">Grand staff uses a pitch split, not learned left/right-hand identification</td>
 </tr>
 <tr>
-<td>Meter</td>
-<td>Defaults to 4/4 unless explicitly specified</td>
+<td data-label="Area">Meter</td>
+<td data-label="Current limitation">Defaults to 4/4 unless explicitly specified</td>
 </tr>
 <tr>
-<td>Key signature</td>
-<td>Inferred heuristically; may fail on chromatic or modal music</td>
+<td data-label="Area">Key signature</td>
+<td data-label="Current limitation">Inferred heuristically; may fail on chromatic or modal music</td>
 </tr>
 <tr>
-<td>Tempo</td>
-<td>Grid mode's estimate can choose half or double time</td>
+<td data-label="Area">Tempo</td>
+<td data-label="Current limitation">Grid mode's estimate can choose half or double time</td>
 </tr>
 <tr>
-<td>Ornament detection</td>
-<td>Conservative heuristic; possible false positives</td>
+<td data-label="Area">Ornament detection</td>
+<td data-label="Current limitation">Conservative heuristic; possible false positives</td>
 </tr>
 <tr>
-<td>Engraving</td>
-<td>Editable prototype, not guaranteed professional notation</td>
+<td data-label="Area">Engraving</td>
+<td data-label="Current limitation">Editable prototype, not guaranteed professional notation</td>
 </tr>
 </tbody>
 </table>

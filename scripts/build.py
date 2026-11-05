@@ -11,6 +11,7 @@ import json, os, re, shutil, xml.etree.ElementTree as ET
 import yaml
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 from markdown_it import MarkdownIt
+from bs4 import BeautifulSoup
 
 ROOT=Path(__file__).resolve().parents[1]
 OUT=ROOT/'dist'
@@ -40,7 +41,14 @@ def parse_md(path):
  if not match: raise ValueError(f'Missing YAML front matter: {path}')
  meta=yaml.safe_load(match.group(1))
  meta['slug']=path.stem
- meta['body']=MD.render(match.group(2))
+ html_body=MD.render(match.group(2))
+ doc=BeautifulSoup(html_body,'html.parser')
+ for table in doc.find_all('table'):
+  headers=[th.get_text(' ',strip=True) for th in table.select('thead th')]
+  for row in table.select('tbody tr'):
+   for idx,cell in enumerate(row.find_all(['td','th'],recursive=False)):
+    if idx<len(headers): cell['data-label']=headers[idx]
+ meta['body']=str(doc)
  return meta
 
 WORK={p.stem:parse_md(p) for p in (ROOT/'content/work').glob('*.md')}

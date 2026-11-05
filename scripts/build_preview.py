@@ -11,7 +11,7 @@ for p in DIST.rglob('index.html'):
     pages[route]={'title':doc.title.get_text(),'content':str(doc.find('main').decode_contents())}
 base=BeautifulSoup((DIST/'index.html').read_text(encoding='utf-8'),'html.parser')
 for n in base.select('link[rel="stylesheet"],script[src],link[rel="icon"],link[rel="canonical"],meta[property="og:image"]'):n.decompose()
-style=base.new_tag('style');style.string='\n'.join((DIST/'assets'/n).read_text() for n in ('styles.css','world.css'));base.head.append(style)
+style=base.new_tag('style');style.string='\n'.join((DIST/'assets'/n).read_text() for n in ('styles.css','world.css','scrollchapters.css'));base.head.append(style)
 # Convert static links even before script loads; the initial index remains in the HTML.
 for a in base.select('a[href]'):
     href=a.get('href','')
@@ -24,7 +24,7 @@ asset=(DIST/'assets'/'field-study.png')
 if asset.exists():
     data='data:image/png;base64,'+base64.b64encode(asset.read_bytes()).decode('ascii')
     for p in pages.values():p['content']=p['content'].replace('src="/assets/field-study.png"','src="'+data+'"')
-js='\n'.join((DIST/'assets'/n).read_text() for n in ('site.js','world.js'))
+js='\n'.join((DIST/'assets'/n).read_text() for n in ('site.js','scrollchapters.js','world.js'))
 raw=json.dumps(pages,ensure_ascii=True,separators=(',',':')).replace('<','\\u003c')
 router=r'''(() => {
  const pages=__PAGES__;

@@ -7,8 +7,8 @@
   <meta property="og:type" content="website"><meta property="og:title" content="Evaluating a RAG system by the ways it can fail · Nicholas Bode"><meta property="og:description" content="A reproducible document-QA experiment comparing a deterministic baseline with a bounded tool-using model.">
   <meta property="og:image" content="/assets/og-cover.png"><meta name="twitter:card" content="summary_large_image">
   <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
-  <link rel="stylesheet" href="/assets/styles.css"><link rel="stylesheet" href="/assets/world.css">
-  <script defer src="/assets/site.js"></script><script defer src="/assets/world.js"></script>
+  <link rel="stylesheet" href="/assets/styles.css"><link rel="stylesheet" href="/assets/world.css"><link rel="stylesheet" href="/assets/scrollchapters.css">
+  <script defer src="/assets/site.js"></script><script defer src="/assets/scrollchapters.js"></script><script defer src="/assets/world.js"></script>
 </head>
 <body class="is-document">
 <a class="skip-link" href="#main">Skip to content</a>
@@ -62,25 +62,25 @@
 </thead>
 <tbody>
 <tr>
-<td>Deterministic baseline</td>
-<td style="text-align:right">28 / 30</td>
-<td style="text-align:right">100%</td>
-<td style="text-align:right">0.689</td>
-<td style="text-align:right">0.003 s</td>
+<td data-label="Configuration / run">Deterministic baseline</td>
+<td data-label="Correct answers" style="text-align:right">28 / 30</td>
+<td data-label="Citation accuracy" style="text-align:right">100%</td>
+<td data-label="Retrieval precision" style="text-align:right">0.689</td>
+<td data-label="Mean time / question" style="text-align:right">0.003 s</td>
 </tr>
 <tr>
-<td>Tool-using model, original run</td>
-<td style="text-align:right">29 / 30</td>
-<td style="text-align:right">96.7%</td>
-<td style="text-align:right">0.518</td>
-<td style="text-align:right">5.565 s</td>
+<td data-label="Configuration / run">Tool-using model, original run</td>
+<td data-label="Correct answers" style="text-align:right">29 / 30</td>
+<td data-label="Citation accuracy" style="text-align:right">96.7%</td>
+<td data-label="Retrieval precision" style="text-align:right">0.518</td>
+<td data-label="Mean time / question" style="text-align:right">5.565 s</td>
 </tr>
 <tr>
-<td>Tool-using model, revised run</td>
-<td style="text-align:right">30 / 30</td>
-<td style="text-align:right">100%</td>
-<td style="text-align:right">0.480</td>
-<td style="text-align:right">3.748 s</td>
+<td data-label="Configuration / run">Tool-using model, revised run</td>
+<td data-label="Correct answers" style="text-align:right">30 / 30</td>
+<td data-label="Citation accuracy" style="text-align:right">100%</td>
+<td data-label="Retrieval precision" style="text-align:right">0.480</td>
+<td data-label="Mean time / question" style="text-align:right">3.748 s</td>
 </tr>
 </tbody>
 </table>

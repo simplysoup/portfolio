@@ -19,8 +19,116 @@
         <a class="shortcut shortcut-music" data-showcase-link href="{{base}}work/piano-transcription/"><span>04 <i aria-hidden="true">♫</i></span><strong>Piano transcription</strong><b aria-hidden="true">↗</b></a>
       </div>
     </aside>
+    <a class="directory-scroll-cue" href="#showcases" aria-label="Scroll to the four featured projects">SCROLL TO SELECTED WORK <span aria-hidden="true">↓</span></a>
     <div class="directory-floor"><span>NB / 2026</span><span>INDEPENDENT WORK &amp; PROFESSIONAL PRACTICE</span><span>TAP OR CLICK TO ENTER</span></div>
   </section>
+
+  <!-- The four featured works are deliberately discoverable by scrolling as well
+       as by the directory's one-tap deep links. The scroll motion does not gate navigation. -->
+  <div class="folio-sequence" id="showcases" data-showcases aria-label="Selected projects">
+    <section class="folio-track folio-rag" data-folio="rag" aria-labelledby="folio-rag-title">
+      <div class="folio-screen">
+        <div class="folio-topline"><span>SELECTED WORK / 01—04</span><span>ENGINEERING / EVALUATION</span><span class="folio-movement" aria-hidden="true">↓ KEEP SCROLLING</span></div>
+        <div class="folio-layout">
+          <div class="folio-copy">
+            <div class="folio-overline"><i>01</i><span>INDEPENDENT PROJECT / 2026</span></div>
+            <h2 id="folio-rag-title">Can you<br>trust the<br><span>answer?</span></h2>
+            <p>A document-QA system with an extractive baseline, a tool-using agent, executable grounding checks, and recorded failure cases.</p>
+            <a class="folio-link" data-showcase-link href="{{base}}work/evaluated-rag/"><span>OPEN RAG CASE STUDY</span><b aria-hidden="true">↗</b></a>
+          </div>
+          <div class="folio-visual visual-rag" role="img" aria-label="Illustrative retrieval and grounding trace: document passages pass through evidence checks before an answer is accepted">
+            <div class="viz-caption"><span>TRACE / DOCUMENT QA</span><span>ILLUSTRATIVE</span></div>
+            <svg viewBox="0 0 640 550" aria-hidden="true" preserveAspectRatio="xMidYMid meet">
+              <defs><pattern id="ragdots" width="19" height="19" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r=".8" fill="#bde7ce" opacity=".12"/></pattern><linearGradient id="ragpulse" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#a7ffa7" stop-opacity=".1"/><stop offset=".45" stop-color="#c5ff96"/><stop offset="1" stop-color="#a7ffa7" stop-opacity=".15"/></linearGradient></defs>
+              <rect width="640" height="550" fill="url(#ragdots)"/>
+              <g class="rag-back"><path d="M97 135V390M97 135H240M97 390H240M240 135V390"/><path d="M355 182H472M355 333H472M472 182V333"/></g>
+              <g class="rag-docs"><rect x="38" y="88" width="135" height="89" rx="3"/><rect x="38" y="221" width="135" height="89" rx="3"/><rect x="38" y="354" width="135" height="89" rx="3"/><path d="M59 114H145M59 127H130M59 140H150M59 245H145M59 258H118M59 271H151M59 378H145M59 391H118M59 404H151"/></g>
+              <g class="rag-gates"><rect x="225" y="148" width="137" height="240" rx="70"/><circle cx="294" cy="267" r="44"/><circle cx="294" cy="267" r="22"/></g>
+              <g class="rag-output"><rect x="458" y="198" width="143" height="137" rx="2"/><path d="M478 227H563M478 245H573M478 263H547M478 299H555"/><path d="M477 282L488 292L509 273"/></g>
+              <g class="rag-packet"><circle cx="97" cy="135" r="5"/><circle cx="294" cy="267" r="5"/><circle cx="472" cy="267" r="5"/></g>
+              <g class="rag-trace-line"><path d="M173 265H225M362 265H458"/></g>
+              <g class="rag-svg-text"><text x="38" y="69">DOCUMENTS / 03</text><text x="229" y="121">GROUNDING TEST</text><text x="459" y="179">CITED ANSWER</text><text x="40" y="469">RETRIEVAL</text><text x="250" y="420">VERIFY</text><text x="468" y="360">RELEASE</text></g>
+            </svg>
+            <div class="viz-bottom"><span>RETRIEVE — VALIDATE — ANSWER / ABSTAIN</span><span class="viz-led">● CHECKED</span></div>
+          </div>
+        </div>
+        <div class="folio-floor"><span>01 / 04</span><div class="folio-meter"><i></i></div><span>SCROLL TO CONTINUE ↘</span></div>
+      </div>
+    </section>
+    <section class="folio-track folio-pipeline" data-folio="pipeline" aria-labelledby="folio-pipeline-title">
+      <div class="folio-screen">
+        <div class="folio-topline"><span>SELECTED WORK / 02—04</span><span>DATA / CORRECTNESS</span><span class="folio-movement" aria-hidden="true">↓ KEEP SCROLLING</span></div>
+        <div class="folio-layout">
+          <div class="folio-copy">
+            <div class="folio-overline"><i>02</i><span>INDEPENDENT PROJECT / 2026</span></div>
+            <h2 id="folio-pipeline-title">The same<br>input.<br><span>One result.</span></h2>
+            <p>An incremental dbt and DuckDB pipeline that tests historical updates, duplicate handling, and repeat-run idempotency.</p>
+            <a class="folio-link" data-showcase-link href="{{base}}work/analytics-pipeline/"><span>OPEN PIPELINE CASE STUDY</span><b aria-hidden="true">↗</b></a>
+          </div>
+          <div class="folio-visual visual-pipeline" role="img" aria-label="Illustrative rows being merged into a consistent fact table, with highlighted changes and quality checks">
+            <div class="viz-caption"><span>WAREHOUSE / CHANGE DETECTION</span><span>SYNTHETIC ROWS</span></div>
+            <div class="pipe-figure" aria-hidden="true">
+              <div class="pipe-top"><span>STAGING / ORDERS</span><span>DIFF / +02</span></div>
+              <div class="pipe-columns"><span>ID</span><span>AMOUNT</span><span>CUSTOMER</span><span>UPDATED</span></div>
+              <div class="pipe-row"><i>001</i><b>129.00</b><em>3007</em><strong>—</strong></div>
+              <div class="pipe-row pipe-change"><i>002</i><b>246.50</b><em>3002</em><strong>↺</strong></div>
+              <div class="pipe-row"><i>003</i><b>89.00</b><em>3014</em><strong>—</strong></div>
+              <div class="pipe-row pipe-insert"><i>004</i><b>173.20</b><em>3021</em><strong>+</strong></div>
+              <div class="pipe-row"><i>005</i><b>35.40</b><em>3009</em><strong>—</strong></div>
+              <div class="pipe-shuttle"><span>MERGE ON ORDER_ID</span><b>→</b></div>
+              <div class="pipe-result"><span>FACT_ORDERS</span><strong>IDEMPOTENT</strong><span>PASS / 02</span></div>
+            </div>
+            <div class="viz-bottom"><span>INSERT / UPDATE / RETEST</span><span class="viz-led">● VERIFIED LOCALLY</span></div>
+          </div>
+        </div>
+        <div class="folio-floor"><span>02 / 04</span><div class="folio-meter"><i></i></div><span>SCROLL TO CONTINUE ↘</span></div>
+      </div>
+    </section>
+    <section class="folio-track folio-thesis" data-folio="thesis" aria-labelledby="folio-thesis-title">
+      <div class="folio-screen">
+        <div class="folio-topline"><span>SELECTED WORK / 03—04</span><span>RESEARCH / TIME SERIES</span><span class="folio-movement" aria-hidden="true">↓ KEEP SCROLLING</span></div>
+        <div class="folio-layout">
+          <div class="folio-copy">
+            <div class="folio-overline"><i>03</i><span>MSc THESIS / 2023</span></div>
+            <h2 id="folio-thesis-title">When the<br>rules<br><span>change.</span></h2>
+            <p>My thesis explores approximate functional relationships in noisy time series, including relationships that only hold over part of the data.</p>
+            <a class="folio-link" data-showcase-link href="{{base}}research/trend-dependencies/"><span>EXPLORE THESIS &amp; LAB</span><b aria-hidden="true">↗</b></a>
+          </div>
+          <div class="folio-visual visual-thesis" role="img" aria-label="Synthetic time-series lines with a marked changepoint and separate trend fits before and after the break">
+            <div class="viz-caption"><span>MEASURED SIGNAL / t</span><span>SYNTHETIC STUDY</span></div>
+            <svg viewBox="0 0 640 550" aria-hidden="true"><defs><pattern id="thesisgrid" width="28" height="28" patternUnits="userSpaceOnUse"><path d="M28 0H0V28" fill="none" stroke="#b8bfef" stroke-width=".5" opacity=".22"/></pattern><clipPath id="thesisclip"><rect width="580" height="395" x="30" y="66"/></clipPath></defs><rect width="640" height="550" fill="url(#thesisgrid)"/><g clip-path="url(#thesisclip)"><path class="thesis-raw" d="M30 365 L49 360 68 339 87 356 106 330 125 324 144 305 163 316 182 285 201 279 220 293 239 270 258 256 277 262 296 234 315 244 334 252 353 230 372 241 391 208 410 216 429 181 448 177 467 192 486 160 505 149 524 160 543 113 562 132 581 105 600 91"/><path class="thesis-fit-a" d="M30 361L312 244"/><path class="thesis-fit-b" d="M312 250L600 93"/><line x1="316" y1="50" x2="316" y2="470" class="thesis-break"/><circle cx="316" cy="245" r="11" class="thesis-node"/></g><g class="thesis-labels"><text x="36" y="498">0</text><text x="298" y="498">t₀</text><text x="590" y="498">t</text><text x="35" y="43">RELATIONSHIP A</text><text x="406" y="43">RELATIONSHIP B</text><text x="330" y="190">CHANGING REGIME</text></g></svg>
+            <div class="viz-bottom"><span>SEGMENT / FIT / TEST</span><span class="viz-led">● SYNTHETIC ILLUSTRATION</span></div>
+          </div>
+        </div>
+        <div class="folio-floor"><span>03 / 04</span><div class="folio-meter"><i></i></div><span>SCROLL TO CONTINUE ↘</span></div>
+      </div>
+    </section>
+    <section class="folio-track folio-piano" data-folio="piano" aria-labelledby="folio-piano-title">
+      <div class="folio-screen">
+        <div class="folio-topline"><span>SELECTED WORK / 04—04</span><span>MUSIC / SOFTWARE</span><span class="folio-movement" aria-hidden="true">↓ ONE MORE</span></div>
+        <div class="folio-layout">
+          <div class="folio-copy">
+            <div class="folio-overline"><i>04</i><span>INDEPENDENT PROJECT / 2026</span></div>
+            <h2 id="folio-piano-title">Hearing<br>the notes.<br><span>Keeping time.</span></h2>
+            <p>A solo-piano transcription experiment that turns audio into MIDI and editable notation, with attention to tempo and expressive timing.</p>
+            <a class="folio-link" data-showcase-link href="{{base}}work/piano-transcription/"><span>OPEN PIANO CASE STUDY</span><b aria-hidden="true">↗</b></a>
+          </div>
+          <div class="folio-visual visual-piano" role="img" aria-label="Piano-roll-inspired score with luminous note events, time guides, and an animated playhead">
+            <div class="viz-caption"><span>MIDI / QUANTIZATION STUDY</span><span>VISUAL SKETCH</span></div>
+            <div class="piano-figure" aria-hidden="true"><div class="piano-staff">
+              <span class="piano-note" style="--row:2;--start:3;--len:3"></span><span class="piano-note" style="--row:7;--start:9;--len:2"></span><span class="piano-note" style="--row:4;--start:14;--len:5"></span><span class="piano-note" style="--row:11;--start:21;--len:3"></span><span class="piano-note" style="--row:6;--start:27;--len:4"></span><span class="piano-note" style="--row:9;--start:35;--len:2"></span><span class="piano-note" style="--row:3;--start:41;--len:6"></span><span class="piano-note" style="--row:8;--start:50;--len:4"></span><span class="piano-note" style="--row:12;--start:57;--len:5"></span><span class="piano-note" style="--row:5;--start:65;--len:3"></span><span class="piano-note" style="--row:10;--start:71;--len:5"></span><span class="piano-note" style="--row:1;--start:80;--len:5"></span><span class="piano-note" style="--row:6;--start:89;--len:4"></span>
+              <div class="piano-playhead"></div></div><div class="piano-lower"><span>TRANSPORT / 01</span><span>♩  4 / 4</span><span>48.000 KHz</span></div></div>
+            <div class="viz-bottom"><span>ONSET / VELOCITY / DURATION</span><span class="viz-led">● EXPERIMENT</span></div>
+          </div>
+        </div>
+        <div class="folio-floor"><span>04 / 04</span><div class="folio-meter"><i></i></div><span>CONTINUE TO THE END ↘</span></div>
+      </div>
+    </section>
+    <section class="folio-end" aria-labelledby="folio-end-title">
+      <div class="folio-end-body"><span class="folio-end-kicker">THAT'S THE SHORT VERSION / NB</span><h2 id="folio-end-title">There is more<br>in the <em>details.</em></h2><div class="folio-end-links"><a href="{{base}}work/">ALL PROJECTS ↗</a><a href="{{base}}research/">RESEARCH ↗</a><a href="{{base}}about/">ABOUT ↗</a><a href="mailto:{{site.email}}">CONTACT ↗</a></div></div>
+      <div class="folio-end-footer"><span>NICHOLAS BODE / TORONTO</span><a href="#main">BACK TO THE TOP ↑</a></div>
+    </section>
+  </div>
   <section class="room room-systems" data-room="systems" aria-label="Systems chapter" aria-hidden="true" inert>
     <div class="room-top"><span>CHAPTER 01 / SYSTEMS</span><button type="button" data-room-close aria-label="Back to index">↙ INDEX</button></div>
     <div class="room-head"><p class="room-kicker">CURRENT PRACTICE / SELECTED ENGINEERING</p><h2>Tools, tests,<br><em>&amp; failure cases.</em></h2><p class="room-intro">I’m an AI Engineer at Environics Analytics, working on applications, model evaluation, and data systems. Below are independent projects with public source code.</p></div>

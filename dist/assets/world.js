@@ -44,6 +44,7 @@
     pager.classList.toggle('is-visible',!!key);pager.inert=!key;pager.setAttribute('aria-hidden',String(!key));
     $$('[data-pager]',pager).forEach(b=>{b.classList.toggle('is-active',b.dataset.pager===key);b.setAttribute('aria-current',String(b.dataset.pager===key))});
     active=key||null;
+    document.body.classList.toggle('chapter-open',!!key);
     window.setMusicSceneActive?.(key==='music');
   }
   async function goto(key,{history=true,instant=false}={}){
@@ -53,6 +54,7 @@
     busy=true;
     const update=()=>{
       setRoomSync(key);
+      if(!key)window.scrollTo({top:0,behavior:'instant'});
       if(history){const base=$('[data-world]').dataset.base||'/';window.history.pushState({chapter:key},'',key?'#'+key:'#');}
     };
     if(instant){update()}else await curtain(update);
@@ -67,6 +69,7 @@
     const hash=location.hash.slice(1);
     setRoomSync(chapters.includes(hash)?hash:null);
     artClean=initializeArt(w);
+    window.initShowcases?.();
   }
   window.initWorld=refresh;
   let menuAnimation=null;
@@ -206,56 +209,50 @@
       const W=d.w/d.ratio,H=d.h/d.ratio;
       mctx.setTransform(d.ratio,0,0,d.ratio,0,0);
       mctx.clearRect(0,0,W,H);
-      const keyW=Math.max(33,Math.min(54,W*.09));
-      const top=29,bottom=24,rows=16,rowH=(H-top-bottom)/rows;
-      const pxPerBeat=Math.max(42,Math.min(86,W*.11));
+      const margin=23, rows=16, top=30, bottom=25;
+      const rowH=(H-top-bottom)/rows;
+      const pxPerBeat=Math.max(35,Math.min(86,W*.1));
       const total=cycle*pxPerBeat;
       const scroll=musicPhase*pxPerBeat;
-      mctx.fillStyle='#241820';mctx.fillRect(0,0,W,H);
-      // A quiet piano keyboard and horizontal staff, independent of timeline.
-      for(let r=0;r<rows;r++){
+      const bg=mctx.createLinearGradient(0,0,W,H);
+      bg.addColorStop(0,'#3b202b');bg.addColorStop(.5,'#492635');bg.addColorStop(1,'#271720');
+      mctx.fillStyle=bg;mctx.fillRect(0,0,W,H);
+      // Staff guides: airy and fine, like the earlier music scene.
+      for(let r=0;r<=rows;r++){
         const y=top+r*rowH;
-        mctx.fillStyle=r%2===0?'rgba(255,222,215,.047)':'rgba(255,222,215,.018)';
-        mctx.fillRect(keyW,y,W-keyW,rowH);
-        mctx.fillStyle=r%5===2?'#665059':'#d5bcb7';
-        mctx.globalAlpha=r%5===2?.95:.62;
-        mctx.fillRect(0,y,keyW-3,rowH-1);
-        mctx.globalAlpha=1;
-        mctx.strokeStyle='rgba(255,210,205,.13)';mctx.lineWidth=.7;
-        mctx.beginPath();mctx.moveTo(keyW,y+.5);mctx.lineTo(W,y+.5);mctx.stroke();
+        mctx.strokeStyle=(r%4===0?'rgba(255,216,207,.19)':'rgba(255,216,207,.10)');
+        mctx.lineWidth=.7;
+        mctx.beginPath();mctx.moveTo(0,y+.5);mctx.lineTo(W,y+.5);mctx.stroke();
       }
-      mctx.fillStyle='rgba(255,226,220,.7)';mctx.font='10px monospace';
-      mctx.fillText('C5',5,top+4*rowH+.7*rowH);
-      mctx.fillText('C4',5,top+11*rowH+.7*rowH);
-      mctx.save();mctx.beginPath();mctx.rect(keyW,top,W-keyW,H-top-bottom);mctx.clip();
+      mctx.save();mctx.beginPath();mctx.rect(0,top,W,H-top-bottom);mctx.clip();
       const firstBar=Math.floor(scroll/(4*pxPerBeat))-1;
       for(let b=firstBar;b<firstBar+Math.ceil(W/(4*pxPerBeat))+3;b++){
-        const x=keyW+b*4*pxPerBeat-scroll;
-        mctx.strokeStyle='rgba(255,224,218,.22)';mctx.lineWidth=1;
+        const x=b*4*pxPerBeat-scroll;
+        mctx.strokeStyle='rgba(255,214,204,.15)';mctx.lineWidth=1;
         mctx.beginPath();mctx.moveTo(x,top);mctx.lineTo(x,H-bottom);mctx.stroke();
       }
-      // Draw the same score at neighboring cycle offsets. No modulo at the edge.
+      // Repeat a finite score at neighboring cycle offsets, preserving continuity.
       const startCycle=Math.floor(scroll/total)-1;
-      for(let c=startCycle;c<startCycle+4;c++){
-        for(const n of musicEvents){
-          const x=keyW+c*total+n.beat*pxPerBeat-scroll;
-          const width=n.duration*pxPerBeat;
-          if(x+width<keyW||x>W)continue;
-          const y=top+n.row*rowH+rowH*.17,h=rowH*.66;
-          mctx.fillStyle=`rgba(245,168,159,${n.strength})`;
-          mctx.fillRect(x,y,Math.max(3,width-2),h);
-          mctx.fillStyle='rgba(255,235,219,.48)';
-          mctx.fillRect(x,y,Math.max(3,width-2),Math.min(1.4,h*.14));
-        }
+      for(let c=startCycle;c<startCycle+4;c++)for(const n of musicEvents){
+        const x=c*total+n.beat*pxPerBeat-scroll;
+        const width=n.duration*pxPerBeat;
+        if(x+width<0||x>W)continue;
+        const y=top+n.row*rowH+rowH*.36;
+        const grad=mctx.createLinearGradient(x,y,x+width,y);
+        grad.addColorStop(0,'rgba(255,207,190,.04)');
+        grad.addColorStop(.4,`rgba(255,202,184,${n.strength})`);
+        grad.addColorStop(.7,`rgba(255,215,195,${n.strength*.9})`);
+        grad.addColorStop(1,'rgba(255,202,184,.08)');
+        mctx.fillStyle='rgba(255,189,161,.12)';mctx.fillRect(x,y-3,Math.max(4,width),10);
+        mctx.fillStyle=grad;mctx.fillRect(x,y-2,Math.max(4,width),5);
       }
       mctx.restore();
-      // Fixed read-head; subtle illumination only when an event crosses.
-      const playX=keyW+(W-keyW)*.48;
-      const glow=mctx.createLinearGradient(playX-16,0,playX+16,0);
-      glow.addColorStop(0,'rgba(255,208,185,0)');glow.addColorStop(.5,'rgba(255,225,194,.13)');glow.addColorStop(1,'rgba(255,208,185,0)');
-      mctx.fillStyle=glow;mctx.fillRect(playX,top,18,H-top-bottom);
-      mctx.strokeStyle='rgba(255,238,214,.82)';mctx.lineWidth=1.25;
-      mctx.beginPath();mctx.moveTo(playX,top);mctx.lineTo(playX,H-bottom);mctx.stroke();
+      const head=W*.43;
+      const glow=mctx.createLinearGradient(head-20,0,head+20,0);
+      glow.addColorStop(0,'rgba(255,235,216,0)');glow.addColorStop(.5,'rgba(255,231,211,.14)');glow.addColorStop(1,'rgba(255,235,216,0)');
+      mctx.fillStyle=glow;mctx.fillRect(head-20,top,40,H-top-bottom);
+      mctx.strokeStyle='rgba(255,232,208,.8)';mctx.lineWidth=1;
+      mctx.beginPath();mctx.moveTo(head,top);mctx.lineTo(head,H-bottom);mctx.stroke();
     }
     function setMusicActive(on){
       if(on===musicActive)return;

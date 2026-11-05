@@ -1,0 +1,84 @@
+{
+  "assembled_on": "2026-11-05",
+  "method": "reconstructed commits from saved release archives",
+  "versions": [
+    {
+      "tag": "v01",
+      "title": "Initial engineering portfolio",
+      "input": "nicholas-bode-engineering-portfolio.zip",
+      "status": "complete source snapshot"
+    },
+    {
+      "tag": "v02",
+      "title": "Dark editorial revision",
+      "input": "nicholas-bode-portfolio-v2-source.zip",
+      "status": "complete source snapshot"
+    },
+    {
+      "tag": "v03",
+      "title": "Atelier experimental identity",
+      "input": "nicholas-bode-atelier-source.zip",
+      "status": "complete source snapshot"
+    },
+    {
+      "tag": "v04",
+      "title": "Studio contour study",
+      "input": "nicholas-bode-studio-v4-source.zip",
+      "status": "complete source snapshot"
+    },
+    {
+      "tag": "v05",
+      "title": "Atelier signal-field return",
+      "input": "nicholas-bode-atelier-v5-source.zip",
+      "status": "complete source snapshot"
+    },
+    {
+      "tag": "v06",
+      "title": "Atelier coordinated motion",
+      "input": "nick-bode-atelier06-source.zip",
+      "status": "complete source snapshot"
+    },
+    {
+      "tag": "v07",
+      "title": "Atelier mobile gallery",
+      "input": "nicholas-bode-atelier07-source.zip",
+      "status": "complete source snapshot"
+    },
+    {
+      "tag": "v08",
+      "title": "Atelier sculptural exploration (partial)",
+      "input": null,
+      "status": "partial, preview only"
+    },
+    {
+      "tag": "v09",
+      "title": "Atelier colorful ribbon",
+      "input": "nicholas-bode-atelier09-source.zip",
+      "status": "complete source snapshot"
+    },
+    {
+      "tag": "v10",
+      "title": "Directory architecture",
+      "input": "nicholas-bode-directory-source.zip",
+      "status": "complete source snapshot"
+    },
+    {
+      "tag": "v11",
+      "title": "Directory typography and transition fixes",
+      "input": "nicholas-bode-directory-v11-source.zip",
+      "status": "complete source snapshot"
+    },
+    {
+      "tag": "v12",
+      "title": "Directory direct links and MIDI repairs",
+      "input": "nicholas-bode-directory-v12-source.zip",
+      "status": "complete source snapshot"
+    },
+    {
+      "tag": "v13",
+      "title": "Directory full-screen scroll chapters",
+      "input": "nicholas-bode-directory-v13-source.zip",
+      "status": "complete source snapshot"
+    }
+  ]
+}
