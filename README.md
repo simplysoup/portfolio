@@ -1,54 +1,55 @@
-# Nicholas Bode — personal portfolio / Atelier 07
+# Nicholas Bode · Work & experiments / Atelier 09
 
-Dark editorial portfolio with an original generative field, motion-directed project index, research writing, and two synthetic exhibits. This is a **static website**; no backend or employer assets are included.
+An original, art-directed personal portfolio. Ten static routes, three public code case studies, original MSc research, two synthetic interactive exhibits, and a touch-capable generative artwork. Public employer copy is general and intentionally avoids restricted product names, code, screenshots, private data and internal results.
 
-## Build and run using `uv`
+## Setup with uv
 
-```sh
+```bash
 uv sync
 uv run python scripts/build.py
 uv run python scripts/build_preview.py
-uv run python -m http.server 8000 --directory dist
+uv run python -m http.server 8000 --bind 0.0.0.0 --directory dist
 ```
 
-Open `http://localhost:8000` on your computer. For a phone on the same Wi-Fi network, use `http://YOUR_COMPUTER_LAN_IP:8000` (and allow the connection through your firewall). **Serving the site over HTTP is the recommended way to test interactions on a real phone.** You can also deploy `dist/` to any static host.
+Open **http://localhost:8000** in a browser. `dist/` is fully deployable to a static host. For mobile testing, open `http://<COMPUTER_LAN_IP>:8000` from a phone connected to the same network, or publish `dist/` over HTTPS. See `MOBILE_PREVIEW.md`.
 
-`portfolio-preview.html` is a single-file route preview. It contains no external scripts or CSS. On desktop, open it in a full browser. **Android file-manager and in-app HTML viewers can disable JavaScript, so opening the HTML directly on a phone is not a reliable interactive test.** When script execution is blocked, the preview now shows a readable homepage and warning instead of an empty page. To test interactions, serve the real site over HTTP as above.
+This execution environment did not have PyPI access, so **`uv.lock` could not be generated**; run `uv lock` or `uv sync` with network access before committing. The built preview and smoke tests were successfully run using preinstalled dependencies. `uv` remains the declared dependency manager for the project.
 
-`uv.lock` is not included because the working environment could not reach the package registry; do not interpret the lack of a lockfile as a successful resolution. Run `uv lock` in a normal networked environment.
+## Run interaction tests
 
-## Motion specification
-
-The original visual language remains Paper / Ink / Cobalt / Signal / Slate. Animation principles are drawn from **both user-supplied site bundles**, but all code, visuals and words in the portfolio were implemented independently:
-
-- Masked, staggered headline lines: exponential-out style cubic `(.16,1,.3,1)` and approximately 100 ms offsets.
-- Cinematic project-switch curtain: cubic `(.65,0,.35,1)` with a coordinated outgoing text, scene change and incoming text; not a simple opacity fade.
-- A new full-size project gallery: three original SVG artworks with trace movement, state transitions, and audio-to-notation timing. Prev/next buttons, numbered tabs, arrow keys, and horizontal swipes all work.
-- Mobile navigation as a full-screen typographic curtain with focus management and escape close.
-- Generative canvas field: idle animation, spring-following on desktop, and a large, visible ripple on tap or button input on mobile.
-- Scroll-synchronized motion on research artwork and project scene; no scroll-jacking.
-- Reduced-motion support across entrances, gallery, menu, canvas and page transitions.
-
-See [MOTION_SYSTEM.md](MOTION_SYSTEM.md) for the measured easing curves, interaction details, and reference interpretation.
-
-## Test the *distributable HTML*
-
-```sh
+```bash
 uv sync --extra test
 uv run --extra test playwright install chromium
 uv run --extra test python tests/check_interactions.py
 ```
 
-The tests use the packaged HTML bytes and emulate a touchscreen tap and a genuine Chromium touch-swipe, as well as mobile navigation, links, keyboard/reduced motion, and the no-script fallback. The test environment forbids direct automation of `file://` and `http://localhost` navigation, so tests inject the **same HTML bytes** into Chromium; they do not assert that Android's external file viewers run JavaScript. Physical-device testing via HTTP remains necessary.
+Automated checks cover the exact self-contained preview: desktop pointer response, autonomous sculpture, mobile touch and a genuine swipe, mobile navigation, reduced-motion behavior, article routing, no-JS fallback and a disclosure scan. The browser check uses Chromium emulation, **not a physical Android phone**.
 
-## Publish responsibly
+## Site structure
 
-Public case studies link to independently owned GitHub projects. The employer description is deliberately high-level; the proprietary product name, unreleasable metrics, internal tooling and unapproved architecture are excluded. Do not add any employer screenshot, client data, or internal code without approval.
+- `templates/`: layouts for the home page, work index, research, articles, about/contact and résumé route
+- `content/work/`: three public technical case studies
+- `content/research/`: thesis article and primary academic links
+- `assets/sculpture.js`: original lightweight parametric sculpture with a Canvas2D fallback
+- `assets/motion.js`, `gallery.js`, `nav.js`, `scroll.js`, `studio-effects.js`: independent motion and interaction systems
+- `assets/site.js`: accessible synthetic trend explorer and illustrative RAG trace explorer
+- `scripts/build.py`: prerenders route HTML using Jinja, YAML and Markdown
+- `scripts/build_preview.py`: creates a single-file offline preview with static fallback and in-page routing
+- `tests/check_interactions.py`: browser regression tests
+- `ART_DIRECTION.md`, `MOTION_SYSTEM.md`: design and implementation decisions
 
-To deploy at the domain root:
+## Publish
 
-```sh
+```bash
 SITE_URL=https://your-domain.example uv run python scripts/build.py
 ```
 
-For GitHub Pages project-subpath hosting, additionally set `SITE_BASE=repository-name`. Publish only `dist/`.
+For GitHub Pages serving a repository subpath, also set `SITE_BASE=your-repo`. Upload only `dist/`; do not publish employer source material or internal draft files.
+
+## Public content boundaries
+
+The three featured repositories are public work by the author, separate from the employer's proprietary systems. Environics Analytics is mentioned as an employer only. The site claims neither ownership of a private team platform nor confidential business outcomes. The trend visual is an ordinary OLS illustration, not a recreation of the thesis's algorithms. The RAG trace explorer uses invented example traces and links to the actual public evaluation repository.
+
+## Offline preview limitations
+
+`OPEN_PORTFOLIO.html` works in a full desktop browser. Some Android in-app HTML viewers refuse to execute local JavaScript, so a bundled HTML preview is **not** a substitute for hosting the site over HTTP/HTTPS. The static homepage remains visible without JavaScript.

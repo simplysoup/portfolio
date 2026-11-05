@@ -1,46 +1,47 @@
 {% extends 'base.html' %}{% block content %}
 <section class="atelier-hero" aria-labelledby="hero-title" data-hero-scene>
  <div class="shell atelier-hero-inner">
-  <div class="atelier-hero-meta"><span class="meta-index">NICHOLAS BODE / PERSONAL SITE</span><span class="meta-location">Based in Toronto, Canada</span></div>
+  <div class="atelier-hero-meta"><span class="meta-index">NICHOLAS BODE / SELECTED WORK</span><span class="meta-location">Based in Toronto, Canada</span></div>
   <div class="atelier-hero-copy">
-   <p class="atelier-greeting">Nicholas Bode <span class="greeting-divider">/</span> engineering &amp; research</p>
-   <h1 id="hero-title"><span class="hero-mask"><span data-line-inner>The things</span></span><span class="hero-mask"><span data-line-inner>I make, <em>and</em></span></span><span class="hero-mask"><span data-line-inner class="hero-light">what I learn.</span></span></h1>
-   <p class="atelier-intro">I'm Nicholas Bode, an AI engineer at Environics Analytics. I work on AI applications, evaluation, and data systems. This is a selection of the independent projects and research I can share.</p>
-   <div class="atelier-actions"><a class="atelier-text-link" href="#selected-work">Explore selected work <span aria-hidden="true">↘</span></a><a class="atelier-text-link muted-action" href="{{base}}about/">About me <span aria-hidden="true">↗</span></a></div>
+   <p class="atelier-greeting"><span class="greeting-number">01</span> An independent collection <span class="greeting-divider">/</span> 2026</p>
+   <h1 id="hero-title"><span class="hero-mask"><span data-line-inner>Work <em>&amp;</em></span></span><span class="hero-mask"><span data-line-inner class="hero-light">experiments<span class="hero-period">.</span></span></span></h1>
+   <p class="atelier-intro">I'm Nicholas Bode. I work on AI applications, model evaluation, and data systems. Outside work, I build things to explore an idea—sometimes software, sometimes research, sometimes music.</p>
+   <div class="atelier-actions"><a class="atelier-text-link" href="#selected-work">See the work <span aria-hidden="true">↘</span></a><a class="atelier-text-link muted-action" href="{{base}}about/">About me <span aria-hidden="true">↗</span></a></div>
   </div>
   <div class="artwork-wrap" aria-label="Interactive generative signal drawing">
-   <div class="artwork-plate"><img class="artwork-fallback" src="{{base}}assets/field-study.svg" alt="" loading="eager"><canvas class="artwork-canvas" data-field-study aria-hidden="true"></canvas><span class="artwork-axis axis-top">FIELD STUDY / 01</span><span class="artwork-axis axis-bottom" aria-hidden="true">DRAG / TAP / OBSERVE</span><button class="field-pulse" type="button" data-field-pulse aria-label="Send a ripple through the generative field">↗ <span>send a ripple</span></button><span class="artwork-corner" aria-hidden="true">↗</span></div>
+   <div class="artwork-plate" data-sculpture-interaction><div class="artwork-aura" aria-hidden="true"></div><img class="artwork-fallback" src="{{base}}assets/field-study.png" alt="" loading="eager"><canvas class="artwork-canvas" data-signal-sculpture aria-hidden="true"></canvas><span class="artwork-axis axis-top">FORM STUDY / 001</span><span class="artwork-axis axis-bottom" aria-hidden="true">DRAG · TAP · WATCH</span><button class="field-pulse" type="button" data-field-pulse aria-label="Disturb the signal sculpture">↗ <span>make it move</span></button><span class="artwork-corner" aria-hidden="true">NB—09</span></div>
   </div>
-  <div class="hero-bottom-line"><span>Scroll to explore</span><span class="hero-bottom-stroke" aria-hidden="true"></span><span>Projects, writing &amp; experiments — 2026</span></div>
+  <div class="hero-bottom-line"><span>Scroll to explore</span><span class="hero-bottom-stroke" aria-hidden="true"></span><span>An index of projects, research &amp; notes</span></div>
  </div>
 </section>
+<div class="kinetic-strip" aria-label="Engineering stages: observe, model, test, revise"><div class="kinetic-strip-track" data-kinetic-track aria-hidden="true"><span>OBSERVE <b>·</b> MODEL <b>·</b> TEST <b>·</b> REVISE <b>·</b> </span><span>OBSERVE <b>·</b> MODEL <b>·</b> TEST <b>·</b> REVISE <b>·</b> </span><span>OBSERVE <b>·</b> MODEL <b>·</b> TEST <b>·</b> REVISE <b>·</b> </span></div></div>
 <section class="atelier-now" aria-labelledby="now-title"><div class="shell atelier-now-inner">
  <div class="now-marker"><span class="now-point" aria-hidden="true"></span><span>IN PRACTICE</span></div>
  <div class="now-main"><h2 id="now-title">AI Engineer <span>· Environics Analytics</span></h2><p>I build integrations and applications around AI systems, evaluate model-driven workflows, and work on data quality. Before that, I worked in large-scale mobility analytics as a Research Associate.</p></div>
  <a href="{{base}}about/" class="now-arrow" aria-label="More about my professional experience">↗</a>
 </div></section>
 <section class="atelier-selected shell" id="selected-work" aria-labelledby="selected-work-title">
- <div class="atelier-section-head"><div><span class="folio-index">02 / PROJECT ARCHIVE</span><h2 id="selected-work-title">Selected <em>work.</em></h2></div><p>Real projects with public source, design decisions, experiments, and the parts that took some thought.</p></div>
+ <div class="atelier-section-head"><div><span class="folio-index">02 / PROJECT ARCHIVE</span><h2 id="selected-work-title">Selected <em>work.</em></h2></div><p>Three projects with source code, experiments, and notes on the decisions behind them.</p></div>
 
  <div class="motion-gallery" data-motion-gallery aria-label="Selected projects" role="region" tabindex="0">
-  <div class="gallery-top"><span><i class="gallery-led" aria-hidden="true"></i> THREE STUDIES / ONE INDEX</span><span class="gallery-count" data-gallery-count>01 <span>/ 03</span></span></div>
+  <div class="gallery-top"><span><i class="gallery-led" aria-hidden="true"></i> WORK / THREE SELECTED PROJECTS</span><span class="gallery-count" data-gallery-count>01 <span>/ 03</span></span></div>
   <div class="gallery-window">
    <div class="gallery-copy" aria-live="polite" aria-atomic="true">
     <div class="gallery-text is-active" data-gallery-copy="0">
       <span class="gallery-eyebrow">01 / AI SYSTEMS · EVALUATION</span>
-      <h3>Evaluation as<br><em>an engineering</em><br>problem.</h3>
+      <h3>RAG, retrieval<br><em>&amp; failure</em><br>cases.</h3>
       <p>A public testbed for retrieval, agent tool use, citation checking, one correction attempt, and abstention.</p>
       <a class="gallery-case-link" href="{{base}}work/evaluated-rag/">Explore the case study <span aria-hidden="true">↗</span></a>
     </div>
     <div class="gallery-text" data-gallery-copy="1" hidden>
       <span class="gallery-eyebrow">02 / DATA ENGINEERING</span>
-      <h3>What happens<br><em>on the second</em><br>run?</h3>
+      <h3>Incremental<br><em>models, tested</em><br>twice.</h3>
       <p>Incremental models, source-relative freshness tests, integration checks, and reproducible pipelines with dbt and DuckDB.</p>
       <a class="gallery-case-link" href="{{base}}work/analytics-pipeline/">Explore the case study <span aria-hidden="true">↗</span></a>
     </div>
     <div class="gallery-text" data-gallery-copy="2" hidden>
       <span class="gallery-eyebrow">03 / AUDIO · SOFTWARE</span>
-      <h3>From sound<br><em>to something</em><br>you can read.</h3>
+      <h3>From piano<br><em>audio to</em><br>notation.</h3>
       <p>An experiment in transcribing solo-piano recordings into MIDI and notation, where timing and interpretation matter.</p>
       <a class="gallery-case-link" href="{{base}}work/piano-transcription/">Explore the case study <span aria-hidden="true">↗</span></a>
     </div>

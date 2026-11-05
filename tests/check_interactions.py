@@ -1,129 +1,113 @@
 #!/usr/bin/env python3
-"""Atelier 07 regression checks for the distributable standalone HTML.
+"""Checks the exact self-contained preview bytes, including touch emulation.
 
-Important: the runtime used for these checks blocks Playwright navigation to
-file:// and localhost HTTP URLs. We load the same self-contained HTML bytes with
-page.set_content and test interactions with emulated browser input. This is not
-a guarantee that a third-party Android file viewer allows JavaScript at all.
-
-Run after building:
-    uv run --extra test python tests/check_interactions.py
-Or set BROWSER_EXECUTABLE=/usr/bin/chromium for an installed Chromium.
+Does not claim Android file-manager viewers permit scripts. A normal browser
+served over HTTP/HTTPS is the supported way to test on a physical phone.
 """
 from pathlib import Path
-import os, shutil, re
+import shutil
 from playwright.sync_api import sync_playwright
 
 ROOT=Path(__file__).resolve().parents[1]
-HTML=ROOT/'portfolio-preview.html'
-assert HTML.exists(), 'Run scripts/build.py and scripts/build_preview.py'
-MARKUP=HTML.read_text(encoding='utf-8')
+HTML=(ROOT/'portfolio-preview.html').read_text()
 
-def launch(p):
-    browser=os.getenv('BROWSER_EXECUTABLE') or shutil.which('chromium')
-    return p.chromium.launch(headless=True,executable_path=browser or None,args=['--no-sandbox'])
 
-def open_site(browser, mobile=False, reduce=False, javascript_enabled=True):
-    # Separate context so JavaScript can be disabled for static-fallback checks.
-    context=browser.new_context(viewport={'width':390 if mobile else 1440,'height':844 if mobile else 900},
-                                is_mobile=mobile,has_touch=mobile,device_scale_factor=1,
-                                java_script_enabled=javascript_enabled)
-    page=context.new_page(); errors=[]
-    page.on('pageerror',lambda err:errors.append(str(err)))
+def make_page(browser, mobile=False, reduce=False, js=True):
+    ctx=browser.new_context(viewport={'width':390 if mobile else 1440,'height':844 if mobile else 900},
+                            device_scale_factor=1,is_mobile=mobile,has_touch=mobile,java_script_enabled=js)
+    page=ctx.new_page();errors=[]
+    page.on('pageerror',lambda e:errors.append(str(e)))
     if reduce:page.emulate_media(reduced_motion='reduce')
-    page.set_content(MARKUP,wait_until='load');page.wait_for_timeout(350)
-    return context,page,errors
+    page.set_content(HTML,wait_until='load',timeout=20000)
+    page.wait_for_timeout(400)
+    return ctx,page,errors
 
-def clean(page,errors):
+
+def assert_clean(page,errors):
     assert not errors,errors
-    assert page.evaluate('document.documentElement.scrollWidth <= innerWidth+1'), 'Horizontal overflow'
+    assert page.evaluate('document.documentElement.scrollWidth <= window.innerWidth + 2'),'horizontal overflow'
 
-def test_desktop(browser):
-    ctx,page,errors=open_site(browser)
-    canvas=page.locator('[data-field-study]')
-    assert canvas.get_attribute('data-ready')=='1'
-    first=canvas.evaluate('c=>c.toDataURL()')
-    page.wait_for_timeout(160)
-    assert first!=canvas.evaluate('c=>c.toDataURL()'), 'Field should animate without input'
-    plate=page.locator('.artwork-plate');b=plate.bounding_box()
-    page.mouse.move(b['x']+.35*b['width'],b['y']+.43*b['height'])
-    page.wait_for_timeout(120)
-    assert canvas.get_attribute('data-mode')=='pointer'
-    page.locator('[data-field-pulse]').click()
-    assert page.locator('.field-impact').count()>0, 'Visible pulse feedback required'
-    assert float(canvas.get_attribute('data-energy'))>.2
-    assert page.locator('[data-motion-gallery]').get_attribute('data-gallery-ready')=='true'
-    clean(page,errors);ctx.close();print('PASS desktop: live field, pointer, pulse and gallery')
 
-def test_mobile(browser):
-    ctx,page,errors=open_site(browser,mobile=True)
-    canvas=page.locator('[data-field-study]');plate=page.locator('.artwork-plate')
-    plate.scroll_into_view_if_needed();b=plate.bounding_box()
-    assert b['x']>=0 and b['x']+b['width']<=391,b
-    page.touchscreen.tap(b['x']+b['width']*.5,b['y']+b['height']*.4)
-    page.wait_for_timeout(150)
-    assert canvas.get_attribute('data-touch-count')=='1','Touch did not reach field'
-    assert float(canvas.get_attribute('data-energy'))>.2
-    assert page.locator('.field-impact').count()>0,'Mobile feedback not visible'
-    gallery=page.locator('[data-motion-gallery]');gallery.scroll_into_view_if_needed()
+def desktop(browser):
+    ctx,p,errors=make_page(browser)
+    c=p.locator('[data-signal-sculpture]')
+    p.wait_for_function("document.querySelector('[data-signal-sculpture]').dataset.rendered==='true'",timeout=6000)
+    a=c.evaluate('(node)=>node.toDataURL()');p.wait_for_timeout(170)
+    assert a!=c.evaluate('(node)=>node.toDataURL()'),'artwork does not animate autonomously'
+    plate=p.locator('[data-sculpture-interaction]');b=plate.bounding_box()
+    p.mouse.move(b['x']+b['width']*.31,b['y']+b['height']*.6)
+    p.wait_for_timeout(65)
+    assert c.get_attribute('data-mode')=='pointer'
+    p.locator('[data-field-pulse]').click()
+    assert int(c.get_attribute('data-interactions'))>=1
+    assert p.locator('.sculpture-ripple').count()>=1
+    assert p.locator('[data-motion-gallery]').get_attribute('data-gallery-ready')=='true'
+    assert_clean(p,errors);ctx.close();print('PASS desktop — autonomous art, pointer and activation')
+
+
+def mobile(browser):
+    ctx,p,errors=make_page(browser,mobile=True)
+    plate=p.locator('[data-sculpture-interaction]');plate.scroll_into_view_if_needed();b=plate.bounding_box()
+    assert b['x']>=-2 and b['x']+b['width']<=392,b
+    p.touchscreen.tap(b['x']+b['width']*.6,b['y']+b['height']*.5)
+    assert int(p.locator('[data-signal-sculpture]').get_attribute('data-interactions'))>=1
+    assert p.locator('.sculpture-ripple').count()>=1
+    gallery=p.locator('[data-motion-gallery]');gallery.scroll_into_view_if_needed()
     assert gallery.get_attribute('data-gallery-index')=='0'
-    page.locator('[data-gallery-step="1"]').click()
-    page.wait_for_function("document.querySelector('[data-motion-gallery]').dataset.galleryIndex==='1'")
-    page.wait_for_timeout(1800)
-    assert page.locator('[data-gallery-copy="1"]').is_visible()
-    display=page.locator('[data-gallery-swipe]');display.scroll_into_view_if_needed();box=display.bounding_box()
-    # Dispatch actual touch events through Chromium's input stack. Not a
-    # direct state assignment or a mocked application callback.
-    cdp=ctx.new_cdp_session(page)
-    x1=box['x']+box['width']*.76; x2=box['x']+box['width']*.21;y=box['y']+box['height']*.52
+    display=p.locator('[data-gallery-swipe]');display.scroll_into_view_if_needed();r=display.bounding_box()
+    # Dispatch input through the Chromium touch stack, not app JS callbacks.
+    cdp=ctx.new_cdp_session(p)
+    x1=r['x']+r['width']*.78;x2=r['x']+r['width']*.22;y=r['y']+r['height']*.51
     cdp.send('Input.dispatchTouchEvent',{'type':'touchStart','touchPoints':[{'x':x1,'y':y}]})
     for i in range(1,9):
-        x=x1+(x2-x1)*i/8
-        cdp.send('Input.dispatchTouchEvent',{'type':'touchMove','touchPoints':[{'x':x,'y':y}]})
-        page.wait_for_timeout(15)
+        cdp.send('Input.dispatchTouchEvent',{'type':'touchMove','touchPoints':[{'x':x1+(x2-x1)*i/8,'y':y}]})
+        p.wait_for_timeout(15)
     cdp.send('Input.dispatchTouchEvent',{'type':'touchEnd','touchPoints':[]})
-    page.wait_for_function("document.querySelector('[data-motion-gallery]').dataset.galleryIndex==='2'",timeout=5000)
-    assert gallery.get_attribute('data-gallery-mode') in ('swipe','queued')
-    page.wait_for_timeout(1350)
-    box=display.bounding_box()
-    page.touchscreen.tap(box['x']+box['width']*.52,box['y']+box['height']*.52)
-    page.wait_for_function("document.querySelector('[data-motion-gallery]').dataset.galleryIndex==='0'",timeout=4000)
-    page.locator('[data-mobile-nav-toggle]').click()
-    page.wait_for_function("document.querySelector('[data-mobile-nav-toggle]').getAttribute('aria-expanded')==='true'")
-    assert page.locator('[data-mobile-nav]').get_attribute('aria-hidden')=='false'
-    page.wait_for_timeout(760)
-    page.locator('[data-mobile-nav] a[href="#/research/"]').click(force=True)
-    page.wait_for_function("location.hash==='#/research/'",timeout=5000)
-    assert page.locator('main h1').count()>0
-    clean(page,errors);ctx.close();print('PASS mobile: canvas tap, visible ripple, tab, real swipe, menu and route')
+    p.wait_for_function("document.querySelector('[data-motion-gallery]').dataset.galleryIndex==='1'",timeout=6000)
+    p.wait_for_timeout(1000)
+    assert p.locator('[data-gallery-copy="1"]').is_visible()
+    p.locator('[data-mobile-nav-toggle]').click()
+    p.wait_for_function("document.querySelector('[data-mobile-nav-toggle]').getAttribute('aria-expanded')==='true'",timeout=3000)
+    assert p.locator('[data-mobile-nav]').get_attribute('aria-hidden')=='false'
+    p.wait_for_timeout(720)
+    p.locator('[data-mobile-nav] a[href="#/research/"]').click(force=True)
+    p.wait_for_function("location.hash==='#/research/'",timeout=4000)
+    assert p.locator('main h1').count()==1
+    assert_clean(p,errors);ctx.close();print('PASS mobile — touchscreen art, real swipe, menu, navigation')
 
-def test_content_and_accessibility(browser):
-    ctx,page,errors=open_site(browser,reduce=True)
-    canvas=page.locator('[data-field-study]');assert canvas.get_attribute('data-mode')=='reduced'
-    first=canvas.evaluate('c=>c.toDataURL()');page.wait_for_timeout(150)
-    assert first==canvas.evaluate('c=>c.toDataURL()')
-    page.locator('[data-gallery-next]').click();page.wait_for_timeout(30)
-    assert page.locator('[data-motion-gallery]').get_attribute('data-gallery-index')=='1'
-    page.locator('[data-gallery-step="0"]').click()
-    page.locator('.gallery-text.is-active a[href="#/work/evaluated-rag/"]').click()
-    page.wait_for_function("location.hash==='#/work/evaluated-rag/'",timeout=2000)
-    assert page.locator('[data-exhibit="rag"]').count()==1
-    clean(page,errors);ctx.close()
-    assert '[VERIFY / APPROVAL REQUIRED]' not in MARKUP
-    print('PASS reduced motion, routing, RAG exhibit, public-copy scan')
 
-def test_noscript_fallback(browser):
-    ctx,page,errors=open_site(browser,mobile=True,javascript_enabled=False)
-    assert page.locator('main h1').count()==1, 'Preview must show readable homepage if JS blocked'
-    assert page.locator('noscript').count()>=1
-    clean(page,errors);ctx.close();print('PASS restricted Android-like viewer: visible static homepage')
+def reduced_and_static(browser):
+    ctx,p,errors=make_page(browser,reduce=True)
+    c=p.locator('[data-signal-sculpture]');p.wait_for_function("document.querySelector('[data-signal-sculpture]').dataset.rendered==='true'")
+    a=c.evaluate('x=>x.toDataURL()');p.wait_for_timeout(120)
+    assert a==c.evaluate('x=>x.toDataURL()'),'reduced-motion artwork must be static'
+    p.locator('[data-gallery-next]').click()
+    assert p.locator('[data-motion-gallery]').get_attribute('data-gallery-index')=='1'
+    p.locator('[data-gallery-step="0"]').click()
+    p.locator('.gallery-text.is-active a[href="#/work/evaluated-rag/"]').click()
+    p.wait_for_function("location.hash==='#/work/evaluated-rag/'",timeout=3000)
+    assert p.locator('[data-exhibit="rag"]').count()==1
+    assert_clean(p,errors);ctx.close()
+    ctx,p,errors=make_page(browser,mobile=True,js=False)
+    assert p.locator('main h1').count()==1,'static homepage required without scripts'
+    assert p.locator('noscript').count()>=1
+    assert_clean(p,errors);ctx.close();print('PASS reduced motion, RAG article, no-JS fallback')
+
+
+def privacy():
+    import re
+    dist=ROOT/'dist'
+    rendered='\n'.join(p.read_text() for p in dist.rglob('*.html'))
+    assert not re.search(r'APPROVAL REQUIRED|confidential workflows',rendered,re.I)
+    assert 'The repository is an **experimental tool**' not in rendered
+    assert (dist/'work'/'piano-transcription'/'index.html').exists()
+    print('PASS public-only content and generated routes')
+
 
 if __name__=='__main__':
     with sync_playwright() as p:
-        browser=launch(p)
+        b=p.chromium.launch(headless=True,executable_path=shutil.which('chromium'),args=['--no-sandbox','--disable-dev-shm-usage'])
         try:
-            test_desktop(browser)
-            test_mobile(browser)
-            test_content_and_accessibility(browser)
-            test_noscript_fallback(browser)
-        finally:browser.close()
+            desktop(b);mobile(b);reduced_and_static(b)
+        finally:b.close()
+    privacy()

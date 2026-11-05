@@ -778,3 +778,332 @@ body.menu-open{overflow:hidden}
 .gallery-scene.is-active .gallery-art{transform:translateY(var(--gallery-turn,0px))}
 @media(prefers-reduced-motion:reduce){.research-orbit,.research-formula,.gallery-scene.is-active .gallery-art{transform:none!important;transition:none!important}}
 noscript{display:block;border:1px solid #D9EF8B;background:#243338;color:#F5F3EC;padding:18px 22px;max-width:900px;margin:32px auto;font-size:15px;line-height:1.7}
+
+/* ATELIER 08 — a kinetic print studio. Original sculptural material and tighter composition.
+   Visual references informed timing and hierarchy, never artwork or design assets. */
+:root{--stage-ink:#0E171D;--stage-paper:#F5F3EC;--stage-cobalt:#5975D8;--stage-signal:#D9EF8B;--stage-slate:#8EAAA7}
+body{background:#111B21}
+.site-header{background:#101a20;border-color:#38494c}
+.header-inner{min-height:75px}
+.brand{gap:12px}
+.brand-monogram{font-family:var(--mono);font-style:normal;font-size:21px;letter-spacing:-.12em;color:#D9EF8B}
+.brand-name{font-size:13px;font-weight:450;color:#D7DAD4}
+.nav a{font-size:12px;letter-spacing:.035em}
+.nav{gap:37px}
+.atelier-hero{background:#0e171d!important;isolation:isolate;overflow:hidden}
+.atelier-hero:before{background-image:linear-gradient(to right,#72848a 1px,transparent 1px);background-size:calc(100% / 18) 100%;opacity:.075;mask-image:linear-gradient(90deg,transparent 0,#000 18%,#000 80%,transparent 100%)}
+.atelier-hero:after{content:"";pointer-events:none;position:absolute;inset:0;background:radial-gradient(ellipse 57% 68% at 76% 48%,#46658815,transparent 75%),repeating-linear-gradient(0deg,#ffffff00 0px,#ffffff00 3px,#ffffff02 4px);z-index:0}
+.atelier-hero-inner{min-height:790px;grid-template-columns:minmax(0,1fr) minmax(410px,.99fr)}
+.atelier-hero-meta{color:#9FAFAC;padding-top:4px}
+.atelier-hero-copy{align-self:center;padding:48px 0 35px}
+.atelier-greeting{font-size:12px;font-weight:500;letter-spacing:.075em;text-transform:uppercase;color:#A8B9B3;margin-bottom:34px}
+.atelier-greeting span{font-family:var(--mono);font-size:14px}
+.atelier-hero h1{position:relative;font-size:clamp(64px,6.4vw,104px);line-height:1.025;letter-spacing:-.077em;font-weight:570;margin-bottom:36px;filter:drop-shadow(0 10px 22px #050a0d10)}
+.atelier-hero h1 em{font-family:Georgia,serif;letter-spacing:-.09em;color:var(--stage-signal)}
+.atelier-hero .hero-light{color:#CDDAD5;font-weight:350}
+.atelier-intro{max-width:500px;font-size:16px;line-height:1.75;letter-spacing:-.011em;color:#AFC3C1}
+.atelier-actions{margin-top:32px}
+.atelier-text-link{font-size:13px;font-weight:520}
+.artwork-wrap{transform:translateX(3%);z-index:1;align-self:center;justify-self:stretch;pointer-events:auto}
+.artwork-plate{width:min(50vw,660px);height:min(50vw,660px);aspect-ratio:1;border-radius:0;isolation:isolate;position:relative;overflow:hidden;background:radial-gradient(circle at 55% 50%,#263B46 0%,#13252D 47%,#101A20 74%);touch-action:pan-y;outline:0;cursor:crosshair;box-shadow:inset 0 0 0 1px #647C8733}
+.artwork-plate:focus-visible{outline:2px solid var(--stage-signal);outline-offset:3px}
+.artwork-plate:before{inset:0;border-radius:0;border:none;mask-image:none;background:repeating-linear-gradient(90deg,#F5F3EC08 0px,#F5F3EC08 1px,transparent 1px,transparent 45px);z-index:1}
+.artwork-plate:after{inset:0;border-radius:0;box-shadow:none;background:linear-gradient(180deg,#F5F3EC0a,transparent 23%,transparent 70%,#050b138e);z-index:2}
+.artwork-canvas{z-index:1;width:100%;height:100%;opacity:1;display:block}
+.artwork-fallback{z-index:0;opacity:.4;filter:grayscale(1)}
+.artwork-aura{position:absolute;inset:-15%;z-index:0;pointer-events:none;background:radial-gradient(circle at 55% 50%,#D9EF8B13 0,#5975D80b 23%,transparent 64%)}
+.artwork-axis{color:#C3D0CD;z-index:4;font-size:10px;letter-spacing:.12em}
+.artwork-axis.axis-top{left:7%;top:7%}
+.artwork-axis.axis-bottom{bottom:8%;right:7%}
+.artwork-corner{right:7%;top:7%;z-index:4;font:500 10px var(--mono);color:#D9EF8B;letter-spacing:.12em}
+.field-pulse{left:7%;bottom:7%;z-index:5;display:flex;align-items:center;gap:8px;opacity:1;pointer-events:auto}
+.field-pulse span{font:500 10px var(--mono);text-transform:uppercase;letter-spacing:.08em}
+.sculpture-ripple{position:absolute;z-index:6;width:20px;height:20px;border-radius:100%;border:1px solid #D9EF8B;pointer-events:none;transform:translate(-50%,-50%) scale(.3);animation:sculptRipple 1.25s cubic-bezier(.16,1,.3,1) forwards;box-shadow:0 0 27px #D9EF8B33}
+.sculpture-ripple:after{content:"";position:absolute;inset:-18px;border:1px solid #A4B2FF77;border-radius:100%;}
+@keyframes sculptRipple{0%{transform:translate(-50%,-50%) scale(.4);opacity:1}100%{transform:translate(-50%,-50%) scale(17);opacity:0}}
+.kinetic-strip{position:relative;overflow:hidden;height:132px;background:#D9EF8B;color:#15212a;display:flex;align-items:center;border-bottom:1px solid #8ba26e}
+.kinetic-strip:before,.kinetic-strip:after{content:"";position:absolute;top:0;bottom:0;width:7vw;z-index:2;pointer-events:none}
+.kinetic-strip:before{left:0;background:linear-gradient(to right,#D9EF8B,transparent)}
+.kinetic-strip:after{right:0;background:linear-gradient(to left,#D9EF8B,transparent)}
+.kinetic-strip-track{white-space:nowrap;display:flex;align-items:center;width:max-content;will-change:transform;gap:0}
+.kinetic-strip-track>span{font:630 clamp(66px,8.8vw,136px)/.9 var(--display);letter-spacing:-.075em;display:block;white-space:nowrap}
+.kinetic-strip-track b{font:400 .75em Georgia,serif;vertical-align:.05em;color:#455ec8;margin:0 28px}
+.atelier-now{background:#15242b;border-top:0}
+.atelier-now-inner{padding-top:64px;padding-bottom:64px}
+.atelier-selected{padding-top:130px;padding-bottom:125px}
+.atelier-section-head{padding-bottom:45px}
+.atelier-section-head h2{font-size:clamp(70px,8.2vw,128px);letter-spacing:-.085em}
+.atelier-section-head p{max-width:360px}
+.motion-gallery{isolation:isolate}
+.gallery-window{border-color:#50636a;box-shadow:0 20px 70px #03080c25}
+.gallery-copy{background:linear-gradient(155deg,#22343c,#192933)}
+.gallery-display{background:#13232c}
+.gallery-scene:after{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(circle at 55% 45%,transparent 27%,#0a182939 87%),repeating-linear-gradient(0deg,#f0faed00 0px,#f0faed00 3px,#f0faed04 4px)}
+.gallery-scene-rag{background:radial-gradient(circle at 55% 45%,#344b4b,#15282f 65%,#0f1b25)}
+.gallery-scene-data{background:radial-gradient(circle at 58% 42%,#3f4660,#1e2941 65%,#0f1b25)}
+.gallery-scene-music{background:radial-gradient(circle at 55% 40%,#303b54,#142738 65%,#0f1b25)}
+.gallery-text h3{font-weight:520;letter-spacing:-.07em;font-size:clamp(50px,5vw,79px)}
+.gallery-text h3 em{color:#D9EF8B}
+.gallery-text p{color:#C1D0CE;max-width:420px}
+.gallery-art{filter:drop-shadow(0 13px 25px #02080e60)}
+.gallery-curtain{background:#D9EF8B}
+.gallery-top{border-color:#50636a}
+.gallery-top span{font-size:10px}
+.gallery-bottom{border-color:#50636a}
+.gallery-steps button.is-active{background:#22323a}
+.gallery-steps button .step-name{font-size:13px}
+.atelier-research{position:relative;overflow:hidden}
+.atelier-research::before{content:"";position:absolute;inset:0;pointer-events:none;background-image:repeating-linear-gradient(90deg,#D9EF8B05 0,#D9EF8B05 1px,transparent 1px,transparent 55px);mask-image:linear-gradient(90deg,#000,transparent 70%)}
+.site-footer{background:#10191f}
+@media (max-width:1100px){
+ .atelier-hero-inner{grid-template-columns:minmax(0,1.02fr) minmax(335px,.98fr)}
+ .atelier-hero h1{font-size:clamp(58px,6.4vw,85px)}
+ .artwork-plate{width:min(49vw,590px);height:min(49vw,590px)}
+}
+@media (max-width:800px){
+ .atelier-hero-inner{min-height:0;display:flex;flex-direction:column;padding-top:30px;padding-bottom:35px}
+ .atelier-hero-copy{order:1;width:100%;padding:65px 0 35px}
+ .atelier-hero h1{font-size:clamp(60px,10.5vw,88px)}
+ .artwork-wrap{order:2;position:relative;right:auto;top:auto;width:min(100%,600px);transform:none;opacity:1;align-self:center;margin-top:8px}
+ .artwork-plate{width:min(100%,570px);height:auto;aspect-ratio:1}
+ .hero-bottom-line{order:3;margin-top:28px}
+ .kinetic-strip{height:100px}
+ .kinetic-strip-track>span{font-size:75px}
+}
+@media (max-width:550px){
+ .atelier-hero{background:#0e171d}
+ .atelier-hero-inner{padding-top:25px}
+ .atelier-hero-copy{padding-top:57px;padding-bottom:19px}
+ .atelier-hero h1{font-size:clamp(48px,10.6vw,69px);margin-bottom:25px}
+ .atelier-greeting{font-size:11px;margin-bottom:28px}
+ .atelier-intro{font-size:14px;line-height:1.72}
+ .atelier-hero-meta{font-size:9px;letter-spacing:.04em}
+ .artwork-wrap{margin:4px 0 0;width:calc(100vw - 38px);max-width:490px}
+ .artwork-plate{width:100%;height:auto;aspect-ratio:1}
+ .artwork-axis.axis-top,.artwork-axis.axis-bottom{display:block;font-size:8px}
+ .artwork-axis.axis-bottom{bottom:7%;right:6%;max-width:92px;text-align:right}
+ .artwork-corner{display:block;font-size:9px}
+ .field-pulse{left:6%;bottom:6%;background:#D9EF8B;color:#18252B;border:0;border-radius:0;padding:10px 11px;min-height:42px}
+ .field-pulse span{font-size:9px}
+ .kinetic-strip{height:79px}
+ .kinetic-strip-track>span{font-size:56px}
+ .kinetic-strip-track b{margin:0 16px}
+ .atelier-now-inner{padding-top:46px;padding-bottom:47px}
+ .atelier-selected{padding-top:86px}
+ .atelier-section-head h2{font-size:clamp(64px,12vw,92px)}
+ .gallery-window{box-shadow:none}
+ .gallery-copy{min-height:345px}
+ .gallery-display{aspect-ratio:1}
+ .gallery-text h3{font-size:clamp(40px,10vw,57px)}
+}
+@media(prefers-reduced-motion:reduce){
+ .kinetic-strip-track{transform:none!important}
+ .sculpture-ripple{animation:none!important;display:none}
+ .gallery-art{transition:none!important}
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   ATELIER 09 / MAUVE INK, VERMILION AND PARCHMENT
+   A change of art direction, not a repainted component library.
+   Type = editorial; sculpture = physical; navigation = cinematic.
+   Motion system: expo-out .16/1/.3/1; scene .65/0/.35/1.
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+:root{
+  --paper:#17141e;--sheet:#211d2a;--white:#292434;
+  --ink:#f5eee2;--muted:#bbb1bf;--line:#4b4252;
+  --red:#ff795c;--red-dark:#ffab8b;
+  --cobalt:#8586f1;--cobalt-text:#c4bfff;--slate:#b1a4b2;
+  --canvas:#17141e;--canvas-soft:#251f30;
+  --signal:#ff795c;--stage-signal:#ff795c;
+  --paper-light:#f5eee2;--electric:#ae9fff;
+}
+html{background:#17141e}
+body{color:var(--paper-light);background:var(--canvas)}
+.site-header{background:rgba(22,18,30,.93);border-bottom:1px solid #75637750;backdrop-filter:blur(13px)}
+.site-header .brand-monogram,.brand-separator{color:#f5eee2}
+.site-header .brand-name,.nav a{color:#cfc6d1}
+.site-header .nav a:hover,.site-header .nav a[aria-current="page"]{color:#ffb08a}
+.mobile-nav-panel{background:#211a29;color:#f5eee2}
+.mobile-nav-panel a{color:#f5eee2}
+.mobile-nav-toggle{color:#f5eee2}
+/* The first screen: asymmetric typography with a luminous folded volume. */
+.atelier-hero{background:radial-gradient(ellipse 58% 65% at 80% 46%,#39304b 0%,#252033 54%,transparent 86%),#17141e!important;isolation:isolate;min-height:790px}
+.atelier-hero:before{background-image:linear-gradient(90deg,#dbc7ff13 1px,transparent 1px);background-size:calc(100% / 16) 100%;opacity:.68;mask-image:linear-gradient(90deg,transparent,#000 20%,#000 80%,transparent)}
+.atelier-hero:after{background:radial-gradient(ellipse at 73% 49%,#fa936517,transparent 46%);z-index:0}
+.atelier-hero-inner{min-height:810px;grid-template-columns:minmax(0,.94fr) minmax(390px,1.06fr);padding-top:43px;padding-bottom:35px}
+.atelier-hero-meta{font-size:11px;color:#bfb1c0;letter-spacing:.12em}
+.atelier-hero-copy{align-self:center;padding:65px 0 60px}
+.atelier-greeting{display:flex;align-items:center;gap:14px;font:500 11px/1.6 var(--mono);letter-spacing:.095em;color:#d3bdc7;margin-bottom:34px}
+.atelier-greeting .greeting-number{display:inline-grid;place-items:center;border:1px solid #ff8065;color:#ffad88;width:35px;height:35px;font-size:12px;margin:0}
+.atelier-greeting .greeting-divider{color:#ee967c}
+.atelier-hero h1{font-size:clamp(64px,6.6vw,112px);line-height:.98;font-weight:590;letter-spacing:-.087em;margin-bottom:41px;max-width:900px}
+.atelier-hero h1 em{color:#ffa786;font-style:italic;letter-spacing:-.11em}
+.atelier-hero h1 .hero-light{font-weight:465;color:#f4e8e1;letter-spacing:-.087em}
+.hero-period{color:#ff795c}
+.atelier-intro{font-size:clamp(15px,1.27vw,17px);line-height:1.84;max-width:520px;color:#d0c4ca;letter-spacing:-.01em}
+.atelier-actions{gap:38px;margin-top:35px}
+.atelier-text-link{font-size:14px;color:#f6eadf;border-bottom:1px solid #ff8b74;transition:gap .6s cubic-bezier(.16,1,.3,1),color .3s}
+.atelier-text-link:hover{color:#ffa786}
+.atelier-text-link.muted-action{color:#c8b6c7;border-color:#806c80}
+.artwork-wrap{z-index:1;transform:translateX(2%);pointer-events:auto;justify-self:center}
+.artwork-plate{width:min(52vw,670px);height:min(52vw,670px);max-height:670px;aspect-ratio:1;background:radial-gradient(ellipse 65% 57% at 51% 51%,#39283d 0%,#252039 51%,#1b1928 88%);border:0;box-shadow:none;overflow:hidden;touch-action:pan-y;cursor:grab}
+.artwork-plate:active{cursor:grabbing}
+.artwork-plate:before{background:repeating-linear-gradient(0deg,#fce4d109 0,#fce4d109 1px,transparent 1px,transparent 4px);opacity:.3;z-index:3;pointer-events:none}
+.artwork-plate:after{background:radial-gradient(ellipse 66% 65% at 55% 52%,transparent 35%,#14101c8c 100%);z-index:2;pointer-events:none}
+.artwork-canvas{opacity:1;z-index:2}
+.artwork-fallback{opacity:1;filter:none;z-index:1}
+.artwork-plate.is-rendered .artwork-fallback{opacity:.09}
+.artwork-aura{background:radial-gradient(circle at 52% 53%,#fa8c6834,transparent 52%);z-index:0}
+.artwork-axis,.artwork-axis.axis-top,.artwork-axis.axis-bottom,.artwork-corner{color:#efd5d0;letter-spacing:.09em;text-shadow:0 1px 3px #16131e9c}
+.artwork-corner{color:#ffa789}
+.field-pulse{left:7%;bottom:7%;background:#eddbf5;color:#25202e;border:0;min-height:41px;padding:9px 14px;transition:transform .7s cubic-bezier(.16,1,.3,1),background .3s;z-index:6}
+.field-pulse:hover{background:#ffa786;transform:translateY(-3px)}
+.field-pulse span{color:#25202e}
+.sculpture-ripple{border-color:#f99c7f;box-shadow:0 0 25px #f38e8c60}
+.sculpture-ripple:after{border-color:#b8a7ff}
+.hero-bottom-line{color:#bdaebd}
+.hero-bottom-stroke{background:linear-gradient(90deg,#d7b2a1,transparent)}
+/* Kinetic band: a printmaking poster between the first two chapters. */
+.kinetic-strip{height:120px;background:#f7b998;color:#211a27;border:0}
+.kinetic-strip:before{background:linear-gradient(90deg,#f7b998,transparent)}
+.kinetic-strip:after{background:linear-gradient(-90deg,#f7b998,transparent)}
+.kinetic-strip-track>span{font-weight:670;color:#241c2c}
+.kinetic-strip b{color:#6748a6}
+/* Work identity is present without commandeering the main headline. */
+.atelier-now{background:#211c2a;border-top:1px solid #756b784d;border-bottom:1px solid #756b784d}
+.atelier-now-inner{padding-top:52px;padding-bottom:58px}
+.now-marker{color:#ffb69d}
+.now-point{background:#ff795c;box-shadow:0 0 0 5px #ff795c24}
+.now-main h2{color:#f7eee5;font-size:clamp(25px,2.55vw,36px)}
+.now-main h2 span{color:#b7a7b8}
+.now-main p{color:#c9bac8;font-size:14px}
+.now-arrow{color:#ffad8b}
+.atelier-selected{padding-top:130px;padding-bottom:140px;background:#17141e}
+.atelier-section-head{border-bottom:0}
+.atelier-section-head .folio-index{color:#ffad8b}
+.atelier-section-head h2{color:#f5eee2;letter-spacing:-.082em}
+.atelier-section-head h2 em{color:#ffad8b}
+.atelier-section-head p{color:#cfc3cc}
+.gallery-top{color:#b7aabb}.gallery-led{background:#ff8065;box-shadow:0 0 0 6px #ff806515}
+.gallery-count{color:#fff3e9}.gallery-count span{color:#9d8eaa}
+.gallery-window{background:#2b2435;border:0;box-shadow:0 23px 100px #07060945;min-height:600px}
+.gallery-copy{min-height:600px;background:#282132}
+.gallery-copy:after{background:linear-gradient(90deg,#ff8c6b,#ff8c6b00 82%)}
+.gallery-eyebrow{color:#ffa786}
+.gallery-text h3{color:#fff1e5;font-size:clamp(48px,5.3vw,86px);letter-spacing:-.074em}
+.gallery-text h3 em{color:#b3a1fb}
+.gallery-text p{color:#d7c8d4;line-height:1.8}
+.gallery-case-link{color:#ffeddd;border-color:#ef8e7b}
+.gallery-case-link span{color:#f99977}
+.gallery-case-link:hover{color:#ffb99d}
+.gallery-display{background:#33283e}
+.gallery-scene-rag{background:radial-gradient(circle at 55% 45%,#8173b9,#43366b 55%,#302746 100%)}
+.gallery-scene-data{background:radial-gradient(circle at 59% 42%,#dd9680,#ad6d71 54%,#6b455d 100%)}
+.gallery-scene-music{background:radial-gradient(circle at 55% 45%,#8d9dd3,#535a98 56%,#39345f 100%)}
+.gallery-scene::after{background:radial-gradient(circle at 54% 44%,transparent 34%,#1d173259 98%),repeating-linear-gradient(0deg,#fff0ed00 0,#fff0ed00 3px,#fff0ed04 4px)}
+.gallery-grid{background-image:linear-gradient(#e7dfff17 1px,transparent 1px),linear-gradient(90deg,#e7dfff17 1px,transparent 1px);background-size:36px 36px;opacity:.56}
+.gallery-scene::before{border-color:#f2daed3a;box-shadow:0 0 120px #fff1e82a}
+.gallery-scene-rag .trace-wires path{stroke:#f6e4ef;opacity:.5}
+.gallery-scene-rag .trace-flow path{stroke:#ffd5af;opacity:1}
+.gallery-scene-rag .trace-flow path:nth-child(2){stroke:#fca18b}
+.gallery-scene-rag .trace-flow path:nth-child(3){stroke:#c8a6ff}
+.gallery-scene-rag .trace-point circle{fill:#4c4377;stroke:#d0bfff;stroke-width:1.7;opacity:.95}
+.gallery-scene-rag .trace-hub circle{fill:#ffd3ad;filter:drop-shadow(0 0 10px #ffd3ad)}
+.gallery-scene-data .data-rails path{stroke:#f7d8da;opacity:.6}
+.gallery-scene-data .data-blocks rect{fill:#684b69;stroke:#ffe7de}
+.gallery-scene-data .data-checks path{stroke:#fbe1b8}
+.gallery-scene-music .music-lines path{stroke:#f2e3f4}
+.gallery-scene-music .music-noteheads ellipse{fill:#ffd6b5}
+.gallery-scene-music .music-stems path{stroke:#ffd6b5}
+.gallery-scene-music .music-envelope path{stroke:#f6b9bd}
+.gallery-scene-music .music-playhead{stroke:#ffd6b5}
+.gallery-scene .scene-corner,.gallery-scene .trace-labels text,.gallery-scene .data-text text,.gallery-scene .music-caption{color:#ffe6e1;fill:#ffe6e1}
+.gallery-curtain{background:#f7b998}
+.gallery-hover-signal{background:radial-gradient(circle 190px at var(--mx) var(--my),#fff2d71b,transparent 80%)}
+.gallery-steps button{color:#bdb0bf}
+.gallery-steps button .step-num{color:#ffa786}
+.gallery-steps button.is-active,.gallery-steps button:hover{background:#302737;color:#f3ece5}
+.gallery-steps button .step-progress{background:#ffa786}
+.gallery-arrows button:hover{background:#f7b998;color:#282031}
+.gallery-bottom{border-color:#625668}
+/* Different chapter material: bright but quiet paper for research. */
+.atelier-research{background:#ddd2ea;color:#271c32;border-color:#b9abcb}
+.atelier-research::before{background-image:repeating-linear-gradient(90deg,#39265013 0,#39265013 1px,transparent 1px,transparent 55px)}
+.atelier-research .folio-index{color:#644a79}
+.atelier-research h2{color:#24192d}
+.atelier-research h2 em{color:#9c5063}
+.atelier-research-text p{color:#4e3d55}
+.atelier-research .atelier-secondary-link{color:#533d6d}
+.atelier-research .atelier-text-link{color:#34243d;border-color:#a25169}
+.research-fig{background:radial-gradient(circle at center,#4b395d,#211a2e 75%);border:0}
+.research-fig .figure-label,.research-fig .figure-foot{color:#e4d5e6}
+.research-formula{color:#fce7de}
+.r-orbit{border-color:#d2b5ff}
+.r-orbit-2{border-color:#f4a485}
+.r-orbit-3{border-color:#f1e0d2}
+.r-orbit-dot{background:#ffc39d;box-shadow:0 0 19px #ffc39d80}
+.atelier-endcap{background:#17141e}
+.atelier-endcap>p{color:#f7e9de}
+.site-footer{background:#110f17;border-top:1px solid #493e50}
+.site-footer .footer-email{border-color:#e5ab99;color:#f6ece4}
+.site-footer .footer-email:hover{color:#ffa786}
+/* Interior article surfaces remain readable; charts retain distinct hues. */
+.page-head,.article-header{border-color:#514258}
+.page-head>.section-label,.article-header>.section-label,.article-rail .section-label{color:#ffac90}
+.prose{color:#d7cbd4}.prose h2,.prose h3,.prose strong{color:#fff2e8}
+.prose code{background:#2f293a;color:#f4deca}
+.prose th{color:#ffb195}
+.article-deck,.page-head>p:not(.section-label){color:#c9bac5}
+.interactive-band{background:#211b2c}
+.rag-exhibit,.trend-exhibit{background:#292235;border-color:#5e5265}
+.trace-surface,.trace-steps,.trend-plot{background:#211b2d;border-color:#5c4e65}
+.trace-choice[aria-pressed="true"]{background:#7659bc;border-color:#aa93e5}
+.trace-evidence{border-color:#ffa786}
+.trend-controls{background:#2a2435;border-color:#57495f}
+.trend-controls label{color:#f4e9dd}
+.trend-stat strong,.control-group output{color:#ffae8f}
+input[type=range],.check-row input{accent-color:#f28a76}
+/* The mobile scene keeps the sculpture full contrast and usable by touch. */
+@media(max-width:1100px){
+ .atelier-hero-inner{grid-template-columns:minmax(0,1.02fr) minmax(330px,.98fr)}
+ .atelier-hero h1{font-size:clamp(55px,6.45vw,85px)}
+ .artwork-plate{width:min(49vw,590px);height:min(49vw,590px)}
+}
+@media(max-width:800px){
+ .atelier-hero{min-height:0}
+ .atelier-hero-inner{display:flex;flex-direction:column;min-height:0;padding-top:30px;padding-bottom:34px}
+ .atelier-hero-copy{padding:65px 0 22px;width:100%;order:1}
+ .atelier-hero h1{font-size:clamp(64px,10.5vw,86px)}
+ .artwork-wrap{order:2;position:relative;inset:auto;transform:none;opacity:1;pointer-events:auto;width:min(100%,600px);align-self:center;margin-top:12px}
+ .artwork-plate{width:100%;height:auto;aspect-ratio:1}
+ .hero-bottom-line{order:3;margin-top:24px}
+ .kinetic-strip{height:99px}
+}
+@media(max-width:550px){
+ .site-header{background:rgba(22,18,30,.96)}
+ .atelier-hero{background:radial-gradient(ellipse 100% 49% at 50% 72%,#38304b,#17141e 91%)!important}
+ .atelier-hero-inner{padding-top:25px}
+ .atelier-hero-copy{padding:49px 0 25px}
+ .atelier-greeting{margin-bottom:27px;font-size:10px;gap:10px}
+ .atelier-greeting .greeting-number{width:30px;height:30px;font-size:10px}
+ .atelier-hero h1{font-size:clamp(45px,10.8vw,64px);line-height:1.055;letter-spacing:-.078em;margin:0 0 25px}
+ .atelier-intro{font-size:14px;line-height:1.8}
+ .atelier-actions{margin-top:30px;gap:25px}
+ .artwork-wrap{width:calc(100vw - 38px);max-width:490px;margin:15px 0 0}
+ .artwork-axis.axis-top,.artwork-axis.axis-bottom{font-size:8px}
+ .field-pulse{bottom:6%;left:6%;background:#eddbf5;color:#25202e;min-height:45px;padding:11px 13px}
+ .kinetic-strip{height:78px}
+ .kinetic-strip-track>span{font-size:57px}
+ .atelier-now-inner{padding:43px 0}
+ .atelier-section-head h2{font-size:clamp(60px,12vw,89px)}
+ .gallery-window{box-shadow:0 12px 45px #06040b3b}
+ .gallery-copy{min-height:360px}
+ .gallery-display{aspect-ratio:1}
+ .gallery-text h3{font-size:clamp(39px,10vw,56px)}
+ .atelier-research{padding:0}
+ .research-fig{min-height:330px}
+}
+@media(prefers-reduced-motion:reduce){
+ .artwork-plate .sculpture-ripple{display:none!important}
+ .gallery-curtain,.kinetic-strip-track{animation:none!important}
+}

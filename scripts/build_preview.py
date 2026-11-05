@@ -12,11 +12,11 @@ for p in sorted(DIST.rglob('index.html')):
     doc=BeautifulSoup(p.read_text(encoding='utf-8'),'html.parser')
     pages[route]={'title':doc.title.get_text(), 'content':str(doc.find('main').decode_contents())}
 # Inline original SVG illustration so the offline preview needs no assets.
-svg_path=DIST/'assets/field-study.svg'
+svg_path=DIST/'assets/field-study.png'
 if svg_path.exists():
-    embedded='data:image/svg+xml;base64,'+base64.b64encode(svg_path.read_bytes()).decode('ascii')
+    embedded='data:image/png;base64,'+base64.b64encode(svg_path.read_bytes()).decode('ascii')
     for page in pages.values():
-        page['content']=page['content'].replace('src="/assets/field-study.svg"','src="'+embedded+'"')
+        page['content']=page['content'].replace('src="/assets/field-study.png"','src="'+embedded+'"')
 base=BeautifulSoup((DIST/'index.html').read_text(),'html.parser')
 # Embed styles and scripts to remove asset-server dependencies.
 for n in base.select('link[rel="stylesheet"],script[src],link[rel="icon"],link[rel="canonical"],meta[property="og:image"]'):
@@ -60,6 +60,7 @@ script="""
    });
    if(typeof initPortfolioExhibits === 'function') initPortfolioExhibits();
    if(typeof initializeField === 'function') initializeField();
+   if(typeof initSculpture === 'function') initSculpture();
    if(typeof initMotionSystem === 'function') initMotionSystem();
    if(typeof initGallery === 'function') initGallery();
    if(typeof initMobileNav === 'function') initMobileNav();
@@ -76,7 +77,7 @@ script="""
  render();
 })();
 """.replace('__PAGE_DATA__',payload)
-js='\n'.join((DIST/'assets'/name).read_text() for name in ('site.js','field.js','motion.js','gallery.js','nav.js','scroll.js'))
+js='\n'.join((DIST/'assets'/name).read_text() for name in ('site.js','sculpture.js','motion.js','gallery.js','nav.js','scroll.js','studio-effects.js'))
 new_script=base.new_tag('script');new_script.string=js
 base.body.append(new_script)
 router=base.new_tag('script');router.string=script

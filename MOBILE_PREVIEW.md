@@ -1,19 +1,15 @@
-# Preview on mobile
+# Testing on a phone
 
-**Preferred:** host the generated `dist/` directory over HTTP or HTTPS. Android's HTML/file viewers do not consistently allow JavaScript when opening standalone files, even if the HTML is self-contained. This cannot be fixed by changing the site's event listeners alone.
+**Best experience:** serve the generated site over HTTP/HTTPS in Chrome or Firefox. Android document/file viewers may prevent locally opened HTML from running JavaScript, even when scripts are inline.
 
-For a laptop and phone on the same Wi-Fi:
+```bash
+uv sync
+uv run python scripts/build.py
+uv run python -m http.server 8000 --bind 0.0.0.0 --directory dist
+```
 
-1. Extract the source ZIP and change into `nicholas-bode-portfolio/`.
-2. Run `uv sync` and `uv run python scripts/build.py` (if you do not want to rebuild, `dist/` is already included).
-3. Run `uv run python -m http.server 8000 --bind 0.0.0.0 --directory dist`.
-4. Find the laptop's LAN IP. On your phone open `http://<LAPTOP_IP>:8000` in Chrome or Firefox (allow the port through your firewall).
+With both devices on the same network, open `http://YOUR_COMPUTER_LAN_IP:8000` on the phone. Allow the port through your firewall. A deployed HTTPS URL is preferable for sharing.
 
-The standalone `OPEN_PORTFOLIO.html` is useful for desktop offline viewing. On mobile, choose a full browser if your file manager offers **Open with**; if your viewer disables scripts, you will see the static homepage and a notice, but not motion. The website must be loaded by a JavaScript-enabled browser to run the interactions.
+Touch interactions: drag or tap the ribbon, use the visible `make it move` button, horizontally swipe the project artwork, or select project numbers. The full-screen mobile menu opens from the top-right. Native vertical scrolling remains intact. The OS reduced-motion preference is honored.
 
-### Touch controls
-
-- **Hero field:** tap the drawing, or its **Send a ripple** control. A visible ring should expand from the contact point.
-- **Selected work:** tap a project number; tap the artwork to advance; swipe horizontally to change projects. The arrow buttons always work.
-- **Navigation:** tap **Menu**. The full-screen index animates in. Tap a destination or press Escape on a connected keyboard.
-- **Accessibility:** system reduced-motion settings disable non-essential motion.
+The offline ZIP includes `OPEN_PORTFOLIO.html` and does not require installation for viewing the **static** content, but JavaScript-dependent interactions require a full browser that permits script execution.
