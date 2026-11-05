@@ -20,7 +20,7 @@
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
 <header class="site-header"><div class="shell header-inner">
-  <a class="brand" href="{{ base }}" aria-label="Nicholas Bode home"><span class="brand-monogram" aria-hidden="true">nb.</span><span>Nicholas Bode</span></a>
+  <a class="brand" href="{{ base }}" aria-label="Nicholas Bode home"><span class="brand-monogram" aria-hidden="true">N<span class="brand-separator">/</span>B</span><span class="brand-name">Nick Bode</span></a>
   <nav class="nav" aria-label="Main navigation">
     <a href="{{ base }}work/" {% if nav == 'work' %}aria-current="page"{% endif %}>Work</a>
     <a href="{{ base }}research/" {% if nav == 'research' %}aria-current="page"{% endif %}>Research</a>
@@ -30,7 +30,7 @@
 </div></header>
 <main id="main">{% block content %}{% endblock %}</main>
 <footer class="site-footer"><div class="shell">
-  <div class="footer-top"><div><span class="section-label">Contact</span><h2>Get in touch.</h2><p>AI engineering, applied ML, and research.</p></div><a class="footer-email" href="mailto:{{ site.email }}">{{site.email}} <span aria-hidden="true">↗</span></a></div>
-  <div class="footer-bottom"><span>© 2026 Nicholas Bode · Toronto</span><div><a href="{{ site.github }}" target="_blank" rel="noopener noreferrer">GitHub</a><a href="{{ site.linkedin }}" target="_blank" rel="noopener noreferrer">LinkedIn</a><a href="{{ base }}resume/">Résumé</a></div></div>
+  <div class="footer-top"><div><span class="section-label">Want to talk?</span><h2>Say hello.</h2><p>Work, side projects, research, or piano.</p></div><a class="footer-email" href="mailto:{{ site.email }}">{{site.email}} <span aria-hidden="true">↗</span></a></div>
+  <div class="footer-bottom"><span>Nicholas Bode © 2026 · Toronto</span><div><a href="{{ site.github }}" target="_blank" rel="noopener noreferrer">GitHub</a><a href="{{ site.linkedin }}" target="_blank" rel="noopener noreferrer">LinkedIn</a><a href="{{ base }}resume/">Résumé</a></div></div>
 </div></footer>
 </body></html>

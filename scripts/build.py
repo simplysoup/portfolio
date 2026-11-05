@@ -26,7 +26,7 @@ work_order=['evaluated-rag','analytics-pipeline','piano-transcription']
 
 SITE={
  'name':'Nicholas Bode',
- 'description':'Nicholas Bode is an AI engineer in Toronto working on AI applications, model evaluation, data systems, and time-series research.',
+ 'description':'Personal engineering portfolio of Nicholas Bode in Toronto: AI applications, data systems, independent experiments, music, and original research.',
  'email':'nickbode71@gmail.com',
  'github':'https://github.com/simplysoup',
  'linkedin':'https://www.linkedin.com/in/nicholas-bode-6a29ab1bb/',
@@ -63,7 +63,7 @@ if OUT.exists():shutil.rmtree(OUT)
 OUT.mkdir(parents=True)
 shutil.copytree(ROOT/'assets',OUT/'assets')
 
-render('', 'index.html', title='AI engineer and applied research',description=SITE['description'], nav='home')
+render('', 'index.html', title='Software, experiments & research',description=SITE['description'], nav='home')
 render('work','work.html',title='Selected engineering work', description='Applied AI, evaluation, and systems engineering projects by Nicholas Bode.',nav='work')
 for slug,article in PUBLIC_WORK.items():
  render('work/'+slug,'article.html',title=article['title'],description=article['description'],nav='work',article=article,kind='work')

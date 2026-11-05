@@ -3,7 +3,7 @@
 from pathlib import Path
 import os
 from bs4 import BeautifulSoup
-import json, re, html
+import json, re, html, base64
 ROOT = Path(__file__).resolve().parents[1]
 DIST = ROOT/'dist'
 pages={}
@@ -11,6 +11,12 @@ for p in sorted(DIST.rglob('index.html')):
     route='/' if p==DIST/'index.html' else '/'+p.parent.relative_to(DIST).as_posix()+'/'
     doc=BeautifulSoup(p.read_text(encoding='utf-8'),'html.parser')
     pages[route]={'title':doc.title.get_text(), 'content':str(doc.find('main').decode_contents())}
+# Inline original SVG illustration so the offline preview needs no assets.
+svg_path=DIST/'assets/field-study.svg'
+if svg_path.exists():
+    embedded='data:image/svg+xml;base64,'+base64.b64encode(svg_path.read_bytes()).decode('ascii')
+    for page in pages.values():
+        page['content']=page['content'].replace('src="/assets/field-study.svg"','src="'+embedded+'"')
 base=BeautifulSoup((DIST/'index.html').read_text(),'html.parser')
 # Embed styles and scripts to remove asset-server dependencies.
 for n in base.select('link[rel="stylesheet"],script[src],link[rel="icon"],link[rel="canonical"],meta[property="og:image"]'):
@@ -44,9 +50,17 @@ script="""
      else a.removeAttribute('aria-current');
    });
    if(typeof initPortfolioExhibits === 'function') initPortfolioExhibits();
+   if(typeof initAtelier === 'function') initAtelier();
    requestAnimationFrame(() => { if(anchor){const el=document.getElementById(anchor);if(el)el.scrollIntoView();}else window.scrollTo(0,0); });
  }
- window.addEventListener('hashchange',render);
+ window.addEventListener('hashchange',()=>{
+   if(location.hash.startsWith('#/')) render();
+   else if(location.hash.length>1){
+      const id=decodeURIComponent(location.hash.slice(1));
+      const node=document.getElementById(id);
+      if(node) node.scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
+   }
+ });
  render();
 })();
 """.replace('__PAGE_DATA__',payload)

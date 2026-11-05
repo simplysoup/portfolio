@@ -330,3 +330,199 @@ body{background:var(--paper);color:var(--ink)}
  .professional-item{grid-template-columns:26px 1fr;gap:13px}
  .professional-item h3{font-size:22px}
 }
+
+/* ATELIER V3 — original art direction informed by the provided reference bundle.
+   No third-party assets, animations, shaders, fonts, or components are copied. */
+:root{--display:'Inter Display','Inter','Helvetica Neue',Arial,sans-serif;--canvas:#101A21;--canvas-soft:#14242D;--signal:#D9EF8B;--paper-light:#F5F3EC;--electric:#8098FF}
+body{background:var(--canvas);color:var(--paper-light);font-family:'Inter',var(--sans)}
+h1,h2,h3{letter-spacing:-.048em}
+.site-header{background:#101A21;border-bottom:1px solid #304048;position:relative;z-index:6}
+.header-inner{min-height:76px;max-width:1440px}
+.brand{font-size:15px;font-weight:500;gap:15px;letter-spacing:-.015em}
+.brand-monogram{font:700 23px/.95 var(--display);letter-spacing:-.09em;color:var(--paper-light);display:inline-flex;align-items:baseline}
+.brand-separator{color:var(--signal);font-weight:350;padding:0 2px}
+.brand-name{color:#C9D6D5}
+.nav{gap:clamp(14px,2.7vw,39px)}
+.nav a{font-size:13px;color:#C1CDCB}
+.nav a:hover,.nav a[aria-current="page"]{color:var(--paper-light)}
+.nav a[aria-current="page"]{text-decoration-color:var(--signal)}
+.site-footer{background:#0B1319;border-top:1px solid #304048}
+.site-footer .footer-top h2{font:500 clamp(42px,5vw,68px)/1.08 var(--display);letter-spacing:-.07em}
+.site-footer .footer-top{padding-top:85px;padding-bottom:80px}
+.site-footer .footer-bottom{border-top:1px solid #2A383E}
+.section-label,.folio-index{font:500 11px/1.55 var(--mono);letter-spacing:.08em;color:#AFC1C0}
+.folio-index{display:block}
+
+/* Hero: first-person, not an oversized job title. */
+.atelier-hero{position:relative;isolation:isolate;overflow:hidden;background:radial-gradient(ellipse 48% 80% at 86% 50%,#253D4C 0%,#15252F 47%,transparent 82%),#101A21}
+.atelier-hero::before{content:"";pointer-events:none;position:absolute;inset:0;opacity:.21;background-image:linear-gradient(to right,#50626a 1px,transparent 1px);background-size:calc(100% / 12) 100%;mask-image:linear-gradient(to bottom,transparent,#000 23%,#000 75%,transparent)}
+.atelier-hero-inner{position:relative;max-width:1440px;min-height:790px;padding-top:47px;padding-bottom:36px;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(370px,.9fr);grid-template-rows:auto 1fr auto;column-gap:0}
+.atelier-hero-meta{grid-column:1/-1;display:flex;justify-content:space-between;gap:20px;color:#AEBFBE;font:500 11px var(--mono);letter-spacing:.07em;position:relative;z-index:3}
+.atelier-hero-copy{position:relative;z-index:3;align-self:center;padding:33px 0 64px}
+.atelier-greeting{font-size:16px;letter-spacing:-.01em;margin:0 0 30px;color:#CAD8D3}
+.atelier-greeting span{color:var(--signal);font-size:18px;margin-left:7px}
+.atelier-hero h1{font:650 clamp(68px,7vw,119px)/1.01 var(--display);letter-spacing:-.082em;margin:0 0 37px;max-width:1000px;white-space:nowrap}
+.atelier-hero h1 em{font-family:Georgia,serif;font-weight:400;color:var(--signal);letter-spacing:-.095em;font-style:italic}
+.atelier-hero .hero-light{font-weight:380;color:#D1DEDA}
+.atelier-intro{max-width:540px;color:#C6D4D0;line-height:1.7;font-size:17px;margin:0 0 27px}
+.atelier-actions{display:flex;flex-wrap:wrap;gap:28px;align-items:center;margin-top:30px}
+.atelier-text-link{display:inline-flex;align-items:center;gap:23px;font-size:14px;font-weight:620;color:var(--paper-light);text-decoration:none;border-bottom:1px solid var(--signal);padding-bottom:9px;transition:gap .2s,color .2s}
+.atelier-text-link:hover{gap:30px;color:var(--signal)}
+.atelier-text-link.muted-action{font-weight:450;color:#AFC0C0;border-color:#53676D}
+.atelier-text-link.muted-action:hover{color:var(--paper-light)}
+.artwork-wrap{grid-column:2;grid-row:2;position:relative;align-self:center;justify-self:stretch;transform:translateX(6%);min-width:0;pointer-events:none}
+.artwork-plate{width:min(51vw,630px);height:min(51vw,630px);position:relative;max-height:670px}
+.artwork-fallback,.artwork-canvas{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+.artwork-canvas{opacity:.96;z-index:1}
+.artwork-axis{position:absolute;color:#AFC2BE;font:500 10px var(--mono);letter-spacing:.08em;z-index:2}
+.axis-top{top:15%;left:13%}.axis-bottom{bottom:12%;right:9%}
+.artwork-corner{position:absolute;right:10%;top:12%;font-size:30px;font-weight:200;color:var(--signal)}
+.hero-bottom-line{grid-column:1/-1;grid-row:3;z-index:3;display:flex;gap:18px;align-items:center;font:500 11px var(--mono);color:#AFC0BC}
+.hero-bottom-stroke{flex:1;height:1px;background:linear-gradient(90deg,#697778,transparent)}
+
+/* Current work remains visible but doesn't dominate identity. */
+.atelier-now{border-top:1px solid #3A4B53;border-bottom:1px solid #3A4B53;background:#172831}
+.atelier-now-inner{display:grid;grid-template-columns:165px minmax(0,1fr) 48px;gap:30px;align-items:start;padding-top:33px;padding-bottom:36px}
+.now-marker{display:flex;align-items:center;gap:12px;font:500 11px var(--mono);color:#B8C9C3;margin-top:11px}
+.now-point{width:7px;height:7px;border-radius:50%;background:var(--signal);box-shadow:0 0 0 4px #D9EF8B16}
+.now-main h2{font:520 clamp(23px,2.35vw,34px)/1.3 var(--display);letter-spacing:-.038em}
+.now-main h2 span{color:#B8C9C3;font-weight:390}
+.now-main p{font-size:14px;color:#ACBFBE;line-height:1.75;max-width:725px;margin:10px 0 0}
+.now-arrow{font-size:26px;color:var(--signal);align-self:center;text-align:right;transition:transform .2s}
+.now-arrow:hover{transform:translate(4px,-4px)}
+
+/* An editorial project index with original diagrammatic image-panels. */
+.atelier-selected{padding-top:127px;padding-bottom:124px}
+.atelier-section-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(240px,.58fr);gap:55px;align-items:end;padding-bottom:62px}
+.atelier-section-head h2,.atelier-research h2{font:640 clamp(60px,6vw,94px)/1.03 var(--display);letter-spacing:-.082em;margin-top:23px}
+.atelier-section-head h2 em,.atelier-research h2 em{color:var(--signal);font:italic 400 1.04em/1 Georgia,serif;letter-spacing:-.085em}
+.atelier-section-head>p{max-width:420px;color:#BDC9C4;font-size:16px;line-height:1.7;margin:0 0 8px}
+.atelier-projects{border-top:1px solid #41545A}
+.atelier-project{display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);gap:9%;padding:48px 0;border-bottom:1px solid #40535A;align-items:center;transition:background .2s}
+.atelier-project:hover{background:#ffffff05;color:var(--paper-light)}
+.atelier-project-identity{padding:4px 0;min-width:0}
+.project-identification{display:flex;gap:23px;align-items:center;color:#B7C5C2;font:500 11px var(--mono);letter-spacing:.07em}
+.project-identification>span:first-child{color:var(--signal);font-size:16px}
+.atelier-project h3{font:570 clamp(34px,3.15vw,53px)/1.12 var(--display);letter-spacing:-.065em;margin:24px 0 18px;color:var(--paper-light)}
+.atelier-project p{font-size:15px;line-height:1.68;color:#ACBFBB;max-width:480px;margin:0 0 28px}
+.project-visit{font-size:13px;border-bottom:1px solid #61777C;padding-bottom:6px;display:inline-flex;gap:25px;font-weight:550;transition:gap .2s,border-color .2s}
+.atelier-project:hover .project-visit{gap:35px;border-color:var(--signal)}
+.project-visual{position:relative;min-height:340px;overflow:hidden;border:1px solid #425661;padding:27px 30px;background-color:#13212B;color:#E6EEEB;transition:border-color .2s,transform .3s}
+.atelier-project:hover .project-visual{border-color:#728990;transform:translateY(-3px)}
+.visual-corner-note{font:500 10px var(--mono);letter-spacing:.06em;color:#98B4B0;position:absolute;bottom:21px;left:30px}
+.rag-visual{background:radial-gradient(circle at 75% 40%,#243D4B 0%,#14232D 56%,#13212B 88%)}
+.rag-top-label,.piano-label{font:500 11px var(--mono);color:#B8C9C8;letter-spacing:.07em}
+.rag-chain{display:flex;align-items:center;justify-content:center;gap:7px;position:relative;margin:77px auto 36px}
+.rag-chain span{background:#263C48;border:1px solid #5E7883;border-radius:999px;font:500 12px var(--mono);padding:12px 12px;color:#E2E9E6}
+.rag-chain i{height:1px;width:20px;background:#6C8992}
+.rag-branches{display:grid;gap:6px;grid-template-columns:repeat(3,minmax(0,1fr))}
+.rag-branches div{display:flex;flex-direction:column;gap:9px;border:1px solid #324B56;padding:13px 11px;min-width:0}
+.rag-branches span{font:500 10px var(--mono);color:#BCCBC9}
+.rag-branches strong{font:600 11px var(--mono);letter-spacing:.02em;color:var(--paper-light)}
+.branch-dot{display:block;width:7px;height:7px;background:var(--signal);border-radius:50%}
+.cobalt-dot{background:#91A8FF}.slate-dot{background:#94AAA9}
+.dbt-visual{background:linear-gradient(138deg,#1E3040,#12232D)}
+.mini-datahead{display:flex;justify-content:space-between;font:500 11px var(--mono);color:#D5E3DD;margin-bottom:19px}
+.mini-datagrid{display:grid;grid-template-columns:1fr 1fr 1fr;color:#C7D8D4;font:500 12px var(--mono);border-top:1px solid #46606A}
+.mini-datagrid span{padding:12px 5px;border-bottom:1px solid #36505A}
+.mini-datagrid span:nth-child(-n+3){color:#8FA8AA;font-size:11px}
+.mini-pass{color:var(--signal)!important}.mini-warn{color:#ECC3A0!important}
+.piano-visual{background:radial-gradient(circle at 72% 10%,#2A3F61,transparent 65%),#13212B}
+.music-staff{position:relative;height:110px;margin-top:60px;background:repeating-linear-gradient(to bottom,transparent 0,transparent 16px,#8195A0 17px,#8195A0 18px,transparent 19px,transparent 20px);background-size:100% 100px;background-repeat:no-repeat}
+.music-staff .note{position:absolute;font:500 35px Georgia,serif;color:#D9EF8B;text-shadow:0 1px 5px #17242B;line-height:1}
+.music-staff .n1{left:7%;top:31px}.music-staff .n2{left:25%;top:6px}.music-staff .n3{left:46%;top:24px}.music-staff .n4{left:64%;top:3px}.music-staff .n5{left:80%;top:27px}
+.piano-bars{display:flex;gap:7px;align-items:end;height:61px;border-bottom:1px solid #3F5360;margin:0 auto 32px}
+.piano-bars i{flex:1;background:linear-gradient(to top,#405BCB,#9DB2EA);min-width:2px;max-width:16px;opacity:.72}
+.atelier-section-end{display:flex;align-items:center;justify-content:space-between;padding-top:30px;color:#AAC0BA;font:500 11px var(--mono);letter-spacing:.05em}
+.atelier-section-end a{font:550 14px var(--sans);color:var(--paper-light);text-decoration:underline;text-decoration-color:var(--signal);text-underline-offset:7px}
+
+/* Research is a change of pace, not another card. */
+.atelier-research{background:#1C2D36;border-top:1px solid #3F5359;border-bottom:1px solid #3F5359;overflow:hidden}
+.atelier-research-inner{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:10%;align-items:center;padding-top:100px;padding-bottom:100px}
+.research-fig{min-height:500px;position:relative;border:1px solid #455B61;background:radial-gradient(circle at center,#243C48,#12242D 75%);display:grid;place-items:center;overflow:hidden}
+.figure-label,.figure-foot{position:absolute;font:500 10px var(--mono);letter-spacing:.08em;color:#AEC6C2}
+.figure-label{top:23px;left:23px}.figure-foot{bottom:23px;right:23px}
+.research-orbit{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:320px;height:320px}
+.r-orbit{position:absolute;inset:0;border:1px solid #8098FF;border-radius:48% 52% 43% 57% / 63% 39% 61% 37%;opacity:.66;transform:rotate(-13deg)}
+.r-orbit-2{inset:29px;border-color:#D9EF8B;transform:rotate(22deg)}
+.r-orbit-3{inset:66px;border-color:#B4C9C6;transform:rotate(-40deg)}
+.r-orbit-dot{position:absolute;width:10px;height:10px;border-radius:50%;background:#D9EF8B;top:5%;left:46%;box-shadow:0 0 19px #D9EF8B66}
+.research-formula{position:relative;z-index:2;font:italic 43px Georgia,serif;color:#F5F3EC;letter-spacing:-.07em}
+.atelier-research h2{margin:25px 0 23px}
+.atelier-research-text p{font-size:16px;line-height:1.75;max-width:530px;color:#BBCDC7;margin:0 0 34px}
+.atelier-secondary-link{display:block;margin-top:23px;font-size:13px;color:#AFC4C0;text-decoration:underline;text-underline-offset:5px}
+.atelier-endcap{padding-top:96px;padding-bottom:105px;display:grid;grid-template-columns:180px 1fr auto;gap:38px;align-items:center}
+.atelier-endcap>p{font:450 clamp(26px,3.2vw,42px)/1.2 var(--display);letter-spacing:-.045em;margin:0}
+.atelier-endcap>div{display:flex;gap:22px;flex-wrap:wrap;font-size:13px}
+.atelier-endcap a{text-decoration:underline;text-decoration-color:#677D83;text-underline-offset:7px}
+
+/* Interior pages keep their existing content and exhibits, but share the new typography. */
+.page-head h1,.article-header h1{font-family:var(--display);font-weight:550;letter-spacing:-.065em}
+.page-head{padding-top:115px}
+.article-header h1{max-width:1120px}
+.prose h2{font-family:var(--display);font-weight:570}
+.article-rail .section-label{color:var(--signal)}
+.page-head>.section-label,.article-header>.section-label{color:var(--signal)}
+.primary-link{background:var(--signal)}
+
+@media (min-width:1500px){.atelier-hero h1{font-size:119px}}
+@media (max-width:1160px){
+ .atelier-hero-inner{grid-template-columns:minmax(0,1.1fr) minmax(280px,.8fr);min-height:710px}
+ .atelier-hero h1{font-size:clamp(56px,7.2vw,88px)}
+ .artwork-plate{width:49vw;height:49vw}
+ .atelier-project{gap:5%}
+ .project-visual{min-height:320px}
+}
+@media (max-width:800px){
+ .atelier-hero-inner{min-height:780px;grid-template-columns:minmax(0,1fr);grid-template-rows:auto 1fr auto;position:relative}
+ .atelier-hero-copy{grid-column:1;grid-row:2;padding:48px 0 90px}
+ .atelier-hero h1{font-size:clamp(61px,11vw,92px);white-space:normal}
+ .atelier-intro{max-width:510px}
+ .artwork-wrap{position:absolute;grid-column:auto;grid-row:auto;right:-25%;top:12%;width:75%;opacity:.37;transform:none;pointer-events:none;z-index:0}
+ .artwork-plate{width:100%;height:auto;aspect-ratio:1}
+ .atelier-hero-meta{font-size:10px}
+ .atelier-now-inner{grid-template-columns:115px 1fr 30px;gap:17px}
+ .atelier-section-head{grid-template-columns:1fr;gap:18px}
+ .atelier-section-head p{max-width:550px}
+ .atelier-project{grid-template-columns:1fr;gap:24px}
+ .project-visual{min-height:320px}
+ .atelier-research-inner{grid-template-columns:1fr;gap:44px}
+ .research-fig{min-height:360px}
+ .atelier-endcap{grid-template-columns:1fr 1fr;gap:20px}
+ .atelier-endcap>p{grid-column:1/-1}
+}
+@media(max-width:550px){
+ .header-inner{min-height:68px}.brand-name{display:none}.brand-monogram{font-size:22px}
+ .nav{gap:14px}.nav a{font-size:12px}
+ .atelier-hero-inner{min-height:685px;padding-top:25px;padding-bottom:26px}
+ .atelier-hero-meta{gap:12px}.meta-index{font-size:9px}.meta-location{font-size:9px;text-align:right}
+ .atelier-hero-copy{padding:33px 0 72px}
+ .atelier-greeting{margin-bottom:22px;font-size:14px}
+ .atelier-hero h1{font-size:clamp(48px,12.2vw,68px);line-height:1.06;letter-spacing:-.076em;margin-bottom:28px}
+ .atelier-intro{font-size:15px;line-height:1.75;max-width:450px}
+ .atelier-actions{gap:19px}.atelier-text-link{font-size:13px}
+ .artwork-wrap{right:-42%;top:15%;width:110%;opacity:.22}
+ .artwork-axis,.artwork-corner{display:none}
+ .hero-bottom-line{font-size:9px;gap:9px}
+ .atelier-now-inner{grid-template-columns:1fr auto;gap:16px;padding-top:30px;padding-bottom:28px}
+ .now-marker{grid-column:1/-1;margin:0}.now-main{grid-column:1;grid-row:2}.now-arrow{grid-column:2;grid-row:2}
+ .now-main h2{font-size:24px}.now-main h2 span{display:block}
+ .atelier-selected{padding-top:79px;padding-bottom:84px}
+ .atelier-section-head{padding-bottom:43px}
+ .atelier-section-head h2,.atelier-research h2{font-size:clamp(53px,12vw,74px)}
+ .atelier-section-head>p{font-size:14px}
+ .atelier-project{padding:35px 0;gap:28px}.atelier-project h3{font-size:36px}
+ .atelier-project p{font-size:14px}
+ .project-visual{min-height:280px;padding:20px}
+ .rag-chain{gap:4px;margin-top:53px}.rag-chain span{padding:9px;font-size:10px}.rag-chain i{width:12px}
+ .rag-branches div{padding:10px 7px}.rag-branches span{font-size:9px}.rag-branches strong{font-size:10px}
+ .visual-corner-note{left:20px;bottom:14px}
+ .atelier-research-inner{padding-top:60px;padding-bottom:72px}.research-fig{min-height:320px}
+ .research-orbit{width:260px;height:260px}
+ .atelier-endcap{padding-top:69px;padding-bottom:75px}
+ .atelier-endcap>div{grid-column:1/-1}
+}
+@media(prefers-reduced-motion:reduce){
+ html{scroll-behavior:auto}
+ .atelier-text-link,.atelier-project,.project-visual,.project-visit,.now-arrow{transition:none!important;transform:none!important}
+}
