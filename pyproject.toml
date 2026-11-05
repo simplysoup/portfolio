@@ -1,0 +1,17 @@
+[project]
+name = "nicholas-bode-portfolio"
+version = "0.4.0"
+description = "Static editorial portfolio for Nicholas Bode"
+requires-python = ">=3.11"
+dependencies = [
+  "jinja2>=3.1,<4",
+  "pyyaml>=6,<7",
+  "markdown-it-py>=4,<5",
+  "beautifulsoup4>=4.12,<5"
+]
+
+[project.optional-dependencies]
+test = ["playwright>=1.55,<2"]
+
+[tool.uv]
+package = false

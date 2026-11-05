@@ -19,3 +19,7 @@ We inspected the delivered HTML, bundled CSS/JavaScript, and the author’s `lab
 ## Boundaries
 
 The reference archive has not been republished or embedded in the output. The accompanying visual study is original.
+
+## Roberto Attanasio (user-provided archive, November 2026)
+
+Inspected the supplied saved HTML, route pages, bundled styles and scripts. The reference demonstrates how software, music, and writing can feel like separate parts of a personal world while still forming a coherent experience. The studio prototype adopts the principle of a personal, multidisciplinary index without copying its site navigation, assets, motion, typography, or implementation.

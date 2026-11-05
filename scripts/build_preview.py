@@ -50,7 +50,7 @@ script="""
      else a.removeAttribute('aria-current');
    });
    if(typeof initPortfolioExhibits === 'function') initPortfolioExhibits();
-   if(typeof initAtelier === 'function') initAtelier();
+   if(typeof initializeField === 'function') initializeField();
    requestAnimationFrame(() => { if(anchor){const el=document.getElementById(anchor);if(el)el.scrollIntoView();}else window.scrollTo(0,0); });
  }
  window.addEventListener('hashchange',()=>{
@@ -64,7 +64,7 @@ script="""
  render();
 })();
 """.replace('__PAGE_DATA__',payload)
-js=(DIST/'assets/site.js').read_text()
+js=(DIST/'assets/site.js').read_text()+'\n'+(DIST/'assets/studio-field.js').read_text()
 new_script=base.new_tag('script');new_script.string=js
 base.body.append(new_script)
 router=base.new_tag('script');router.string=script

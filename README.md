@@ -1,35 +1,47 @@
-# Nicholas Bode — Personal Portfolio (Atelier prototype)
+# Nicholas Bode — personal portfolio / studio 04
 
-A personal engineering portfolio with an original procedural illustration, work/research pages, and two lightweight technical exhibits. It uses a dark Ink / Paper / Cobalt / Signal / Slate palette. The top of the homepage introduces Nicholas as a person; current employment is visible immediately below the hero, rather than being the hero.
+A dark, editorial engineering portfolio with original interactive filament artwork, curated public case studies, a research article, and two synthetic technical exhibits. This is a static site: the built output requires no database, Python runtime or JavaScript bundler in production.
 
-## Local build
+## Build with `uv`
+
+Install [uv](https://docs.astral.sh/uv/) first, then run:
 
 ```sh
-python -m pip install -r requirements.txt
-python scripts/build.py
-python -m http.server 8000 --directory dist
+uv sync
+uv run python scripts/build.py
+uv run python scripts/build_preview.py
 ```
 
-Then open `http://localhost:8000`. For a single HTML file you can inspect offline, run `python scripts/build_preview.py` and open `portfolio-preview.html` directly from your browser. The preview embeds its CSS, JavaScript, page content, and hero illustration.
+`dist/` is the deployable static site. `portfolio-preview.html` is a single-file, offline preview (all 10 routes embedded); open it directly in a browser. No local server is needed for the preview.
 
-## Deployment
+For normal local development:
 
-The distributable is the generated `dist/` directory. Set `SITE_URL=https://your-domain.example` when building for real canonical links and sitemap generation. For a GitHub Pages subpath, also set `SITE_BASE=repo-name`. No APIs, keys, server processes, or image-hosting account are required.
+```sh
+uv run python -m http.server 8000 --directory dist
+```
 
-## Design and content
+Open `http://localhost:8000`. When content or assets change, rerun `uv run python scripts/build.py`.
 
-- Homepage: personal introduction, subtle pointer-reactive signal-field illustration, visible professional background, three public-code projects, original research, and contact.
-- `/work/`: individually documented public projects and code links.
-- `/research/`: thesis, published reference entry, and synthetic interactive explanation.
-- The reference bundle was inspected for design principles only. The artwork, CSS, code, and interactions here were created separately.
-- Synthetic examples in the RAG and time-series exhibits are visibly labeled and are not employer assets.
-- No proprietary product names, internal source code, client data, tenant IDs, unpublished metrics, or private case-study drafts are included.
+A lockfile can be generated with `uv lock` when PyPI is reachable. This project has a `pyproject.toml` as the dependency source of truth. The build environment used for this deliverable had PyPI network access blocked, so no generated lockfile is represented as verified.
 
-## Publication checklist
+## Browser regression checks
 
-- Verify article details and links against the current public repositories.
-- Add a current résumé PDF only after approving the version intended for public access.
-- Replace the placeholder domain with the final deployment URL and test on a real browser/device.
-- Check responsive layout, reduced motion, keyboard navigation, and the static build on the final host.
+```sh
+uv sync --extra test
+uv run --extra test playwright install chromium
+uv run --extra test python tests/check_interactions.py
+```
 
-This is a design prototype; not yet deployed publicly.
+The test checks real canvas pixel changes after pointer movement on desktop and narrow layouts, reduced-motion behavior, client-side navigation within the offline preview, and technical exhibit initialization. Set `BROWSER_EXECUTABLE` if you want to use a system Chromium binary instead of Playwright's own browser.
+
+## Design notes
+
+- **Identity:** Ink background, Paper text, Cobalt secondary accent, Signal highlights, Slate interface annotations.
+- **Typography:** a restrained old-style serif, with small system sans-serif UI and monospaced technical annotations. No downloaded font files.
+- **Hero:** an original Canvas2D filament field. Continuous but restrained slow motion and a localized pointer distortion; paused when offscreen, static under `prefers-reduced-motion`.
+- **Architecture:** Jinja2 and MarkdownIt for prerendering, authored Markdown articles, dependency-light vanilla JS for the client-side exhibits and artwork. No confidential APIs or data.
+- **Ownership:** professional experience is described generically; all featured source links are independent public projects. Employer product names, internal code, and unapproved claims are excluded.
+
+## Publication
+
+Set `SITE_URL=https://your-domain.example` when building for production. For subpath hosting, also set `SITE_BASE=repo-name`. Review content against the current public repositories before a final deployment, and add an approved resume PDF if required. Never publish employer repository code, internal tools, unpublished metrics, or confidential assets.
