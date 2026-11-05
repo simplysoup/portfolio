@@ -1,0 +1,26 @@
+{% extends 'base.html' %}{% block content %}
+<section class="home-hero shell">
+  <div class="home-hero-left">
+    <p class="section-label"><span class="red-square" aria-hidden="true"></span> Toronto, Canada · AI engineer</p>
+    <h1>Hi, I'm<br><em>Nicholas Bode.</em></h1>
+    <p class="hero-summary">I build AI applications and data systems, with a particular interest in evaluation, access control, and what happens when the inputs are wrong.</p>
+    <p class="hero-context">My background includes applied machine learning, geospatial analytics, and MSc research in time-series constraints. Most of the work I do professionally isn't public. The projects here are.</p>
+    <div class="hero-links"><a class="primary-link" href="{{ base }}work/">View my work <span aria-hidden="true">↗</span></a><a class="under-link" href="{{ site.github }}" target="_blank" rel="noopener noreferrer">GitHub ↗</a></div>
+  </div>
+  <aside class="hero-sidebar" aria-label="Current work and interests">
+    <span class="section-label">At a glance</span>
+    <dl><div><dt>Current role</dt><dd>AI Engineer<br><span>Environics Analytics</span></dd></div><div><dt>Background</dt><dd>MSc Computer Science<br><span>Ontario Tech University</span></dd></div><div><dt>Working on</dt><dd>AI tool interfaces, model evaluation, data systems</dd></div><div><dt>Outside work</dt><dd>Research projects, numerical methods, music technology</dd></div></dl>
+    <a href="{{ base }}about/" class="aside-link">More about me ↗</a>
+  </aside>
+</section>
+<section class="home-work shell" aria-labelledby="selected-title">
+  <div class="section-heading"><div><p class="section-label">01 / Selected work</p><h2 id="selected-title">Projects with code<br>you can inspect.</h2></div><p>Public projects, with write-ups about the implementation, tests, and the parts that still need work.</p></div>
+  <div class="project-index">
+    <a class="project-row" href="{{base}}work/evaluated-rag/"><span class="project-no">01</span><span class="project-main"><strong>Evaluating a RAG system by the ways it can fail</strong><small>Document retrieval, answer validation, single-retry correction, and abstention. Includes a fixed 30-question synthetic evaluation.</small></span><span class="project-side">Python · LangGraph<br>Public code</span><span class="project-arrow" aria-hidden="true">↗</span></a>
+    <a class="project-row" href="{{base}}work/analytics-pipeline/"><span class="project-no">02</span><span class="project-main"><strong>Testing incremental models with dbt and DuckDB</strong><small>Late updates, duplicates, nulls, CI checks, and a repeated-run idempotency test on generated data.</small></span><span class="project-side">dbt · DuckDB<br>Public code</span><span class="project-arrow" aria-hidden="true">↗</span></a>
+    <a class="project-row" href="{{base}}work/piano-transcription/"><span class="project-no">03</span><span class="project-main"><strong>Transcribing piano recordings into editable scores</strong><small>Audio transcription to MIDI and MusicXML. Preserving performed timing often makes notation harder to read.</small></span><span class="project-side">Python · Audio ML<br>Public code</span><span class="project-arrow" aria-hidden="true">↗</span></a>
+  </div>
+  <a class="inline-link" href="{{base}}work/">All projects ↗</a>
+</section>
+<section class="home-research"><div class="shell research-feature"><div><p class="section-label">02 / MSc research</p><h2>What makes a relationship hold over time?</h2><p>My thesis studied approximate constraints in changing, noisy time series. I used segmentation, symbolic regression, and policy-gradient methods to find and evaluate candidate relationships.</p><div class="research-actions"><a class="primary-link" href="{{base}}research/trend-dependencies/">Read the research article ↗</a><a class="under-link" href="{{site.thesis}}" target="_blank" rel="noopener noreferrer">Original thesis (PDF) ↗</a></div></div><div class="research-aside"><span class="section-label">Explore the idea</span><div class="equation">y(t) ≈ f(t)</div><p>Can the same expression describe the entire series, or should it hold only over part of it?</p><p>The accompanying experiment uses invented data and ordinary line fits. It is not thesis software.</p><a href="{{base}}research/trend-dependencies/#experiment" class="aside-link">Try the synthetic experiment ↗</a></div></div></section>
+{% endblock %}

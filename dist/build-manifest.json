@@ -1,0 +1,17 @@
+{
+  "generated": "2026-11-05",
+  "base": "/",
+  "routes": [
+    "/",
+    "/work/",
+    "/research/",
+    "/about/",
+    "/contact/",
+    "/resume/",
+    "/work/analytics-pipeline/",
+    "/work/piano-transcription/",
+    "/work/evaluated-rag/",
+    "/research/trend-dependencies/"
+  ],
+  "excluded_drafts": []
+}

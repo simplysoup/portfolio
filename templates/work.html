@@ -1,0 +1,6 @@
+{% extends 'base.html' %}{% block content %}
+<section class="page-head shell"><p class="section-label">Work</p><h1>Selected projects.</h1><p>Personal projects with public repositories and enough documentation to inspect the decisions behind them. Professional code and internal results are not included.</p></section>
+<section class="shell page-body"><div class="project-index">
+{% for slug in ['evaluated-rag','analytics-pipeline','piano-transcription'] %}{% set item = work[slug] %}<a class="project-row" href="{{base}}work/{{slug}}/"><span class="project-no">0{{loop.index}}</span><span class="project-main"><strong>{{item.title}}</strong><small>{{item.description}}</small></span><span class="project-side">{{item.year}}<br>Public repository</span><span class="project-arrow" aria-hidden="true">↗</span></a>{% endfor %}
+</div><p class="work-note">I also work on AI systems professionally, both independently and with a team. I don't publish internal software names, source code, configurations, security implementations, or unapproved project outcomes here.</p></section>
+{% endblock %}

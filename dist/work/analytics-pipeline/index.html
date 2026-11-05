@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f6f2">
+  <meta name="description" content="A local DuckDB + dbt analytics pipeline that makes incremental correctness and data-quality failures visible.">
+  <title>Testing incremental models with dbt and DuckDB · Nicholas Bode</title>
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Testing incremental models with dbt and DuckDB · Nicholas Bode">
+  <meta property="og:description" content="A local DuckDB + dbt analytics pipeline that makes incremental correctness and data-quality failures visible.">
+  <meta property="og:image" content="/assets/og-cover.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <link rel="stylesheet" href="/assets/styles.css">
+  <script defer src="/assets/site.js"></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header"><div class="shell header-inner">
+  <a class="brand" href="/" aria-label="Nicholas Bode home"><span class="brand-monogram" aria-hidden="true">nb.</span><span>Nicholas Bode</span></a>
+  <nav class="nav" aria-label="Main navigation">
+    <a href="/work/" aria-current="page">Work</a>
+    <a href="/research/" >Research</a>
+    <a href="/about/" >About</a>
+    <a href="/contact/" >Contact</a>
+  </nav>
+</div></header>
+<main id="main"><article>
+  <header class="article-header shell"><a href="/work/" class="back-link">← All projects</a><p class="section-label">PUBLIC DEMO / DATA ENGINEERING · 2026</p><h1>Testing incremental models with dbt and DuckDB</h1><p class="article-deck">A local DuckDB + dbt analytics pipeline that makes incremental correctness and data-quality failures visible.</p><dl class="article-meta"><div><dt>Ownership</dt><dd>Independently developed</dd></div><div><dt>Status</dt><dd>Public repository; locally verified synthetic-data demo</dd></div><div><dt>Type</dt><dd>Engineering case study</dd></div></dl></header>
+  <div class="shell article-layout"><aside class="article-rail"><div class="sticky-rail"><p class="section-label">Notes</p><p>This write-up describes a public repository. It makes no claims about production use.</p><a href="/research/">Research ↗</a></div></aside><div class="article-prose prose"><h2>The problem</h2>
+<p>An incremental warehouse model looks simple until an old order changes, a duplicate arrives, a null value appears, or a source row disappears. I built a small local test to verify those cases without paid infrastructure or confidential data.</p>
+<p>This independently built demonstration uses <strong>synthetic orders and customers</strong>, Python ingestion, DuckDB, dbt transformations and tests, and CI. The repository contains setup instructions, integration tests, lineage and documented design tradeoffs.</p>
+<p><a href="https://github.com/simplysoup/analytics-pipeline-dbt">Explore the public project, tests, and design notes ↗</a></p>
+<h2>Data flow and ownership boundaries</h2>
+<ol>
+<li><strong>Generate data:</strong> deterministic synthetic records, with duplicates, null quantities, late-arriving orders, and a small customer dimension.</li>
+<li><strong>Ingest:</strong> Python loads the complete CSV snapshots into DuckDB using <code>CREATE OR REPLACE</code>. This stage is <em>idempotent snapshot loading</em>, not incremental ingestion.</li>
+<li><strong>Stage and normalize:</strong> dbt views deduplicate source records, preserve intentionally null quantities, and standardize types.</li>
+<li><strong>Transform:</strong> an intermediate view calculates amounts and flags null quantities. The customer dimension is kept separate rather than copying mutable attributes onto order facts.</li>
+<li><strong>Incremental fact:</strong> <code>fct_orders</code> merges over the full staging set on <code>order_id</code>, updating changed historical orders and inserting new ones.</li>
+<li><strong>Test and report:</strong> tests gate the build; JSON run logging and integration checks expose behavior after a changed source.</li>
+</ol>
+<h2>Testing the update semantics</h2>
+<p>The project documents a local integration test that modifies a historical record, inserts a late order and a duplicate, introduces null cases, reruns the pipeline, and checks the resulting warehouse state. A second unchanged run is checked for duplicate-free idempotency.</p>
+<table>
+<thead>
+<tr>
+<th>Contract</th>
+<th>Why it matters</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>order_id</code> merge key</td>
+<td>A changed historical order replaces its former fact state</td>
+</tr>
+<tr>
+<td>Source-relative freshness</td>
+<td>Staleness is evaluated against actual input, not an arbitrary calendar offset</td>
+</tr>
+<tr>
+<td>Customer dimension</td>
+<td>Avoids duplicating mutable customer attributes inside the fact table</td>
+</tr>
+<tr>
+<td>Null-quantity warning</td>
+<td>Known sample problems remain inspectable rather than silently disappearing</td>
+</tr>
+<tr>
+<td>Failing tests gate CI</td>
+<td>Schema or data errors can stop a build instead of becoming green dashboards</td>
+</tr>
+<tr>
+<td>Idempotency integration test</td>
+<td>Repeat runs should not generate additional facts</td>
+</tr>
+</tbody>
+</table>
+<p>The README documents <strong>18 dbt tests</strong> and a verified run with <strong>PASS=22, WARN=1</strong> across models and test nodes. Its integration check reports a restored baseline of 1,010 fact rows and a mutated run of 1,012; the repeated mutated run remained at 1,012. These numbers describe only the repository's small, generated fixtures.</p>
+<h2>Tradeoffs and known limitations</h2>
+<p>The full-staging merge prioritizes correctness and simple reasoning over optimized large-scale warehouse throughput. It <strong>does not delete</strong> target facts whose source records vanish. Snapshot ingestion also reloads the entire raw dataset each time; it does not track an ingestion watermark.</p>
+<p>DuckDB is the <strong>tested</strong> target. The README discusses Snowflake compatibility as a possible adaptation, but does not claim that this project has actually run there. Airflow is represented by a demo DAG, not a continuously operated scheduler.</p>
+<h2>What the tests establish</h2>
+<p>The tests check what happens when an existing order changes, when a duplicate is inserted, and when the same input runs twice. Those are the cases that would make this pipeline fail silently without explicit checks.</p>
+<p><strong>Source:</strong> <a href="https://github.com/simplysoup/analytics-pipeline-dbt">Repository, README and architectural tradeoff notes</a>. This is a local demonstration and not an employer or production pipeline.</p>
+</div></div>
+</article></main>
+<footer class="site-footer"><div class="shell">
+  <div class="footer-top"><div><span class="section-label">Contact</span><h2>Get in touch.</h2><p>For engineering and research conversations.</p></div><a class="footer-email" href="mailto:nickbode71@gmail.com">nickbode71@gmail.com <span aria-hidden="true">↗</span></a></div>
+  <div class="footer-bottom"><span>© 2026 Nicholas Bode · Toronto</span><div><a href="https://github.com/simplysoup" target="_blank" rel="noopener noreferrer">GitHub</a><a href="https://www.linkedin.com/in/nicholas-bode-6a29ab1bb/" target="_blank" rel="noopener noreferrer">LinkedIn</a><a href="/resume/">Résumé</a></div></div>
+</div></footer>
+</body></html>

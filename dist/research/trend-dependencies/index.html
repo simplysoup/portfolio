@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f6f2">
+  <meta name="description" content="An accessible guide to trend dependencies, approximate constraints over evolving time series, with an explicitly synthetic experiment.">
+  <title>Discovering trend dependencies in time-series data · Nicholas Bode</title>
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Discovering trend dependencies in time-series data · Nicholas Bode">
+  <meta property="og:description" content="An accessible guide to trend dependencies, approximate constraints over evolving time series, with an explicitly synthetic experiment.">
+  <meta property="og:image" content="/assets/og-cover.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <link rel="stylesheet" href="/assets/styles.css">
+  <script defer src="/assets/site.js"></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header"><div class="shell header-inner">
+  <a class="brand" href="/" aria-label="Nicholas Bode home"><span class="brand-monogram" aria-hidden="true">nb.</span><span>Nicholas Bode</span></a>
+  <nav class="nav" aria-label="Main navigation">
+    <a href="/work/" >Work</a>
+    <a href="/research/" aria-current="page">Research</a>
+    <a href="/about/" >About</a>
+    <a href="/contact/" >Contact</a>
+  </nav>
+</div></header>
+<main id="main"><article>
+  <header class="article-header shell"><a href="/research/" class="back-link">← Research</a><p class="section-label">MSc RESEARCH / TIME SERIES · 2023 / 2026 EXPLAINER</p><h1>Discovering trend dependencies in time-series data</h1><p class="article-deck">An accessible guide to trend dependencies, approximate constraints over evolving time series, with an explicitly synthetic experiment.</p><dl class="article-meta"><div><dt>Ownership</dt><dd>Original MSc research</dd></div><div><dt>Status</dt><dd>Public thesis; synthetic interactive explainer</dd></div><div><dt>Type</dt><dd>Research article + interactive experiment</dd></div></dl></header>
+  <div class="shell article-layout"><aside class="article-rail"><div class="sticky-rail"><p class="section-label">Notes</p><p>The thesis is public. The interactive example uses separately generated data.</p><a href="/work/">Other projects ↗</a></div></aside><div class="article-prose prose"><h2>Why time-series relationships are difficult</h2>
+<p>Many data constraints are written as if the world stays still: a key identifies one record, or an attribute determines another. Time-series data is less cooperative. Measurements fluctuate, trends shift, and relationships may only hold over particular windows or under particular conditions.</p>
+<p>My MSc thesis, <em>Discovery of Trend Dependencies Over Time-Series</em>, explored a family of <strong>approximate and conditional functional constraints</strong> for evolving, noisy time series. Instead of insisting that every observation agrees with one exact expression, the approach asks which relationships can describe meaningful trends within suitable segments.</p>
+<p><a href="https://ontariotechu.scholaris.ca/server/api/core/bitstreams/af2acd24-e895-43e3-8781-b04aca070e66/content">Read the original thesis (Ontario Tech repository) ↗</a></p>
+<h2>Global and segmented constraints</h2>
+<p>Suppose a measured variable <code>y</code> depends on time <code>t</code>. A simple global relationship might be written as <code>y ≈ f(t)</code>, with some allowance for observation noise. But a single <code>f</code> may become misleading after a change in process, measurement conditions, or underlying behavior.</p>
+<p>A segmented alternative asks whether different functions better describe different intervals. The relevant questions are not merely <em>how low is the regression loss?</em> but also <em>where does the relationship hold?</em> and <em>what kind of deviation is meaningful?</em></p>
+<p>The original research considered segmentation, candidate filtering and sampling, transformer-based symbolic regression, and policy-gradient learning as ways to discover such structure. It explored potential uses in anomaly detection and missing-value estimation and evaluated approaches on synthetic and real-world time series.</p>
+<h2>An example with a known breakpoint</h2>
+<p>The interactive exhibit below generates a <strong>synthetic trend</strong> using a fixed pseudo-random sequence. Move the controls to change the magnitude of noise, an abrupt level shift, or the residual tolerance used in a deliberately simple accept/reject rule. Toggle segmented fitting to see how fitting two lines can behave differently from a single global line.</p>
+<p>This is <strong>not a reimplementation of the thesis algorithm</strong>. The browser performs ordinary least-squares line fitting and reports the fraction of invented data points within the selected residual threshold. It is meant to build intuition, not to reproduce published results or define the thesis's formal TD validity test.</p>
+<h2>Three issues that matter when fitting a relationship</h2>
+<h3>1. Choosing a function does not settle validity</h3>
+<p>A more flexible model may reduce error without producing a relationship that is understandable or stable. Research into symbolic forms asks whether useful structure can be expressed rather than merely predicted.</p>
+<h3>2. Segmentation changes the hypothesis</h3>
+<p>A single function for an entire sequence and a pair of functions over separate windows are different kinds of claims. A changepoint is not automatically an anomaly; it can be evidence that the data-generating process has changed.</p>
+<h3>3. Approximation requires explicit criteria</h3>
+<p>If a constraint admits some noise, what counts as sufficiently close? Any threshold changes what the system considers a violation. A rigorous implementation must state how candidates are scored, how segments are selected, and how evaluation avoids overfitting.</p>
+<h2>Primary source</h2>
+<p><strong>Bode, Nicholas.</strong> <em>Discovery of Trend Dependencies Over Time-Series.</em> MSc thesis, Ontario Tech University, November 2023. The public thesis is the source for the actual algorithms, definitions, experimental design, and results.</p>
+<p>The interactive chart on this page is a new educational simplification based on the general idea; all displayed values are synthetic and should be interpreted only in that context.</p>
+</div></div>
+  <section id="experiment" class="interactive-band"><div class="shell"><div class="interactive-intro"><p class="section-label">Interactive example</p><h2>One line or two?</h2><p>Change the noise, the size of a structural break, and the allowable residual. This is a synthetic illustration with ordinary least-squares fits, not a reproduction of the thesis algorithm.</p></div><div id="trend-lab" class="trend-exhibit" data-exhibit="trend"></div></div></section>
+</article></main>
+<footer class="site-footer"><div class="shell">
+  <div class="footer-top"><div><span class="section-label">Contact</span><h2>Get in touch.</h2><p>For engineering and research conversations.</p></div><a class="footer-email" href="mailto:nickbode71@gmail.com">nickbode71@gmail.com <span aria-hidden="true">↗</span></a></div>
+  <div class="footer-bottom"><span>© 2026 Nicholas Bode · Toronto</span><div><a href="https://github.com/simplysoup" target="_blank" rel="noopener noreferrer">GitHub</a><a href="https://www.linkedin.com/in/nicholas-bode-6a29ab1bb/" target="_blank" rel="noopener noreferrer">LinkedIn</a><a href="/resume/">Résumé</a></div></div>
+</div></footer>
+</body></html>

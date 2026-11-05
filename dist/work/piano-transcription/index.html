@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f6f2">
+  <meta name="description" content="An audio-to-MIDI-to-score pipeline that makes timing preservation and notation loss explicit.">
+  <title>From expressive piano audio to editable notation · Nicholas Bode</title>
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="From expressive piano audio to editable notation · Nicholas Bode">
+  <meta property="og:description" content="An audio-to-MIDI-to-score pipeline that makes timing preservation and notation loss explicit.">
+  <meta property="og:image" content="/assets/og-cover.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <link rel="stylesheet" href="/assets/styles.css">
+  <script defer src="/assets/site.js"></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header"><div class="shell header-inner">
+  <a class="brand" href="/" aria-label="Nicholas Bode home"><span class="brand-monogram" aria-hidden="true">nb.</span><span>Nicholas Bode</span></a>
+  <nav class="nav" aria-label="Main navigation">
+    <a href="/work/" aria-current="page">Work</a>
+    <a href="/research/" >Research</a>
+    <a href="/about/" >About</a>
+    <a href="/contact/" >Contact</a>
+  </nav>
+</div></header>
+<main id="main"><article>
+  <header class="article-header shell"><a href="/work/" class="back-link">← All projects</a><p class="section-label">PUBLIC PROJECT / AUDIO ML · 2026</p><h1>From expressive piano audio to editable notation</h1><p class="article-deck">An audio-to-MIDI-to-score pipeline that makes timing preservation and notation loss explicit.</p><dl class="article-meta"><div><dt>Ownership</dt><dd>Independently developed</dd></div><div><dt>Status</dt><dd>Public repository; prototype pipeline with documented limitations</dd></div><div><dt>Type</dt><dd>Engineering case study</dd></div></dl></header>
+  <div class="shell article-layout"><aside class="article-rail"><div class="sticky-rail"><p class="section-label">Notes</p><p>This write-up describes a public repository. It makes no claims about production use.</p><a href="/research/">Research ↗</a></div></aside><div class="article-prose prose"><h2>The problem</h2>
+<p>A piano performance is a sequence of notes, durations, dynamics and expressive timing. A readable score is a different representation. Turning a recording into notation therefore involves more than recognizing pitches: it forces a choice between <strong>preserving the performance</strong> and <strong>regularizing it into a readable grid</strong>.</p>
+<p>I built a pipeline for recordings the user owns or is authorized to process. It takes local audio/video or an authorized URL, extracts a WAV file, runs a transcription model, preserves the resulting performance MIDI, and produces editable MusicXML and optionally PDF scores.</p>
+<p><a href="https://github.com/simplysoup/yt-piano-transcription">Explore the public source and usage notes ↗</a></p>
+<h2>Processing stages</h2>
+<ol>
+<li><strong>Input:</strong> accept a local recording or a permitted video URL; use <code>yt-dlp</code> for URLs only.</li>
+<li><strong>Normalize audio:</strong> <code>ffmpeg</code> converts the source to 44.1 kHz mono WAV.</li>
+<li><strong>Transcribe:</strong> Transkun produces performance MIDI. The original is kept intact as the reference output.</li>
+<li><strong>Score conversion:</strong> create full MusicXML and a simplified alternative, using MuseScore when PDF rendering is requested.</li>
+<li><strong>Optional grid mode:</strong> snap notes to a fixed tempo grid only on explicit request; timing-preserving conversion is the default.</li>
+</ol>
+<h2>Default: preserve performance timing</h2>
+<p>The implementation favors <strong>timing fidelity</strong> over pretending it can automatically infer a composer's intended notation. Grid quantization can move onsets and note lengths. Conversely, preserving expressive performance timing can generate intricate written rhythms.</p>
+<p>The project supports a simplified score by identifying possible ornament notes, while preserving their original timestamps in a separate record. That simplification is heuristic: flagged notes may be legitimate musical material, and should be reviewed against the recording.</p>
+<h2>A preprocessing step I removed</h2>
+<p>An attempted source-separation/denoising stage was removed after it suppressed real notes in test material. For solo piano, that cost outweighed its apparent preprocessing benefit. This is a useful example of why a plausible model-pipeline stage should be justified through observed behavior, rather than inserted because it is fashionable.</p>
+<h2>What remains uncertain</h2>
+<table>
+<thead>
+<tr>
+<th>Area</th>
+<th>Current limitation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Hand assignment</td>
+<td>Grand staff uses a pitch split, not learned left/right-hand identification</td>
+</tr>
+<tr>
+<td>Meter</td>
+<td>Defaults to 4/4 unless explicitly specified</td>
+</tr>
+<tr>
+<td>Key signature</td>
+<td>Inferred heuristically; may fail on chromatic or modal music</td>
+</tr>
+<tr>
+<td>Tempo</td>
+<td>Grid mode's estimate can choose half or double time</td>
+</tr>
+<tr>
+<td>Ornament detection</td>
+<td>Conservative heuristic; possible false positives</td>
+</tr>
+<tr>
+<td>Engraving</td>
+<td>Editable prototype, not guaranteed professional notation</td>
+</tr>
+</tbody>
+</table>
+<p>The repository is an <strong>experimental tool</strong>, not a claim of perfect transcription or automated music engraving. The stated license in the README should be checked against the repository's license file before any reuse of its code; this portfolio only links to the source.</p>
+<p><strong>Source:</strong> <a href="https://github.com/simplysoup/yt-piano-transcription">Solo piano transcription repository</a>.</p>
+</div></div>
+</article></main>
+<footer class="site-footer"><div class="shell">
+  <div class="footer-top"><div><span class="section-label">Contact</span><h2>Get in touch.</h2><p>For engineering and research conversations.</p></div><a class="footer-email" href="mailto:nickbode71@gmail.com">nickbode71@gmail.com <span aria-hidden="true">↗</span></a></div>
+  <div class="footer-bottom"><span>© 2026 Nicholas Bode · Toronto</span><div><a href="https://github.com/simplysoup" target="_blank" rel="noopener noreferrer">GitHub</a><a href="https://www.linkedin.com/in/nicholas-bode-6a29ab1bb/" target="_blank" rel="noopener noreferrer">LinkedIn</a><a href="/resume/">Résumé</a></div></div>
+</div></footer>
+</body></html>
