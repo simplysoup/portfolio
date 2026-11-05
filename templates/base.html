@@ -18,6 +18,9 @@
   <script defer src="{{ base }}assets/site.js"></script>
   <script defer src="{{ base }}assets/field.js"></script>
   <script defer src="{{ base }}assets/motion.js"></script>
+  <script defer src="{{ base }}assets/gallery.js"></script>
+  <script defer src="{{ base }}assets/nav.js"></script>
+  <script defer src="{{ base }}assets/scroll.js"></script>
 </head>
 <body>
 <div class="route-veil" data-route-veil aria-hidden="true"><div class="veil-grain"></div><span class="veil-sign">N / B</span><span class="veil-line"></span></div>
@@ -30,6 +33,17 @@
     <a href="{{ base }}about/" {% if nav == 'about' %}aria-current="page"{% endif %}>About</a>
     <a href="{{ base }}contact/" {% if nav == 'contact' %}aria-current="page"{% endif %}>Contact</a>
   </nav>
+  <button class="mobile-nav-toggle" type="button" data-mobile-nav-toggle aria-controls="mobile-nav" aria-expanded="false" aria-label="Open navigation"><span>Menu</span><i aria-hidden="true"></i><i aria-hidden="true"></i></button>
+</div>
+<div id="mobile-nav" class="mobile-nav-panel" data-mobile-nav aria-hidden="true" inert>
+  <div class="mobile-nav-top"><span>NICHOLAS BODE / INDEX</span><span>01 — 04</span></div>
+  <nav aria-label="Mobile navigation">
+    <a href="{{ base }}work/"><span>01</span><strong>Work</strong><b aria-hidden="true">↗</b></a>
+    <a href="{{ base }}research/"><span>02</span><strong>Research</strong><b aria-hidden="true">↗</b></a>
+    <a href="{{ base }}about/"><span>03</span><strong>About</strong><b aria-hidden="true">↗</b></a>
+    <a href="{{ base }}contact/"><span>04</span><strong>Contact</strong><b aria-hidden="true">↗</b></a>
+  </nav>
+  <div class="mobile-nav-footer"><span>ENGINEERING / RESEARCH / MUSIC</span><span>TORONTO · 2026</span></div>
 </div></header>
 <main id="main">{% block content %}{% endblock %}</main>
 <footer class="site-footer"><div class="shell">

@@ -1,6 +1,6 @@
 [project]
 name = "nicholas-bode-portfolio"
-version = "0.5.0"
+version = "0.7.0"
 description = "Personal editorial portfolio for Nicholas Bode"
 requires-python = ">=3.11"
 dependencies = [

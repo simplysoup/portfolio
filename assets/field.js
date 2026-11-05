@@ -41,6 +41,14 @@
       return [axis,velocity];
     }
     function disturb(x,y,power=1){
+      // CSS ring is a second channel of visual feedback. On touch screens,
+      // it confirms immediately that the action registered, independently of
+      // the lower-contrast procedural point-field drawing.
+      if(!media.matches){
+        const ring=document.createElement('span');ring.className='field-impact';
+        ring.style.left=`${(x*100).toFixed(2)}%`;ring.style.top=`${(y*100).toFixed(2)}%`;
+        plate.appendChild(ring);setTimeout(()=>ring.remove(),1000);
+      }
       impulses.push({x,y,born:time,power});
       while(impulses.length>4)impulses.shift();
       state.energy=Math.max(state.energy,.95*power);
@@ -71,7 +79,7 @@
           // Lagrangian warp: near the pointer, points bend through a local field.
           const dx=x-mx,dy=y-my;
           const falloff=Math.exp(-(dx*dx+dy*dy)/(2*Math.pow(118*scale,2)));
-          const pressure=falloff*(state.energy*.24+(state.active?.22:0));
+          const pressure=falloff*(state.energy*.37+(state.active?.29:0));
           x+=dx*pressure;y+=dy*pressure;
           // A propagating wave from each touch/tap, decaying in time and space.
           let kick=0;
@@ -79,7 +87,7 @@
             const age=time-wave.born;if(age>2.2)continue;
             const distance=Math.hypot(x-wave.x*w,y-wave.y*h);
             const front=age*w*.65;
-            kick+=Math.sin((distance-front)/(17*scale))*Math.exp(-Math.pow((distance-front)/(64*scale),2))*Math.exp(-age*.85)*wave.power*14*scale;
+            kick+=Math.sin((distance-front)/(17*scale))*Math.exp(-Math.pow((distance-front)/(64*scale),2))*Math.exp(-age*.8)*wave.power*23*scale;
           }
           x+=ca*kick;y+=sa*kick;
           // Slow global drift makes the field feel alive even without mouse input.
@@ -94,6 +102,17 @@
           ctx.fillRect(x,y,Math.max(.65,d),Math.max(.65,d));
           ambient+=opacity;
         }
+      }
+      // Draw visible traveling wavefronts. An earlier version displaced dots,
+      // but the change was too subtle to read on a small touchscreen.
+      for(const wave of impulses){
+        const age=time-wave.born;
+        if(age<=0 || age>1.7)continue;
+        const radius=age*w*.54;
+        const opacity=Math.pow(1-age/1.7,1.6)*.45*wave.power;
+        ctx.beginPath();ctx.arc(wave.x*w,wave.y*h,radius,0,TAU);
+        ctx.strokeStyle=`rgba(217,239,139,${opacity.toFixed(3)})`;
+        ctx.lineWidth=Math.max(.9,2.25*scale)*(1+age*.25);ctx.stroke();
       }
       // Three tiny focal points; the viewer's eye has a stable anchor.
       ctx.shadowColor='rgba(217,239,139,.65)';ctx.shadowBlur=9*scale;

@@ -22,7 +22,16 @@ base=BeautifulSoup((DIST/'index.html').read_text(),'html.parser')
 for n in base.select('link[rel="stylesheet"],script[src],link[rel="icon"],link[rel="canonical"],meta[property="og:image"]'):
     n.decompose()
 style=base.new_tag('style');style.string=(DIST/'assets/styles.css').read_text();base.head.append(style)
-main=base.find('main');main.clear()
+# Keep the homepage rendered in the document as a progressive static fallback.
+# Previous versions removed all <main> content before JavaScript started, so
+# restrictive Android file viewers could display an empty, non-interactive site.
+main=base.find('main')
+for a in main.select('a[href^="/"]'):
+    href=a.get('href','')
+    a['href']='#'+href
+noscript=base.new_tag('noscript')
+noscript.string='Interactive elements require JavaScript. This file may open in a restricted document viewer on Android. Choose Open with Chrome/Firefox or serve the built site over HTTP.'
+main.insert_before(noscript)
 # Protect script contents from accidental HTML parsing.
 payload=json.dumps(pages,ensure_ascii=True,separators=(',',':')).replace('<','\\u003c').replace('>','\\u003e')
 script="""
@@ -52,6 +61,8 @@ script="""
    if(typeof initPortfolioExhibits === 'function') initPortfolioExhibits();
    if(typeof initializeField === 'function') initializeField();
    if(typeof initMotionSystem === 'function') initMotionSystem();
+   if(typeof initGallery === 'function') initGallery();
+   if(typeof initMobileNav === 'function') initMobileNav();
    requestAnimationFrame(() => { if(anchor){const el=document.getElementById(anchor);if(el)el.scrollIntoView();}else window.scrollTo(0,0); });
  }
  window.addEventListener('hashchange',()=>{
@@ -65,7 +76,7 @@ script="""
  render();
 })();
 """.replace('__PAGE_DATA__',payload)
-js='\n'.join((DIST/'assets'/name).read_text() for name in ('site.js','field.js','motion.js'))
+js='\n'.join((DIST/'assets'/name).read_text() for name in ('site.js','field.js','motion.js','gallery.js','nav.js','scroll.js'))
 new_script=base.new_tag('script');new_script.string=js
 base.body.append(new_script)
 router=base.new_tag('script');router.string=script

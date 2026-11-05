@@ -1,30 +1,37 @@
-# Nicholas Bode — personal portfolio / atelier 06
+# Nicholas Bode — personal portfolio / Atelier 07
 
-A dark, editorial engineering portfolio with original interactive signal-point artwork, curated public case studies, a research article, and two synthetic technical exhibits. This is a static site: the built output requires no database, Python runtime or JavaScript bundler in production.
+Dark editorial portfolio with an original generative field, motion-directed project index, research writing, and two synthetic exhibits. This is a **static website**; no backend or employer assets are included.
 
-## Build with `uv`
-
-Install [uv](https://docs.astral.sh/uv/) first, then run:
+## Build and run using `uv`
 
 ```sh
 uv sync
 uv run python scripts/build.py
 uv run python scripts/build_preview.py
-```
-
-`dist/` is the deployable static site. `portfolio-preview.html` is a single-file, offline preview (all 10 routes embedded); open it directly in a browser. No local server is needed for the preview.
-
-For normal local development:
-
-```sh
 uv run python -m http.server 8000 --directory dist
 ```
 
-Open `http://localhost:8000`. When content or assets change, rerun `uv run python scripts/build.py`.
+Open `http://localhost:8000` on your computer. For a phone on the same Wi-Fi network, use `http://YOUR_COMPUTER_LAN_IP:8000` (and allow the connection through your firewall). **Serving the site over HTTP is the recommended way to test interactions on a real phone.** You can also deploy `dist/` to any static host.
 
-A lockfile can be generated with `uv lock` when PyPI is reachable. This project has a `pyproject.toml` as the dependency source of truth. The build environment used for this deliverable had PyPI network access blocked, so no generated lockfile is represented as verified.
+`portfolio-preview.html` is a single-file route preview. It contains no external scripts or CSS. On desktop, open it in a full browser. **Android file-manager and in-app HTML viewers can disable JavaScript, so opening the HTML directly on a phone is not a reliable interactive test.** When script execution is blocked, the preview now shows a readable homepage and warning instead of an empty page. To test interactions, serve the real site over HTTP as above.
 
-## Browser regression checks
+`uv.lock` is not included because the working environment could not reach the package registry; do not interpret the lack of a lockfile as a successful resolution. Run `uv lock` in a normal networked environment.
+
+## Motion specification
+
+The original visual language remains Paper / Ink / Cobalt / Signal / Slate. Animation principles are drawn from **both user-supplied site bundles**, but all code, visuals and words in the portfolio were implemented independently:
+
+- Masked, staggered headline lines: exponential-out style cubic `(.16,1,.3,1)` and approximately 100 ms offsets.
+- Cinematic project-switch curtain: cubic `(.65,0,.35,1)` with a coordinated outgoing text, scene change and incoming text; not a simple opacity fade.
+- A new full-size project gallery: three original SVG artworks with trace movement, state transitions, and audio-to-notation timing. Prev/next buttons, numbered tabs, arrow keys, and horizontal swipes all work.
+- Mobile navigation as a full-screen typographic curtain with focus management and escape close.
+- Generative canvas field: idle animation, spring-following on desktop, and a large, visible ripple on tap or button input on mobile.
+- Scroll-synchronized motion on research artwork and project scene; no scroll-jacking.
+- Reduced-motion support across entrances, gallery, menu, canvas and page transitions.
+
+See [MOTION_SYSTEM.md](MOTION_SYSTEM.md) for the measured easing curves, interaction details, and reference interpretation.
+
+## Test the *distributable HTML*
 
 ```sh
 uv sync --extra test
@@ -32,18 +39,16 @@ uv run --extra test playwright install chromium
 uv run --extra test python tests/check_interactions.py
 ```
 
-The browser checks cover autonomous animation, desktop pointer response, an emulated touchscreen tap on mobile, reduced-motion behavior, page transitions, project reveals, and both interactive exhibits. Set `BROWSER_EXECUTABLE` if you want to use a system Chromium binary instead of Playwright's own browser.
+The tests use the packaged HTML bytes and emulate a touchscreen tap and a genuine Chromium touch-swipe, as well as mobile navigation, links, keyboard/reduced motion, and the no-script fallback. The test environment forbids direct automation of `file://` and `http://localhost` navigation, so tests inject the **same HTML bytes** into Chromium; they do not assert that Android's external file viewers run JavaScript. Physical-device testing via HTTP remains necessary.
 
-## Design notes
+## Publish responsibly
 
-- **Identity:** Ink background, Paper text, Cobalt secondary accent, Signal highlights, Slate interface annotations.
-- **Typography:** a large editorial sans-serif display with a single italic serif accent, understated body copy, and monospaced technical annotations. No downloaded font files.
-- **Hero:** an original animated polar point field that follows a spring-driven pointer and responds to tap impulses. On small screens it is a visible, touchable stage beneath the introduction. It remains static under `prefers-reduced-motion`.
-- **Architecture:** Jinja2 and MarkdownIt for prerendering, authored Markdown articles, dependency-light vanilla JavaScript for the client-side exhibits, original canvas artwork, WAAPI sequence direction, and responsive page transitions. No confidential APIs or data.
-- **Ownership:** professional experience is described generically; all featured source links are independent public projects. Employer product names, internal code, and unapproved claims are excluded.
+Public case studies link to independently owned GitHub projects. The employer description is deliberately high-level; the proprietary product name, unreleasable metrics, internal tooling and unapproved architecture are excluded. Do not add any employer screenshot, client data, or internal code without approval.
 
-See [MOTION_SYSTEM.md](MOTION_SYSTEM.md) for the reference study, independent implementation, timing specifications, touch design, and test coverage.
+To deploy at the domain root:
 
-## Publication
+```sh
+SITE_URL=https://your-domain.example uv run python scripts/build.py
+```
 
-Set `SITE_URL=https://your-domain.example` when building for production. For subpath hosting, also set `SITE_BASE=repo-name`. Review content against the current public repositories before a final deployment, and add an approved resume PDF if required. Never publish employer repository code, internal tools, unpublished metrics, or confidential assets.
+For GitHub Pages project-subpath hosting, additionally set `SITE_BASE=repository-name`. Publish only `dist/`.

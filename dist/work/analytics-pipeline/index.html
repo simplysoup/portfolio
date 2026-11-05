@@ -16,6 +16,9 @@
   <script defer src="/assets/site.js"></script>
   <script defer src="/assets/field.js"></script>
   <script defer src="/assets/motion.js"></script>
+  <script defer src="/assets/gallery.js"></script>
+  <script defer src="/assets/nav.js"></script>
+  <script defer src="/assets/scroll.js"></script>
 </head>
 <body>
 <div class="route-veil" data-route-veil aria-hidden="true"><div class="veil-grain"></div><span class="veil-sign">N / B</span><span class="veil-line"></span></div>
@@ -28,6 +31,17 @@
     <a href="/about/" >About</a>
     <a href="/contact/" >Contact</a>
   </nav>
+  <button class="mobile-nav-toggle" type="button" data-mobile-nav-toggle aria-controls="mobile-nav" aria-expanded="false" aria-label="Open navigation"><span>Menu</span><i aria-hidden="true"></i><i aria-hidden="true"></i></button>
+</div>
+<div id="mobile-nav" class="mobile-nav-panel" data-mobile-nav aria-hidden="true" inert>
+  <div class="mobile-nav-top"><span>NICHOLAS BODE / INDEX</span><span>01 — 04</span></div>
+  <nav aria-label="Mobile navigation">
+    <a href="/work/"><span>01</span><strong>Work</strong><b aria-hidden="true">↗</b></a>
+    <a href="/research/"><span>02</span><strong>Research</strong><b aria-hidden="true">↗</b></a>
+    <a href="/about/"><span>03</span><strong>About</strong><b aria-hidden="true">↗</b></a>
+    <a href="/contact/"><span>04</span><strong>Contact</strong><b aria-hidden="true">↗</b></a>
+  </nav>
+  <div class="mobile-nav-footer"><span>ENGINEERING / RESEARCH / MUSIC</span><span>TORONTO · 2026</span></div>
 </div></header>
 <main id="main"><article>
   <header class="article-header shell"><a href="/work/" class="back-link">← All projects</a><p class="section-label">PUBLIC DEMO / DATA ENGINEERING · 2026</p><h1>Testing incremental models with dbt and DuckDB</h1><p class="article-deck">A local DuckDB + dbt analytics pipeline that makes incremental correctness and data-quality failures visible.</p><dl class="article-meta"><div><dt>Ownership</dt><dd>Independently developed</dd></div><div><dt>Status</dt><dd>Public repository; locally verified synthetic-data demo</dd></div><div><dt>Type</dt><dd>Engineering case study</dd></div></dl></header>

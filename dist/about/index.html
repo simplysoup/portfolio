@@ -16,6 +16,9 @@
   <script defer src="/assets/site.js"></script>
   <script defer src="/assets/field.js"></script>
   <script defer src="/assets/motion.js"></script>
+  <script defer src="/assets/gallery.js"></script>
+  <script defer src="/assets/nav.js"></script>
+  <script defer src="/assets/scroll.js"></script>
 </head>
 <body>
 <div class="route-veil" data-route-veil aria-hidden="true"><div class="veil-grain"></div><span class="veil-sign">N / B</span><span class="veil-line"></span></div>
@@ -28,6 +31,17 @@
     <a href="/about/" aria-current="page">About</a>
     <a href="/contact/" >Contact</a>
   </nav>
+  <button class="mobile-nav-toggle" type="button" data-mobile-nav-toggle aria-controls="mobile-nav" aria-expanded="false" aria-label="Open navigation"><span>Menu</span><i aria-hidden="true"></i><i aria-hidden="true"></i></button>
+</div>
+<div id="mobile-nav" class="mobile-nav-panel" data-mobile-nav aria-hidden="true" inert>
+  <div class="mobile-nav-top"><span>NICHOLAS BODE / INDEX</span><span>01 — 04</span></div>
+  <nav aria-label="Mobile navigation">
+    <a href="/work/"><span>01</span><strong>Work</strong><b aria-hidden="true">↗</b></a>
+    <a href="/research/"><span>02</span><strong>Research</strong><b aria-hidden="true">↗</b></a>
+    <a href="/about/"><span>03</span><strong>About</strong><b aria-hidden="true">↗</b></a>
+    <a href="/contact/"><span>04</span><strong>Contact</strong><b aria-hidden="true">↗</b></a>
+  </nav>
+  <div class="mobile-nav-footer"><span>ENGINEERING / RESEARCH / MUSIC</span><span>TORONTO · 2026</span></div>
 </div></header>
 <main id="main"><section class="page-head shell"><p class="section-label">About</p><h1>About me.</h1><p>I'm a Toronto-based AI engineer with a background in machine learning, data analytics, and computer science research.</p></section>
 <section class="shell about-layout page-body"><div class="prose"><h2>What I work on</h2><p>At Environics Analytics, my work has moved from geospatial data and product-quality investigations into AI application engineering. I've worked on model evaluation, tool interfaces, application development, and data processing. Some projects were mine to design and implement; others were team efforts.</p><p>I am interested in tests that show where software breaks, especially when language models are involved. I prefer a baseline, a controlled comparison, and a clear description of what a result does not establish.</p><h2>Education</h2><p>I earned a BSc in Computer Science with a Mathematics minor and an MSc in Computer Science at Ontario Tech University. My thesis, <em>Discovery of Trend Dependencies Over Time-Series</em>, studied approximate mathematical relationships in time-series data.</p><p>My public code includes document question answering, data-pipeline testing, and piano transcription. They're different problems, but each involves making a rough output measurable and usable.</p><p><a href="/research/">Research and publications ↗</a></p></div><aside class="about-aside"><span class="section-label">Links</span><a href="https://github.com/simplysoup" target="_blank" rel="noopener noreferrer">GitHub ↗</a><a href="https://www.linkedin.com/in/nicholas-bode-6a29ab1bb/" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a><a href="/contact/">Email ↗</a></aside></section>
