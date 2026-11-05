@@ -1,49 +1,34 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#15131B">
-  <meta name="description" content="A local DuckDB + dbt analytics pipeline that makes incremental correctness and data-quality failures visible.">
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#101111"><meta name="description" content="A local DuckDB + dbt analytics pipeline that makes incremental correctness and data-quality failures visible.">
   <title>Testing incremental models with dbt and DuckDB · Nicholas Bode</title>
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="Testing incremental models with dbt and DuckDB · Nicholas Bode">
-  <meta property="og:description" content="A local DuckDB + dbt analytics pipeline that makes incremental correctness and data-quality failures visible.">
-  <meta property="og:image" content="/assets/og-cover.png">
-  <meta name="twitter:card" content="summary_large_image">
+  <meta property="og:type" content="website"><meta property="og:title" content="Testing incremental models with dbt and DuckDB · Nicholas Bode"><meta property="og:description" content="A local DuckDB + dbt analytics pipeline that makes incremental correctness and data-quality failures visible.">
+  <meta property="og:image" content="/assets/og-cover.png"><meta name="twitter:card" content="summary_large_image">
   <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
-  <link rel="stylesheet" href="/assets/styles.css">
-  <script defer src="/assets/site.js"></script>
-  <script defer src="/assets/sculpture.js"></script>
-  <script defer src="/assets/motion.js"></script>
-  <script defer src="/assets/gallery.js"></script>
-  <script defer src="/assets/studio-effects.js"></script>
-  <script defer src="/assets/nav.js"></script>
-  <script defer src="/assets/scroll.js"></script>
+  <link rel="stylesheet" href="/assets/styles.css"><link rel="stylesheet" href="/assets/world.css">
+  <script defer src="/assets/site.js"></script><script defer src="/assets/world.js"></script>
 </head>
-<body>
-<div class="route-veil" data-route-veil aria-hidden="true"><div class="veil-grain"></div><span class="veil-sign">N / B</span><span class="veil-line"></span></div>
+<body class="is-document">
 <a class="skip-link" href="#main">Skip to content</a>
-<header class="site-header"><div class="shell header-inner">
-  <a class="brand" href="/" aria-label="Nicholas Bode home"><span class="brand-monogram" aria-hidden="true">N<span class="brand-separator">/</span>B</span><span class="brand-name">Nick Bode</span></a>
-  <nav class="nav" aria-label="Main navigation">
-    <a href="/work/" aria-current="page">Work</a>
-    <a href="/research/" >Research</a>
-    <a href="/about/" >About</a>
-    <a href="/contact/" >Contact</a>
+<div class="site-frame" aria-hidden="true"><span class="frame-tick"></span><span class="frame-tick"></span><span class="frame-tick"></span><span class="frame-tick"></span></div>
+<header class="world-header">
+  <a class="world-brand" href="/" aria-label="Nicholas Bode, index"><span class="brand-mark" aria-hidden="true">n<span class="brand-slash">/</span>b</span><span class="brand-name">nicholas bode</span></a>
+  <span class="world-header-descriptor">AI ENGINEERING <span aria-hidden="true">/</span> TORONTO</span>
+  <button type="button" class="world-menu-trigger" data-map-toggle aria-expanded="false" aria-controls="world-map"><span>INDEX</span><span class="menu-cross" aria-hidden="true"><i></i><i></i></span></button>
+</header>
+<div class="world-map" id="world-map" data-world-map aria-hidden="true" inert>
+  <div class="map-topline"><span>THE DIRECTORY / NB</span><span>CHOOSE A PLACE</span></div>
+  <nav aria-label="Site directory" class="map-destinations">
+    <a href="/#systems" data-map-dest="systems"><span>01</span><strong>Systems</strong><i>Engineering / evaluation</i></a>
+    <a href="/#research" data-map-dest="research"><span>02</span><strong>Research</strong><i>Patterns / methods</i></a>
+    <a href="/#music" data-map-dest="music"><span>03</span><strong>Music</strong><i>Piano / software</i></a>
+    <a href="/#about" data-map-dest="about"><span>04</span><strong>About</strong><i>Person / contact</i></a>
   </nav>
-  <button class="mobile-nav-toggle" type="button" data-mobile-nav-toggle aria-controls="mobile-nav" aria-expanded="false" aria-label="Open navigation"><span>Menu</span><i aria-hidden="true"></i><i aria-hidden="true"></i></button>
+  <div class="map-bottomline"><span>01—04 / A PERSONAL INDEX</span><span>ESC TO CLOSE</span></div>
 </div>
-<div id="mobile-nav" class="mobile-nav-panel" data-mobile-nav aria-hidden="true" inert>
-  <div class="mobile-nav-top"><span>NICHOLAS BODE / INDEX</span><span>01 — 04</span></div>
-  <nav aria-label="Mobile navigation">
-    <a href="/work/"><span>01</span><strong>Work</strong><b aria-hidden="true">↗</b></a>
-    <a href="/research/"><span>02</span><strong>Research</strong><b aria-hidden="true">↗</b></a>
-    <a href="/about/"><span>03</span><strong>About</strong><b aria-hidden="true">↗</b></a>
-    <a href="/contact/"><span>04</span><strong>Contact</strong><b aria-hidden="true">↗</b></a>
-  </nav>
-  <div class="mobile-nav-footer"><span>ENGINEERING / RESEARCH / MUSIC</span><span>TORONTO · 2026</span></div>
-</div></header>
+<div class="world-wipe" aria-hidden="true" data-wipe><i></i><i></i><i></i><i></i></div>
 <main id="main"><article>
   <header class="article-header shell"><a href="/work/" class="back-link">← All projects</a><p class="section-label">PUBLIC DEMO / DATA ENGINEERING · 2026</p><h1>Testing incremental models with dbt and DuckDB</h1><p class="article-deck">A local DuckDB + dbt analytics pipeline that makes incremental correctness and data-quality failures visible.</p><dl class="article-meta"><div><dt>Ownership</dt><dd>Independently developed</dd></div><div><dt>Status</dt><dd>Public repository; locally verified synthetic-data demo</dd></div><div><dt>Type</dt><dd>Engineering case study</dd></div></dl></header>
   <div class="shell article-layout"><aside class="article-rail"><div class="sticky-rail"><p class="section-label">More</p><p>Selected projects and research.</p><a href="/research/">Research ↗</a></div></aside><div class="article-prose prose"><h2>The problem</h2>
@@ -104,8 +89,5 @@
 <p><strong>Source:</strong> <a href="https://github.com/simplysoup/analytics-pipeline-dbt">Repository, README and architectural tradeoff notes</a>. This is a local demonstration and not an employer or production pipeline.</p>
 </div></div>
 </article></main>
-<footer class="site-footer"><div class="shell">
-  <div class="footer-top"><div><span class="section-label">Want to talk?</span><h2>Say hello.</h2><p>Work, side projects, research, or piano.</p></div><a class="footer-email" href="mailto:nickbode71@gmail.com">nickbode71@gmail.com <span aria-hidden="true">↗</span></a></div>
-  <div class="footer-bottom"><span>Nicholas Bode © 2026 · Toronto</span><div><a href="https://github.com/simplysoup" target="_blank" rel="noopener noreferrer">GitHub</a><a href="https://www.linkedin.com/in/nicholas-bode-6a29ab1bb/" target="_blank" rel="noopener noreferrer">LinkedIn</a><a href="/resume/">Résumé</a></div></div>
-</div></footer>
+<footer class="site-footer"><div class="shell"><div class="footer-top"><div><span class="section-label">Contact</span><h2>Get in touch.</h2><p>Engineering, independent projects, research, or piano.</p></div><a class="footer-email" href="mailto:nickbode71@gmail.com">nickbode71@gmail.com <span aria-hidden="true">↗</span></a></div><div class="footer-bottom"><span>Nicholas Bode · Toronto</span><div><a href="https://github.com/simplysoup" target="_blank" rel="noopener">GitHub</a><a href="https://www.linkedin.com/in/nicholas-bode-6a29ab1bb/" target="_blank" rel="noopener">LinkedIn</a><a href="/resume/">Résumé</a></div></div></div></footer>
 </body></html>

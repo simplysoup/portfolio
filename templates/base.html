@@ -1,54 +1,37 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#15131B">
-  <meta name="description" content="{{ description }}">
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#101111"><meta name="description" content="{{ description }}">
   <title>{{ title }} · Nicholas Bode</title>
   {% if 'example.com' not in url %}<link rel="canonical" href="{{ url }}">{% endif %}
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="{{ title }} · Nicholas Bode">
-  <meta property="og:description" content="{{ description }}">
-  {% if 'example.com' not in url %}<meta property="og:url" content="{{ url }}">{% endif %}
-  <meta property="og:image" content="{{ base }}assets/og-cover.png">
-  <meta name="twitter:card" content="summary_large_image">
-  <link rel="icon" type="image/svg+xml" href="{{ base }}assets/favicon.svg">
-  <link rel="stylesheet" href="{{ base }}assets/styles.css">
-  <script defer src="{{ base }}assets/site.js"></script>
-  <script defer src="{{ base }}assets/sculpture.js"></script>
-  <script defer src="{{ base }}assets/motion.js"></script>
-  <script defer src="{{ base }}assets/gallery.js"></script>
-  <script defer src="{{ base }}assets/studio-effects.js"></script>
-  <script defer src="{{ base }}assets/nav.js"></script>
-  <script defer src="{{ base }}assets/scroll.js"></script>
+  <meta property="og:type" content="website"><meta property="og:title" content="{{ title }} · Nicholas Bode"><meta property="og:description" content="{{ description }}">
+  <meta property="og:image" content="{{base}}assets/og-cover.png"><meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" type="image/svg+xml" href="{{base}}assets/favicon.svg">
+  <link rel="stylesheet" href="{{base}}assets/styles.css"><link rel="stylesheet" href="{{base}}assets/world.css">
+  <script defer src="{{base}}assets/site.js"></script><script defer src="{{base}}assets/world.js"></script>
 </head>
-<body>
-<div class="route-veil" data-route-veil aria-hidden="true"><div class="veil-grain"></div><span class="veil-sign">N / B</span><span class="veil-line"></span></div>
+<body class="{{'is-home' if nav=='home' else 'is-document'}}">
 <a class="skip-link" href="#main">Skip to content</a>
-<header class="site-header"><div class="shell header-inner">
-  <a class="brand" href="{{ base }}" aria-label="Nicholas Bode home"><span class="brand-monogram" aria-hidden="true">N<span class="brand-separator">/</span>B</span><span class="brand-name">Nick Bode</span></a>
-  <nav class="nav" aria-label="Main navigation">
-    <a href="{{ base }}work/" {% if nav == 'work' %}aria-current="page"{% endif %}>Work</a>
-    <a href="{{ base }}research/" {% if nav == 'research' %}aria-current="page"{% endif %}>Research</a>
-    <a href="{{ base }}about/" {% if nav == 'about' %}aria-current="page"{% endif %}>About</a>
-    <a href="{{ base }}contact/" {% if nav == 'contact' %}aria-current="page"{% endif %}>Contact</a>
+<div class="site-frame" aria-hidden="true"><span class="frame-tick"></span><span class="frame-tick"></span><span class="frame-tick"></span><span class="frame-tick"></span></div>
+<header class="world-header">
+  <a class="world-brand" href="{{base}}" aria-label="Nicholas Bode, index"><span class="brand-mark" aria-hidden="true">n<span class="brand-slash">/</span>b</span><span class="brand-name">nicholas bode</span></a>
+  <span class="world-header-descriptor">AI ENGINEERING <span aria-hidden="true">/</span> TORONTO</span>
+  <button type="button" class="world-menu-trigger" data-map-toggle aria-expanded="false" aria-controls="world-map"><span>INDEX</span><span class="menu-cross" aria-hidden="true"><i></i><i></i></span></button>
+</header>
+<div class="world-map" id="world-map" data-world-map aria-hidden="true" inert>
+  <div class="map-topline"><span>THE DIRECTORY / NB</span><span>CHOOSE A PLACE</span></div>
+  <nav aria-label="Site directory" class="map-destinations">
+    <a href="{{base}}#systems" data-map-dest="systems"><span>01</span><strong>Systems</strong><i>Engineering / evaluation</i></a>
+    <a href="{{base}}#research" data-map-dest="research"><span>02</span><strong>Research</strong><i>Patterns / methods</i></a>
+    <a href="{{base}}#music" data-map-dest="music"><span>03</span><strong>Music</strong><i>Piano / software</i></a>
+    <a href="{{base}}#about" data-map-dest="about"><span>04</span><strong>About</strong><i>Person / contact</i></a>
   </nav>
-  <button class="mobile-nav-toggle" type="button" data-mobile-nav-toggle aria-controls="mobile-nav" aria-expanded="false" aria-label="Open navigation"><span>Menu</span><i aria-hidden="true"></i><i aria-hidden="true"></i></button>
+  <div class="map-bottomline"><span>01—04 / A PERSONAL INDEX</span><span>ESC TO CLOSE</span></div>
 </div>
-<div id="mobile-nav" class="mobile-nav-panel" data-mobile-nav aria-hidden="true" inert>
-  <div class="mobile-nav-top"><span>NICHOLAS BODE / INDEX</span><span>01 — 04</span></div>
-  <nav aria-label="Mobile navigation">
-    <a href="{{ base }}work/"><span>01</span><strong>Work</strong><b aria-hidden="true">↗</b></a>
-    <a href="{{ base }}research/"><span>02</span><strong>Research</strong><b aria-hidden="true">↗</b></a>
-    <a href="{{ base }}about/"><span>03</span><strong>About</strong><b aria-hidden="true">↗</b></a>
-    <a href="{{ base }}contact/"><span>04</span><strong>Contact</strong><b aria-hidden="true">↗</b></a>
-  </nav>
-  <div class="mobile-nav-footer"><span>ENGINEERING / RESEARCH / MUSIC</span><span>TORONTO · 2026</span></div>
-</div></header>
+<div class="world-wipe" aria-hidden="true" data-wipe><i></i><i></i><i></i><i></i></div>
 <main id="main">{% block content %}{% endblock %}</main>
-<footer class="site-footer"><div class="shell">
-  <div class="footer-top"><div><span class="section-label">Want to talk?</span><h2>Say hello.</h2><p>Work, side projects, research, or piano.</p></div><a class="footer-email" href="mailto:{{ site.email }}">{{site.email}} <span aria-hidden="true">↗</span></a></div>
-  <div class="footer-bottom"><span>Nicholas Bode © 2026 · Toronto</span><div><a href="{{ site.github }}" target="_blank" rel="noopener noreferrer">GitHub</a><a href="{{ site.linkedin }}" target="_blank" rel="noopener noreferrer">LinkedIn</a><a href="{{ base }}resume/">Résumé</a></div></div>
-</div></footer>
+{% if nav!='home' %}
+<footer class="site-footer"><div class="shell"><div class="footer-top"><div><span class="section-label">Contact</span><h2>Get in touch.</h2><p>Engineering, independent projects, research, or piano.</p></div><a class="footer-email" href="mailto:{{site.email}}">{{site.email}} <span aria-hidden="true">↗</span></a></div><div class="footer-bottom"><span>Nicholas Bode · Toronto</span><div><a href="{{site.github}}" target="_blank" rel="noopener">GitHub</a><a href="{{site.linkedin}}" target="_blank" rel="noopener">LinkedIn</a><a href="{{base}}resume/">Résumé</a></div></div></div></footer>
+{% endif %}
 </body></html>

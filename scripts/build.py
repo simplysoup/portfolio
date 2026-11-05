@@ -63,7 +63,7 @@ if OUT.exists():shutil.rmtree(OUT)
 OUT.mkdir(parents=True)
 shutil.copytree(ROOT/'assets',OUT/'assets')
 
-render('', 'index.html', title='Software, experiments & research',description=SITE['description'], nav='home')
+render('', 'index.html', title='Personal index — engineering, research & music',description=SITE['description'], nav='home')
 render('work','work.html',title='Selected engineering work', description='Applied AI, evaluation, and systems engineering projects by Nicholas Bode.',nav='work')
 for slug,article in PUBLIC_WORK.items():
  render('work/'+slug,'article.html',title=article['title'],description=article['description'],nav='work',article=article,kind='work')

@@ -1,0 +1,12 @@
+THE DIRECTORY — Nicholas Bode's personal portfolio
+
+Open OPEN_PORTFOLIO.html in Chrome or Firefox after extracting this archive.
+If an Android document viewer blocks JavaScript, use a normal web server or
+refer to the included motion video; document viewers may refuse scripts.
+
+To run the full source site locally:
+  uv sync
+  uv run python scripts/build.py
+  uv run python -m http.server 8000 --directory dist
+
+The site is not deployed to a public URL.
