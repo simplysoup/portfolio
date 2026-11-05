@@ -1,13 +1,15 @@
-Directory 11 — offline preview
+THE DIRECTORY 12 — OFFLINE PREVIEW
 
-Extract the ZIP and open OPEN_PORTFOLIO.html with a real browser, not a document viewer.
+1. Extract the ZIP.
+2. Open OPEN_PORTFOLIO.html in a normal browser (Chrome, Firefox, Safari), rather than inside a document viewer.
+3. The four destination rows open chapters. The four small links below them open the actual project articles immediately, with no intermediate page.
+4. INDEX in the top-right corner opens a full-screen navigation layer; its bottom row also links directly to all four showcases.
+5. The MUSIC chapter shows an original, illustrative moving piano roll. It intentionally becomes static when the device requests reduced motion.
 
-The website is most reliable when served over HTTP/HTTPS. From the source ZIP:
+Android file viewers sometimes block scripts. If animations or navigation do not work, use a hosted site, or serve the dist directory on a local network:
 
-    uv sync
-    uv run python scripts/build.py
-    uv run python -m http.server 8000 --bind 0.0.0.0 --directory dist
+  uv sync
+  uv run python scripts/build.py
+  uv run python -m http.server 8000 --bind 0.0.0.0 --directory dist
 
-Then visit http://localhost:8000 on desktop, or http://YOUR_LAN_IP:8000 from a phone on the same Wi-Fi network.
-
-The font uses a monospaced fallback stack. No reference-site font files are included.
+Then open http://YOUR_COMPUTER_IP:8000 on your phone.

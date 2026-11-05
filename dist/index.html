@@ -26,7 +26,16 @@
     <a href="/#music" data-map-dest="music"><span>03</span><strong>Music</strong><i>Piano / software</i></a>
     <a href="/#about" data-map-dest="about"><span>04</span><strong>About</strong><i>Person / contact</i></a>
   </nav>
-  <div class="map-bottomline"><span>01—04 / A PERSONAL INDEX</span><span>ESC TO CLOSE</span></div>
+  <div class="map-shortcuts" aria-label="Jump directly to a showcase">
+    <span>OR GO STRAIGHT TO A PROJECT</span>
+    <div>
+      <a data-showcase-link href="/work/evaluated-rag/">RAG evaluation <b>↗</b></a>
+      <a data-showcase-link href="/work/analytics-pipeline/">Data pipeline <b>↗</b></a>
+      <a data-showcase-link href="/research/trend-dependencies/">Thesis / lab <b>↗</b></a>
+      <a data-showcase-link href="/work/piano-transcription/">Piano transcription <b>↗</b></a>
+    </div>
+  </div>
+  <div class="map-bottomline"><span>01—04 / A PERSONAL INDEX</span><span>INDEX / ESC TO CLOSE</span></div>
 </div>
 <div class="world-wipe" aria-hidden="true" data-wipe><i></i><i></i><i></i><i></i></div>
 <main id="main"><div class="world" data-world data-base="/">
@@ -35,11 +44,20 @@
     <div class="directory-guide"><p>I'm Nick. I build software, investigate systems, and play piano.</p><span>CHOOSE A DIRECTION <b aria-hidden="true">↘</b></span></div>
     <canvas class="directory-art" data-directory-art aria-label="Decorative animated drawing" aria-hidden="true"></canvas>
     <nav class="directory-links" aria-label="Explore Nicholas Bode's work">
-      <a href="/work/" data-room-link="systems" data-preview="systems" class="directory-link" data-active="true"><span class="dir-num">01</span><span class="dir-name">Systems</span><span class="dir-desc">AI / DATA / ENGINEERING</span><span class="dir-arrow" aria-hidden="true">↗</span></a>
-      <a href="/research/" data-room-link="research" data-preview="research" class="directory-link"><span class="dir-num">02</span><span class="dir-name">Research</span><span class="dir-desc">MODELS / METHODS / CHANGE</span><span class="dir-arrow" aria-hidden="true">↗</span></a>
-      <a href="/work/piano-transcription/" data-room-link="music" data-preview="music" class="directory-link"><span class="dir-num">03</span><span class="dir-name">Music</span><span class="dir-desc">PIANO / SOUND / SOFTWARE</span><span class="dir-arrow" aria-hidden="true">↗</span></a>
-      <a href="/about/" data-room-link="about" data-preview="about" class="directory-link"><span class="dir-num">04</span><span class="dir-name">About</span><span class="dir-desc">A BIT MORE PERSONAL</span><span class="dir-arrow" aria-hidden="true">↗</span></a>
+      <a href="/work/" data-room-link="systems" data-preview="systems" class="directory-link" data-active="true"><span class="dir-num">01</span><span class="dir-name">Systems</span><span class="dir-desc">AI / DATA / ENGINEERING</span><span class="dir-motif" aria-hidden="true"><svg viewBox="0 0 122 66"><path d="M5 32H27L43 15H73L89 38H115M43 15L53 49H94" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="5" cy="32" r="4"/><circle cx="43" cy="15" r="4"/><circle cx="53" cy="49" r="4"/><circle cx="89" cy="38" r="4"/><circle cx="115" cy="38" r="4"/></svg></span><span class="dir-arrow" aria-hidden="true">↗</span></a>
+      <a href="/research/" data-room-link="research" data-preview="research" class="directory-link"><span class="dir-num">02</span><span class="dir-name">Research</span><span class="dir-desc">MODELS / METHODS / CHANGE</span><span class="dir-motif" aria-hidden="true"><svg viewBox="0 0 122 66"><path d="M3 50Q16 51 26 40T50 34T75 17T119 25" fill="none" stroke="currentColor" stroke-width="2"/><path d="M3 42Q25 31 44 38T87 29T119 13" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="3 4"/><path d="M70 3V63" stroke="currentColor" stroke-width="1" stroke-dasharray="2 4"/></svg></span><span class="dir-arrow" aria-hidden="true">↗</span></a>
+      <a href="/work/piano-transcription/" data-room-link="music" data-preview="music" class="directory-link"><span class="dir-num">03</span><span class="dir-name">Music</span><span class="dir-desc">PIANO / SOUND / SOFTWARE</span><span class="dir-motif" aria-hidden="true"><svg viewBox="0 0 122 66"><path d="M0 13H122M0 27H122M0 41H122M0 55H122" stroke="currentColor" stroke-width=".6" opacity=".45"/><g fill="currentColor"><rect x="9" y="14" width="27" height="8" rx="1"/><rect x="27" y="44" width="39" height="8" rx="1"/><rect x="53" y="28" width="29" height="8" rx="1"/><rect x="87" y="5" width="28" height="8" rx="1"/></g><path d="M76 0V66" stroke="currentColor" stroke-width="1.5"/></svg></span><span class="dir-arrow" aria-hidden="true">↗</span></a>
+      <a href="/about/" data-room-link="about" data-preview="about" class="directory-link"><span class="dir-num">04</span><span class="dir-name">About</span><span class="dir-desc">A BIT MORE PERSONAL</span><span class="dir-motif" aria-hidden="true"><svg viewBox="0 0 122 66"><text x="4" y="53" fill="currentColor" font-size="55" font-weight="600" font-family="monospace" letter-spacing="-13">NB</text><path d="M105 5V61M95 10H115M95 55H115" stroke="currentColor" stroke-width="1"/></svg></span><span class="dir-arrow" aria-hidden="true">↗</span></a>
     </nav>
+    <aside class="directory-shortcuts" aria-label="Selected showcases — direct links">
+      <span class="shortcut-caption">OPEN THE WORK / NO EXTRA STOP</span>
+      <div class="shortcut-links">
+        <a class="shortcut shortcut-systems" data-showcase-link href="/work/evaluated-rag/"><span>01 <i aria-hidden="true">●</i></span><strong>RAG evaluation</strong><b aria-hidden="true">↗</b></a>
+        <a class="shortcut shortcut-pipeline" data-showcase-link href="/work/analytics-pipeline/"><span>02 <i aria-hidden="true">∷</i></span><strong>Data pipeline</strong><b aria-hidden="true">↗</b></a>
+        <a class="shortcut shortcut-research" data-showcase-link href="/research/trend-dependencies/"><span>03 <i aria-hidden="true">∿</i></span><strong>Trend dependencies</strong><b aria-hidden="true">↗</b></a>
+        <a class="shortcut shortcut-music" data-showcase-link href="/work/piano-transcription/"><span>04 <i aria-hidden="true">♫</i></span><strong>Piano transcription</strong><b aria-hidden="true">↗</b></a>
+      </div>
+    </aside>
     <div class="directory-floor"><span>NB / 2026</span><span>INDEPENDENT WORK &amp; PROFESSIONAL PRACTICE</span><span>TAP OR CLICK TO ENTER</span></div>
   </section>
   <section class="room room-systems" data-room="systems" aria-label="Systems chapter" aria-hidden="true" inert>

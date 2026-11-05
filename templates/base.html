@@ -27,7 +27,16 @@
     <a href="{{base}}#music" data-map-dest="music"><span>03</span><strong>Music</strong><i>Piano / software</i></a>
     <a href="{{base}}#about" data-map-dest="about"><span>04</span><strong>About</strong><i>Person / contact</i></a>
   </nav>
-  <div class="map-bottomline"><span>01—04 / A PERSONAL INDEX</span><span>ESC TO CLOSE</span></div>
+  <div class="map-shortcuts" aria-label="Jump directly to a showcase">
+    <span>OR GO STRAIGHT TO A PROJECT</span>
+    <div>
+      <a data-showcase-link href="{{base}}work/evaluated-rag/">RAG evaluation <b>↗</b></a>
+      <a data-showcase-link href="{{base}}work/analytics-pipeline/">Data pipeline <b>↗</b></a>
+      <a data-showcase-link href="{{base}}research/trend-dependencies/">Thesis / lab <b>↗</b></a>
+      <a data-showcase-link href="{{base}}work/piano-transcription/">Piano transcription <b>↗</b></a>
+    </div>
+  </div>
+  <div class="map-bottomline"><span>01—04 / A PERSONAL INDEX</span><span>INDEX / ESC TO CLOSE</span></div>
 </div>
 <div class="world-wipe" aria-hidden="true" data-wipe><i></i><i></i><i></i><i></i></div>
 <main id="main">{% block content %}{% endblock %}</main>

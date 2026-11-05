@@ -121,3 +121,124 @@ body,body a,body button,body input,body textarea,
 /* On touch screens the fixed pager obscured project links. INDEX remains
    available at the top and each chapter has a back-to-index control. */
 @media(max-width:550px){.room-pager,.room-pager.is-visible{display:none!important}}
+
+/* V12 / The directory exposes its contents: themed marks and one-tap showcases.
+   The chapter navigation remains, but it is no longer a gate to the work. */
+:root{
+  --systems-tone:#c7fe91;
+  --research-tone:#afbcff;
+  --music-tone:#f6b9ab;
+  --about-tone:#dfd6bd;
+}
+.directory-stage{min-height:710px;padding-bottom:22px}
+.directory-guide{margin-top:clamp(28px,5.6vh,58px);margin-bottom:12px}
+.directory-guide p{margin:0}
+.directory-links{margin-top:auto;margin-bottom:0}
+.directory-link{min-height:clamp(73px,9.4vh,100px);grid-template-columns:7.8% minmax(0,1fr) minmax(140px,18%) 132px 38px}
+.dir-name{font-size:clamp(46px,6.5vw,88px);line-height:1.13}
+.dir-motif{height:53px;width:115px;display:grid!important;place-items:center;justify-self:end;opacity:.68;color:var(--motif-tone);transform:translateX(0);transition:transform .7s var(--world-expo),opacity .5s var(--world-ease)}
+.dir-motif svg{width:100%;height:100%;overflow:visible}
+.dir-motif circle{fill:currentColor}
+.directory-link[data-preview=systems]{--motif-tone:var(--systems-tone)}
+.directory-link[data-preview=research]{--motif-tone:var(--research-tone)}
+.directory-link[data-preview=music]{--motif-tone:var(--music-tone)}
+.directory-link[data-preview=about]{--motif-tone:var(--about-tone)}
+.directory-link:hover .dir-motif,.directory-link:focus-visible .dir-motif{opacity:1;transform:translateX(-6px)}
+.directory-link:hover .dir-motif,.directory-link:focus-visible .dir-motif{color:#17251a}
+.directory-link:focus-visible{outline:2px solid currentColor;outline-offset:-2px}
+.directory-shortcuts{position:relative;z-index:7;border-top:1px solid rgba(221,230,222,.38);margin-top:clamp(11px,2.9vh,30px);padding:12px 0 16px;display:grid;grid-template-columns:155px minmax(0,1fr);gap:20px;align-items:start}
+.shortcut-caption{color:#a8b1aa;font:500 9px/1.65 var(--world-type);letter-spacing:.035em;max-width:130px}
+.shortcut-links{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0}
+.shortcut{display:grid;grid-template-columns:1fr auto;grid-template-rows:auto auto;column-gap:6px;row-gap:5px;min-width:0;padding:2px 12px 4px;border-left:1px solid rgba(230,233,223,.24);color:#f0f3ed;text-decoration:none;transition:color .3s var(--world-ease),transform .5s var(--world-expo)}
+.shortcut:focus-visible{outline:1px solid var(--world-acid);outline-offset:-3px}
+.shortcut:hover{transform:translateY(-4px)}
+.shortcut>span{grid-column:1;grid-row:1;font:500 9px/1.25 var(--world-type);color:#aab4ac}
+.shortcut>span i{font:normal 15px/1 var(--world-type);vertical-align:-1px;margin-left:4px;color:var(--shortcut-tone)}
+.shortcut strong{grid-column:1;grid-row:2;font:500 clamp(10px,.88vw,13px)/1.5 var(--world-type);letter-spacing:-.035em;white-space:nowrap}
+.shortcut b{grid-column:2;grid-row:2;font:500 16px var(--world-type);color:var(--shortcut-tone)}
+.shortcut-systems{--shortcut-tone:var(--systems-tone)}
+.shortcut-pipeline{--shortcut-tone:#a2d8d1}
+.shortcut-research{--shortcut-tone:var(--research-tone)}
+.shortcut-music{--shortcut-tone:var(--music-tone)}
+.shortcut:hover strong{color:var(--shortcut-tone)}
+.directory-floor{font-size:9px;padding-top:11px}
+/* A direct route from the full-screen directory, too. */
+.world-map .map-destinations{padding:1vh 0}
+.world-map .map-destinations a{padding:clamp(9px,1.8vh,18px) 0}
+.map-shortcuts{padding-top:14px;border-top:1px solid rgba(21,27,21,.35);display:grid;grid-template-columns:190px minmax(0,1fr);gap:20px;align-items:start}
+.map-shortcuts>span{font:500 10px/1.5 var(--world-type);letter-spacing:.01em;color:#42564b}
+.map-shortcuts>div{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.map-shortcuts a{min-width:0;display:flex;justify-content:space-between;align-items:center;gap:8px;color:#15251c;text-decoration:none;border-bottom:1px solid rgba(25,42,29,.4);padding-bottom:12px;font:500 11px/1.5 var(--world-type)}
+.map-shortcuts a:hover,.map-shortcuts a:focus-visible{color:#d84b32;border-color:#d84b32}
+.map-shortcuts b{font-size:17px;font-weight:400}
+.map-bottomline{padding-top:18px}
+/* Keep inactive scenes from consuming paint and CPU; the piano roll is painted
+   only while music is visible. Its canvas is a diagram, not interactive UI. */
+.music-art{contain:strict;display:block}
+.room-feature-music{isolation:isolate;background:#261820}
+.room-feature-music:before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 60% 35%,rgba(244,167,157,.12),transparent 55%);pointer-events:none;z-index:1}
+.music-overlay,.room-feature-music .graphic-stamp{z-index:2}
+@media(max-width:1100px){
+  .directory-link{grid-template-columns:45px minmax(0,1fr) 85px 25px}
+  .dir-desc{display:none}
+  .dir-motif{width:80px;height:50px}
+  .shortcut-caption{font-size:9px}
+  .directory-shortcuts{grid-template-columns:125px minmax(0,1fr);gap:12px}
+  .shortcut{padding-inline:8px}
+  .shortcut strong{font-size:10px}
+  .map-shortcuts{grid-template-columns:125px minmax(0,1fr);gap:10px}
+  .map-shortcuts a{font-size:10px}
+}
+@media(max-width:700px){
+ body.is-home{overflow-y:auto;overflow-x:hidden}
+ .directory-stage{height:auto;min-height:100svh;padding:90px 23px 23px;overflow:visible}
+ .directory-guide{margin-top:30px;margin-bottom:16px}
+ .directory-guide p{font-size:clamp(17px,4.3vw,21px)}
+ .directory-guide>span{margin-top:7px}
+ .directory-links{margin-top:22px}
+ .directory-link{min-height:clamp(66px,9svh,85px);grid-template-columns:33px minmax(0,1fr) 62px 19px;gap:4px}
+ .dir-name{font-size:clamp(31px,8.3vw,52px);letter-spacing:-.065em}
+ .dir-motif{width:61px;height:42px;opacity:.9}
+ .dir-arrow{font-size:17px}
+ .directory-shortcuts{grid-template-columns:1fr;gap:11px;margin-top:18px;padding:12px 0 15px}
+ .shortcut-caption{max-width:none;font-size:9px}
+ .shortcut-links{grid-template-columns:1fr 1fr;gap:11px 12px}
+ .shortcut{padding:0 7px 0 10px;border-left:1px solid rgba(230,233,223,.3)}
+ .shortcut strong{font-size:11px}
+ .directory-floor{padding-top:12px}
+ .world-map{padding:76px 23px max(26px,env(safe-area-inset-bottom));overflow-y:auto}
+ .world-map .map-destinations{flex:none;padding:17px 0}
+ .world-map .map-destinations a{padding:10px 0}
+ .world-map .map-destinations a strong{font-size:clamp(33px,8vw,51px)}
+ .map-shortcuts{grid-template-columns:1fr;gap:10px;margin-top:4px}
+ .map-shortcuts>span{font-size:9px}
+ .map-shortcuts>div{grid-template-columns:1fr 1fr;gap:9px 13px}
+ .map-shortcuts a{font-size:10px;padding:6px 0 9px}
+ .map-bottomline{margin-top:20px}
+}
+@media(max-width:360px){
+ .directory-stage{padding-inline:19px}
+ .directory-link{grid-template-columns:29px minmax(0,1fr) 50px 16px}
+ .dir-name{font-size:clamp(29px,8.5vw,40px)}
+ .dir-motif{width:49px}
+ .shortcut strong{font-size:9.5px}
+ .map-shortcuts a{font-size:9px}
+}
+@media(prefers-reduced-motion:reduce){.dir-motif,.shortcut{transition:none!important}}
+/* Decorative art stays inside the narrow index; the page itself can scroll. */
+@media(max-width:700px){.directory-stage{overflow:hidden}}
+/* Deep-link fix: wide markdown tables must scroll inside the article, never
+   enlarge the mobile layout viewport (which displaced the fixed INDEX control). */
+@media(max-width:760px){
+ .is-document .article-layout{grid-template-columns:minmax(0,1fr)}
+ .is-document .article-prose{min-width:0;max-width:100%;overflow-wrap:anywhere}
+ .is-document .article-prose table{max-width:100%;width:100%;overflow-x:auto}
+ .is-document .article-prose pre{max-width:100%;overflow-x:auto}
+ .is-document main{min-width:0}
+ .is-document .interactive-intro,.is-document .trace-content,.is-document .trend-grid{grid-template-columns:minmax(0,1fr)}
+}
+/* Light navigation must include its fixed chrome when opened over an article. */
+.is-document.map-open .world-header{background:#d6dfd1;color:#121c14;border-bottom:1px solid rgba(21,27,21,.24);backdrop-filter:none}
+.is-document.map-open .world-menu-trigger,.is-document.map-open .world-brand{color:#121c14}
+.is-document.map-open .world-header-descriptor{color:#586759}
+.is-document.map-open .brand-slash{color:#d44f37}

@@ -44,6 +44,7 @@
     pager.classList.toggle('is-visible',!!key);pager.inert=!key;pager.setAttribute('aria-hidden',String(!key));
     $$('[data-pager]',pager).forEach(b=>{b.classList.toggle('is-active',b.dataset.pager===key);b.setAttribute('aria-current',String(b.dataset.pager===key))});
     active=key||null;
+    window.setMusicSceneActive?.(key==='music');
   }
   async function goto(key,{history=true,instant=false}={}){
     if(busy){queuedKey=key;return;}
@@ -96,6 +97,8 @@
   const openMenu=()=>setMenu(true);
   const closeMenu=(options={})=>setMenu(false,options);
   document.addEventListener('click',e=>{
+    const shortcut=e.target.closest('[data-showcase-link]');
+    if(shortcut){if(menuOpen)closeMenu({focus:false,instant:true});return;}
     const toggle=e.target.closest('[data-map-toggle]');if(toggle){menuOpen?closeMenu():openMenu();return}
     const clos=e.target.closest('[data-room-close]');if(clos){goto(null);return}
     const pager=e.target.closest('[data-pager]');if(pager){goto(pager.dataset.pager);return}
@@ -136,7 +139,8 @@
     if(!canvas)return ()=>{};
     const ctx=canvas.getContext('2d',{alpha:true});if(!ctx)return ()=>{};
     const mctx=music?.getContext('2d',{alpha:true});
-    let running=true,frame=0,mouse={x:0,y:0},target={x:0,y:0},current=[199,254,145],ripple=null;
+    let running=true,frame=0,animationFrame=0,mouse={x:0,y:0},target={x:0,y:0},current=[199,254,145],ripple=null;
+    let musicActive=false,musicPhase=0,musicLast=0;
     const resize=(el)=>{
       if(!el)return null;
       const rect=el.getBoundingClientRect();
@@ -183,25 +187,104 @@
         ctx.beginPath();ctx.arc(ripple.x*w,ripple.y*h,age*Math.max(w,h)*.6,0,Math.PI*2);ctx.stroke();
       }}
     }
+    /* Piano roll / stable, seamless, viewport-relative timeline.
+       The former x%width wrapping introduced abrupt jumps and gradients painted
+       outside their bars. Notes now repeat on a single musical cycle; the view
+       scrolls through that cycle without discontinuities or hidden-canvas paints. */
+    const musicEvents=Array.from({length:40},(_,i)=>({
+      beat:i*.72+(i%6===3?.18:0),
+      row:[3,7,10,8,5,12,4,9,6,11,3,14,7,5,2,10][i%16],
+      duration:[.44,1.12,.72,.57,1.4,.85][i%6],
+      strength:.62+(i%5)*.085
+    }));
+    const cycle=musicEvents.length*.72;
     function musicDraw(t){
-      if(!music||!mctx)return;const d=resize(music);if(!d)return;
-      const {w,h}=d;mctx.clearRect(0,0,w,h);
-      mctx.strokeStyle='rgba(255,195,183,.17)';mctx.lineWidth=1*d.ratio;
-      for(let i=0;i<12;i++){const y=(i+.6)*h/12;mctx.beginPath();mctx.moveTo(0,y);mctx.lineTo(w,y);mctx.stroke()}
-      const keys=[2,5,7,3,9,10,4,2,8,1,5,7,10,6,3,2,5,8,4,9,6,3];
-      const block=w/keys.length;
-      keys.forEach((key,i)=>{
-        const y=(key+.7)*h/12,x=i*block+(t*.03%(block*2));const len=block*(1.2+((i*7)%5)*.34);
-        const grad=mctx.createLinearGradient(x,y,x+len,y);grad.addColorStop(0,'rgba(245,198,182,.03)');grad.addColorStop(.4,'rgba(252,196,177,.85)');grad.addColorStop(1,'rgba(252,196,177,.08)');
-        mctx.fillStyle=grad;mctx.fillRect(x%w,y-3*d.ratio,len,6*d.ratio);
-        mctx.fillStyle='rgba(255,234,220,.08)';mctx.fillRect((x+len*.7)%w,y+3*d.ratio,1*d.ratio,h/5);
-      });
-      const line=(t*.076)%w;
-      mctx.strokeStyle='rgba(255,220,210,.8)';mctx.lineWidth=1.5*d.ratio;mctx.beginPath();mctx.moveTo(line,0);mctx.lineTo(line,h);mctx.stroke();
+      if(!musicActive||!music||!mctx)return;
+      const rect=music.getBoundingClientRect();
+      if(rect.width<8||rect.height<8)return;
+      const d=resize(music);if(!d)return;
+      const W=d.w/d.ratio,H=d.h/d.ratio;
+      mctx.setTransform(d.ratio,0,0,d.ratio,0,0);
+      mctx.clearRect(0,0,W,H);
+      const keyW=Math.max(33,Math.min(54,W*.09));
+      const top=29,bottom=24,rows=16,rowH=(H-top-bottom)/rows;
+      const pxPerBeat=Math.max(42,Math.min(86,W*.11));
+      const total=cycle*pxPerBeat;
+      const scroll=musicPhase*pxPerBeat;
+      mctx.fillStyle='#241820';mctx.fillRect(0,0,W,H);
+      // A quiet piano keyboard and horizontal staff, independent of timeline.
+      for(let r=0;r<rows;r++){
+        const y=top+r*rowH;
+        mctx.fillStyle=r%2===0?'rgba(255,222,215,.047)':'rgba(255,222,215,.018)';
+        mctx.fillRect(keyW,y,W-keyW,rowH);
+        mctx.fillStyle=r%5===2?'#665059':'#d5bcb7';
+        mctx.globalAlpha=r%5===2?.95:.62;
+        mctx.fillRect(0,y,keyW-3,rowH-1);
+        mctx.globalAlpha=1;
+        mctx.strokeStyle='rgba(255,210,205,.13)';mctx.lineWidth=.7;
+        mctx.beginPath();mctx.moveTo(keyW,y+.5);mctx.lineTo(W,y+.5);mctx.stroke();
+      }
+      mctx.fillStyle='rgba(255,226,220,.7)';mctx.font='10px monospace';
+      mctx.fillText('C5',5,top+4*rowH+.7*rowH);
+      mctx.fillText('C4',5,top+11*rowH+.7*rowH);
+      mctx.save();mctx.beginPath();mctx.rect(keyW,top,W-keyW,H-top-bottom);mctx.clip();
+      const firstBar=Math.floor(scroll/(4*pxPerBeat))-1;
+      for(let b=firstBar;b<firstBar+Math.ceil(W/(4*pxPerBeat))+3;b++){
+        const x=keyW+b*4*pxPerBeat-scroll;
+        mctx.strokeStyle='rgba(255,224,218,.22)';mctx.lineWidth=1;
+        mctx.beginPath();mctx.moveTo(x,top);mctx.lineTo(x,H-bottom);mctx.stroke();
+      }
+      // Draw the same score at neighboring cycle offsets. No modulo at the edge.
+      const startCycle=Math.floor(scroll/total)-1;
+      for(let c=startCycle;c<startCycle+4;c++){
+        for(const n of musicEvents){
+          const x=keyW+c*total+n.beat*pxPerBeat-scroll;
+          const width=n.duration*pxPerBeat;
+          if(x+width<keyW||x>W)continue;
+          const y=top+n.row*rowH+rowH*.17,h=rowH*.66;
+          mctx.fillStyle=`rgba(245,168,159,${n.strength})`;
+          mctx.fillRect(x,y,Math.max(3,width-2),h);
+          mctx.fillStyle='rgba(255,235,219,.48)';
+          mctx.fillRect(x,y,Math.max(3,width-2),Math.min(1.4,h*.14));
+        }
+      }
+      mctx.restore();
+      // Fixed read-head; subtle illumination only when an event crosses.
+      const playX=keyW+(W-keyW)*.48;
+      const glow=mctx.createLinearGradient(playX-16,0,playX+16,0);
+      glow.addColorStop(0,'rgba(255,208,185,0)');glow.addColorStop(.5,'rgba(255,225,194,.13)');glow.addColorStop(1,'rgba(255,208,185,0)');
+      mctx.fillStyle=glow;mctx.fillRect(playX,top,18,H-top-bottom);
+      mctx.strokeStyle='rgba(255,238,214,.82)';mctx.lineWidth=1.25;
+      mctx.beginPath();mctx.moveTo(playX,top);mctx.lineTo(playX,H-bottom);mctx.stroke();
     }
-    const tick=t=>{if(!running)return;frame++;if(!document.hidden&&frame%2===0){draw(t);musicDraw(t)}if(!reduce.matches)requestAnimationFrame(tick)};
-    if(reduce.matches){draw(0);musicDraw(0)}else requestAnimationFrame(tick);
-    return ()=>{running=false;dir?.removeEventListener('pointermove',pointer);dir?.removeEventListener('pointerdown',tap)};
+    function setMusicActive(on){
+      if(on===musicActive)return;
+      musicActive=on;musicLast=performance.now();
+      if(on)musicDraw(musicLast);
+    }
+    window.setMusicSceneActive=setMusicActive;
+    const tick=t=>{
+      if(!running)return;
+      frame++;
+      if(!document.hidden){
+        if(frame%2===0&&active===null)draw(t);
+        if(musicActive){
+          const delta=Math.min(80,Math.max(0,t-musicLast));
+          musicLast=t;
+          if(frame%2===0){musicPhase=(musicPhase+delta*.00043)%cycle;musicDraw(t)}
+        }
+      }else musicLast=t;
+      if(!reduce.matches)animationFrame=requestAnimationFrame(tick);
+    };
+    if(active==='music')setMusicActive(true);
+    if(reduce.matches){draw(0);if(musicActive)musicDraw(0)}
+    else animationFrame=requestAnimationFrame(tick);
+    return ()=>{
+      running=false;cancelAnimationFrame(animationFrame);
+      if(window.setMusicSceneActive===setMusicActive)delete window.setMusicSceneActive;
+      dir?.removeEventListener('pointermove',pointer);
+      dir?.removeEventListener('pointerdown',tap);
+    };
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',refresh);else refresh();
 })();

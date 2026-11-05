@@ -1,6 +1,6 @@
 # Nicholas Bode — The Directory
 
-A navigation-led personal engineering portfolio. The homepage is the index: four distinct chapters for systems, research, music, and background. The work and research articles remain static, readable deep dives.
+A navigation-led personal engineering portfolio. The homepage is the index: four distinct chapters for systems, research, music, and background, plus direct links to the four featured showcases. The work and research articles remain static, readable deep dives.
 
 ## Build
 
@@ -39,8 +39,8 @@ To deploy at the root of a domain: set `SITE_URL` to your domain and run the bui
 
 ## Interaction
 
-- From the homepage, click or tap one of the four index rows.
-- `INDEX` opens a full-screen directory from any page.
+- From the homepage, click or tap a chapter row to enter its room, **or choose a project in SELECTED WORK to open its case study in one step**.
+- `INDEX` opens a full-screen directory from any page. Its project shortcuts also link directly to the featured case studies.
 - On chapter screens, use the numeric pager, the chapter's `INDEX` button, the keyboard arrow keys, or horizontal swipe gestures.
 - Escape returns to the index (or closes the full-screen directory).
 - All chapter and project deep links are regular anchors in the source, and navigation has a no-JS fallback.
@@ -52,6 +52,8 @@ Only independent public-project material and sanitized professional background a
 
 ## Validation
 
-The site was built and the self-contained HTML exercised in headless Chromium at 1440×900 and 390×844. The checks cover opening chapters, the directory overlay, changing chapters, returning to the index, mobile layout overflow, and JavaScript errors. The RAG and synthetic time-series exhibits were also exercised after offline route navigation.
+The site was built and the self-contained HTML exercised in headless Chromium at 1440×900 and 390×844. The checks cover opening chapters, direct one-tap showcase routes, the directory overlay, changing chapters, returning to the index, stable MIDI canvas rendering, mobile layout overflow, and JavaScript errors. The RAG and synthetic time-series exhibits were also exercised after offline route navigation.
 
 No physical Android-device test or public deployment has been performed.
+
+See `V12_CHANGES.md` for the routing, design and piano-roll improvements.
