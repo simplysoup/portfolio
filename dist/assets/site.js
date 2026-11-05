@@ -94,3 +94,81 @@ function initPortfolioExhibits() {
 }
 if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", initPortfolioExhibits);
 else initPortfolioExhibits();
+
+
+/* Atelier 03 point field, updated for reliable pointer motion across the whole hero.
+   No WebGL, network requests, or proprietary data. */
+function initializeField(){
+  const hero=document.querySelector('.atelier-hero');
+  const canvas=hero?.querySelector('[data-field-study]');
+  if(!canvas || canvas.dataset.ready==='1') return;
+  const frame=canvas.closest('.artwork-plate');
+  const ctx=canvas.getContext('2d',{alpha:true});
+  if(!ctx) return;
+  canvas.dataset.ready='1';
+  canvas.dataset.pointerActive='false';
+  const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const position={x:.5,y:.5,tx:.5,ty:.5,active:false};
+  let size=0,raf=0,ticks=0,visible=true;
+  function draw(){
+    if(!size) return;
+    const w=size,h=size,cx=w*.5,cy=h*.5,s=w/900;
+    ctx.clearRect(0,0,w,h);
+    const px=position.x*w,py=position.y*h;
+    const time=ticks*.036;
+    for(let i=0;i<46;i++){
+      const r=(39+i*7.9)*s,n=56+Math.floor(i*.8);
+      for(let j=0;j<n;j++){
+        const a=j*2*Math.PI/n;
+        const wobble=(Math.sin(a*3+i*.085)*16+Math.sin(a*7-i*.12)*6+Math.cos(a*2+i*.045)*10)*s;
+        let x=cx+(r+wobble)*Math.cos(a)*1.04;
+        let y=cy+(r+wobble)*Math.sin(a)*.91;
+        const dx=x-px,dy=y-py;
+        const local=position.active&&!reduced?Math.exp(-(dx*dx+dy*dy)/(2*Math.pow(180*s,2))):0;
+        // Make the interaction perceptible: a local radial displacement plus a soft wave.
+        const displacement=local*(.35+.09*Math.sin(time+Math.hypot(dx,dy)/(80*s)));
+        x+=dx*displacement; y+=dy*displacement;
+        const alpha=.18+.33*i/46+local*.4;
+        ctx.fillStyle=i%11===0?`rgba(217,239,139,${alpha})`:i%3===0?`rgba(156,178,255,${alpha})`:`rgba(226,233,226,${alpha})`;
+        const dot=(i%11===0?2.3:1.25)*s*(1+local*.8);
+        ctx.fillRect(x,y,Math.max(.5,dot),Math.max(.5,dot));
+      }
+    }
+    ctx.fillStyle='#D9EF8B';ctx.beginPath();ctx.arc(cx,cy,Math.max(1,3*s),0,Math.PI*2);ctx.fill();
+    canvas.dataset.rendered=String(ticks);
+  }
+  function step(){
+    raf=0;
+    position.x+=(position.tx-position.x)*.19;
+    position.y+=(position.ty-position.y)*.19;
+    ticks++;draw();
+    if(position.active && visible && !reduced && ticks%160!==0) raf=requestAnimationFrame(step);
+  }
+  function schedule(){if(!raf) raf=requestAnimationFrame(step)}
+  function resize(){
+    const rect=frame.getBoundingClientRect();
+    size=Math.max(1,Math.min(rect.width,700));
+    const dpr=Math.min(devicePixelRatio||1,2);
+    canvas.width=Math.round(size*dpr);canvas.height=Math.round(size*dpr);
+    ctx.setTransform(dpr,0,0,dpr,0,0);draw();
+  }
+  // The visual artwork does not receive pointer events; the hero does.
+  hero.addEventListener('pointermove',e=>{
+    if(reduced)return;
+    const rect=frame.getBoundingClientRect();
+    const xr=(e.clientX-rect.left)/Math.max(1,rect.width);
+    const yr=(e.clientY-rect.top)/Math.max(1,rect.height);
+    position.tx=Math.max(.14,Math.min(.86,xr));
+    position.ty=Math.max(.14,Math.min(.86,yr));
+    position.active=true;canvas.dataset.pointerActive='true';schedule();
+  },{passive:true});
+  hero.addEventListener('pointerleave',()=>{
+    position.active=false;canvas.dataset.pointerActive='false';schedule();
+  },{passive:true});
+  if('ResizeObserver' in window)new ResizeObserver(resize).observe(frame);
+  else window.addEventListener('resize',resize,{passive:true});
+  if('IntersectionObserver' in window)new IntersectionObserver(entries=>{visible=entries[0].isIntersecting; if(!visible&&raf){cancelAnimationFrame(raf);raf=0;} },{threshold:0}).observe(hero);
+  resize();
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',initializeField);
+else initializeField();

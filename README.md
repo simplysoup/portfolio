@@ -1,6 +1,6 @@
-# Nicholas Bode — personal portfolio / studio 04
+# Nicholas Bode — personal portfolio / atelier 05
 
-A dark, editorial engineering portfolio with original interactive filament artwork, curated public case studies, a research article, and two synthetic technical exhibits. This is a static site: the built output requires no database, Python runtime or JavaScript bundler in production.
+A dark, editorial engineering portfolio with original interactive signal-point artwork, curated public case studies, a research article, and two synthetic technical exhibits. This is a static site: the built output requires no database, Python runtime or JavaScript bundler in production.
 
 ## Build with `uv`
 
@@ -37,8 +37,8 @@ The test checks real canvas pixel changes after pointer movement on desktop and 
 ## Design notes
 
 - **Identity:** Ink background, Paper text, Cobalt secondary accent, Signal highlights, Slate interface annotations.
-- **Typography:** a restrained old-style serif, with small system sans-serif UI and monospaced technical annotations. No downloaded font files.
-- **Hero:** an original Canvas2D filament field. Continuous but restrained slow motion and a localized pointer distortion; paused when offscreen, static under `prefers-reduced-motion`.
+- **Typography:** a large editorial sans-serif display with a single italic serif accent, understated body copy, and monospaced technical annotations. No downloaded font files.
+- **Hero:** the point-based polar signal artwork from Atelier 03, now with visible pointer-responsive deformation. Pointer handling lives on the hero so the non-interactive decorative canvas cannot intercept input. Static under `prefers-reduced-motion`.
 - **Architecture:** Jinja2 and MarkdownIt for prerendering, authored Markdown articles, dependency-light vanilla JS for the client-side exhibits and artwork. No confidential APIs or data.
 - **Ownership:** professional experience is described generically; all featured source links are independent public projects. Employer product names, internal code, and unapproved claims are excluded.
 

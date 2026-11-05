@@ -64,7 +64,7 @@ script="""
  render();
 })();
 """.replace('__PAGE_DATA__',payload)
-js=(DIST/'assets/site.js').read_text()+'\n'+(DIST/'assets/studio-field.js').read_text()
+js=(DIST/'assets/site.js').read_text()
 new_script=base.new_tag('script');new_script.string=js
 base.body.append(new_script)
 router=base.new_tag('script');router.string=script

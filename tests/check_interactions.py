@@ -42,7 +42,10 @@ def test_pointer(browser, width):
     start = canvas.evaluate("c => c.toDataURL()")
     box = canvas.bounding_box()
     assert box and box["width"] > 150
-    for x, y in ((.25, .30), (.76, .62)):
+    # On narrow screens part of the decorative field intentionally extends off-screen.
+    # Only test pointer locations that are actually inside the viewport.
+    points = ((.25, .30), (.56, .62)) if width <= 700 else ((.25, .30), (.76, .62))
+    for x, y in points:
         page.mouse.move(box["x"] + box["width"] * x, box["y"] + box["height"] * y)
         page.wait_for_timeout(250)
     end = canvas.evaluate("c => c.toDataURL()")
@@ -69,6 +72,7 @@ def test_reduced_motion(browser):
 def test_navigation_and_exhibits(browser):
     page, errors = page_with_preview(browser)
     page.locator('a[href="#/work/evaluated-rag/"]').first.click()
+    page.wait_for_function("document.querySelector('main h1')?.textContent.includes('RAG')")
     assert "RAG" in page.locator('h1').first.inner_text()
     assert page.locator('[data-exhibit="rag"]').count() == 1
     # Internal offline navigation continues to work after new client-side render.
