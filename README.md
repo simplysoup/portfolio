@@ -1,6 +1,6 @@
 # Nicholas Bode's engineering portfolio
 
-A small, static portfolio built from Markdown, Jinja templates, and plain CSS and JavaScript. Case studies live in `content/work/`; the research article is in `content/research/`. The two interactive examples run entirely in the browser on synthetic data.
+A dark, static portfolio built from Markdown, Jinja templates, and plain CSS and JavaScript. The visual system uses Ink (`#17242B`), Paper (`#F5F3EC`), Cobalt (`#405BCB`), Signal (`#D9EF8B`), and Slate (`#77817E`). The opening homepage section leads with the current AI Engineer role at Environics Analytics, followed by a sanitized professional summary, public projects, and research. Case studies live in `content/work/`; the research article is in `content/research/`. The two interactive examples run entirely in the browser on synthetic data.
 
 ## Run locally
 
@@ -12,7 +12,7 @@ python -m http.server --directory dist 8000
 
 Open `http://localhost:8000`.
 
-The generated site is in `dist/` and can be deployed as static files. Set `SITE_URL=https://your-actual-domain` before building for production. Set `SITE_BASE=repo-name` if hosted at a subdirectory on GitHub Pages.
+The generated site is in `dist/` and can be deployed as static files. The portable preview can also be opened offline from `OPEN_PORTFOLIO.html` in the separately packaged preview ZIP. Set `SITE_URL=https://your-actual-domain` before building for production. Set `SITE_BASE=repo-name` if hosted at a subdirectory on GitHub Pages.
 
 ## Preview
 
@@ -20,7 +20,7 @@ The generated site is in `dist/` and can be deployed as static files. Set `SITE_
 python scripts/build_preview.py
 ```
 
-The preview script writes `/mnt/data/portfolio-preview.html` in this project environment. It's a self-contained HTML file with all routes and scripts bundled, intended for local review without a web server. For normal deployment, use `dist/`, not the preview file.
+The preview script writes `portfolio-preview.html` at the project root. It's a self-contained HTML file with all routes and scripts bundled, intended for local review without a web server. For normal deployment, use `dist/`, not the preview file.
 
 ## Before publication
 

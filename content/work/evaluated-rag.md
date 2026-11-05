@@ -58,4 +58,4 @@ The interactive explorer below uses **invented educational scenarios**, not copi
 
 A small synthetic development set does not establish generalization to conflicting documents, adversarial prompts, long corpora, unseen organizations, or real users. Two model runs do not quantify nondeterministic variation. The next experiment should use held-out documents and repeated runs. I also want to replace the invented trace examples with records from a publicly releasable evaluation run.
 
-**Source:** [Repository README, evaluation data, implementation and tests](https://github.com/simplysoup/evaluated-rag-agentic). No client work, private material, or deployment claims are part of this demo.
+**Source:** [Repository README, evaluation data, implementation and tests](https://github.com/simplysoup/evaluated-rag-agentic). 

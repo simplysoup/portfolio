@@ -46,6 +46,4 @@ An attempted source-separation/denoising stage was removed after it suppressed r
 | Ornament detection | Conservative heuristic; possible false positives |
 | Engraving | Editable prototype, not guaranteed professional notation |
 
-The repository is an **experimental tool**, not a claim of perfect transcription or automated music engraving. The stated license in the README should be checked against the repository's license file before any reuse of its code; this portfolio only links to the source.
-
 **Source:** [Solo piano transcription repository](https://github.com/simplysoup/yt-piano-transcription).

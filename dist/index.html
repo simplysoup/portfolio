@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f7f6f2">
+  <meta name="theme-color" content="#17242B">
   <meta name="description" content="Nicholas Bode is an AI engineer in Toronto working on AI applications, model evaluation, data systems, and time-series research.">
   <title>AI engineer and applied research · Nicholas Bode</title>
   <meta property="og:type" content="website">
@@ -26,33 +26,45 @@
     <a href="/contact/" >Contact</a>
   </nav>
 </div></header>
-<main id="main"><section class="home-hero shell">
-  <div class="home-hero-left">
-    <p class="section-label"><span class="red-square" aria-hidden="true"></span> Toronto, Canada · AI engineer</p>
-    <h1>Hi, I'm<br><em>Nicholas Bode.</em></h1>
-    <p class="hero-summary">I build AI applications and data systems, with a particular interest in evaluation, access control, and what happens when the inputs are wrong.</p>
-    <p class="hero-context">My background includes applied machine learning, geospatial analytics, and MSc research in time-series constraints. Most of the work I do professionally isn't public. The projects here are.</p>
-    <div class="hero-links"><a class="primary-link" href="/work/">View my work <span aria-hidden="true">↗</span></a><a class="under-link" href="https://github.com/simplysoup" target="_blank" rel="noopener noreferrer">GitHub ↗</a></div>
+<main id="main"><section class="home-hero shell" aria-labelledby="hero-title">
+  <div class="hero-topline"><span class="section-label">Nicholas Bode</span><span class="hero-availability">Toronto, Canada <span aria-hidden="true">/</span> Engineering &amp; applied research</span></div>
+  <div class="hero-statement">
+    <p class="hero-kicker"><span class="signal-dot" aria-hidden="true"></span> CURRENTLY AT ENVIRONICS ANALYTICS</p>
+    <h1 id="hero-title">AI Engineer<span class="hero-title-secondary"> at Environics Analytics.</span></h1>
+    <p class="hero-summary">I build AI applications and the infrastructure around them: tool interfaces, access control, evaluation, and data systems.</p>
+    <p class="hero-context">My background spans applied machine learning, geospatial analytics, and computer science research. I care about making systems testable, maintainable, and useful in practice.</p>
+    <div class="hero-links"><a class="primary-link" href="#professional-work">Professional work <span aria-hidden="true">↗</span></a><a class="under-link" href="/work/">Public projects <span aria-hidden="true">↗</span></a><a class="under-link" href="https://www.linkedin.com/in/nicholas-bode-6a29ab1bb/" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a></div>
   </div>
-  <aside class="hero-sidebar" aria-label="Current work and interests">
-    <span class="section-label">At a glance</span>
-    <dl><div><dt>Current role</dt><dd>AI Engineer<br><span>Environics Analytics</span></dd></div><div><dt>Background</dt><dd>MSc Computer Science<br><span>Ontario Tech University</span></dd></div><div><dt>Working on</dt><dd>AI tool interfaces, model evaluation, data systems</dd></div><div><dt>Outside work</dt><dd>Research projects, numerical methods, music technology</dd></div></dl>
-    <a href="/about/" class="aside-link">More about me ↗</a>
-  </aside>
+  <div class="hero-role-strip" aria-label="Professional background">
+    <div><span class="strip-label">CURRENT ROLE</span><strong>AI Engineer</strong><span>Environics Analytics</span></div>
+    <div><span class="strip-label">PREVIOUS ROLE</span><strong>Research Associate</strong><span>Big Data Analytics · Environics Analytics</span></div>
+    <div><span class="strip-label">EDUCATION</span><strong>MSc Computer Science</strong><span>Ontario Tech University</span></div>
+  </div>
+</section>
+<section id="professional-work" class="professional-band" aria-labelledby="professional-title">
+  <div class="shell professional-inner">
+    <div class="professional-heading"><p class="section-label">Professional engineering</p><h2 id="professional-title">What I work on.</h2><p>At Environics Analytics, my work has progressed from analytics and data-quality engineering into AI application development.</p></div>
+    <div class="professional-list">
+      <div class="professional-item"><span class="professional-no">01</span><div><h3>AI applications &amp; tool integrations</h3><p>API-backed tools, application features, and workflow integrations. I contribute to team platforms and independently own other engineering projects.</p></div></div>
+      <div class="professional-item"><span class="professional-no">02</span><div><h3>Evaluation &amp; human review</h3><p>Evaluating model outputs, building review workflows, and setting explicit checks around decisions supported by language models.</p></div></div>
+      <div class="professional-item"><span class="professional-no">03</span><div><h3>Data systems &amp; quality</h3><p>Data processing, anomaly investigations, release evaluation, and quality checks for large-scale analytics.</p></div></div>
+      <a class="professional-more" href="/about/">Background and experience <span aria-hidden="true">↗</span></a>
+    </div>
+  </div>
 </section>
 <section class="home-work shell" aria-labelledby="selected-title">
-  <div class="section-heading"><div><p class="section-label">01 / Selected work</p><h2 id="selected-title">Projects with code<br>you can inspect.</h2></div><p>Public projects, with write-ups about the implementation, tests, and the parts that still need work.</p></div>
+  <div class="section-heading"><div><p class="section-label">Selected public projects</p><h2 id="selected-title">Projects with public code.</h2></div><p>Repositories you can inspect, with notes on implementation, tests, and technical tradeoffs.</p></div>
   <div class="project-index">
     <a class="project-row" href="/work/evaluated-rag/"><span class="project-no">01</span><span class="project-main"><strong>Evaluating a RAG system by the ways it can fail</strong><small>Document retrieval, answer validation, single-retry correction, and abstention. Includes a fixed 30-question synthetic evaluation.</small></span><span class="project-side">Python · LangGraph<br>Public code</span><span class="project-arrow" aria-hidden="true">↗</span></a>
     <a class="project-row" href="/work/analytics-pipeline/"><span class="project-no">02</span><span class="project-main"><strong>Testing incremental models with dbt and DuckDB</strong><small>Late updates, duplicates, nulls, CI checks, and a repeated-run idempotency test on generated data.</small></span><span class="project-side">dbt · DuckDB<br>Public code</span><span class="project-arrow" aria-hidden="true">↗</span></a>
     <a class="project-row" href="/work/piano-transcription/"><span class="project-no">03</span><span class="project-main"><strong>Transcribing piano recordings into editable scores</strong><small>Audio transcription to MIDI and MusicXML. Preserving performed timing often makes notation harder to read.</small></span><span class="project-side">Python · Audio ML<br>Public code</span><span class="project-arrow" aria-hidden="true">↗</span></a>
   </div>
-  <a class="inline-link" href="/work/">All projects ↗</a>
+  <a class="inline-link" href="/work/">Explore the projects ↗</a>
 </section>
-<section class="home-research"><div class="shell research-feature"><div><p class="section-label">02 / MSc research</p><h2>What makes a relationship hold over time?</h2><p>My thesis studied approximate constraints in changing, noisy time series. I used segmentation, symbolic regression, and policy-gradient methods to find and evaluate candidate relationships.</p><div class="research-actions"><a class="primary-link" href="/research/trend-dependencies/">Read the research article ↗</a><a class="under-link" href="https://ontariotechu.scholaris.ca/server/api/core/bitstreams/af2acd24-e895-43e3-8781-b04aca070e66/content" target="_blank" rel="noopener noreferrer">Original thesis (PDF) ↗</a></div></div><div class="research-aside"><span class="section-label">Explore the idea</span><div class="equation">y(t) ≈ f(t)</div><p>Can the same expression describe the entire series, or should it hold only over part of it?</p><p>The accompanying experiment uses invented data and ordinary line fits. It is not thesis software.</p><a href="/research/trend-dependencies/#experiment" class="aside-link">Try the synthetic experiment ↗</a></div></div></section>
+<section class="home-research"><div class="shell research-feature"><div><p class="section-label">Academic research</p><h2>Discovering relationships in time-series data.</h2><p>My MSc thesis examined approximate constraints in noisy, changing time series using segmentation, symbolic regression, and policy-gradient methods.</p><div class="research-actions"><a class="primary-link" href="/research/trend-dependencies/">Read about the thesis ↗</a><a class="under-link" href="https://ontariotechu.scholaris.ca/server/api/core/bitstreams/af2acd24-e895-43e3-8781-b04aca070e66/content" target="_blank" rel="noopener noreferrer">Original PDF ↗</a></div></div><div class="research-aside"><span class="section-label">Interactive experiment</span><div class="equation">y(t) ≈ f(t)</div><p>See how a structural break can affect a single global fit compared with two segment fits. The example uses synthetic data.</p><a href="/research/trend-dependencies/#experiment" class="aside-link">Explore the experiment ↗</a></div></div></section>
 </main>
 <footer class="site-footer"><div class="shell">
-  <div class="footer-top"><div><span class="section-label">Contact</span><h2>Get in touch.</h2><p>For engineering and research conversations.</p></div><a class="footer-email" href="mailto:nickbode71@gmail.com">nickbode71@gmail.com <span aria-hidden="true">↗</span></a></div>
+  <div class="footer-top"><div><span class="section-label">Contact</span><h2>Get in touch.</h2><p>AI engineering, applied ML, and research.</p></div><a class="footer-email" href="mailto:nickbode71@gmail.com">nickbode71@gmail.com <span aria-hidden="true">↗</span></a></div>
   <div class="footer-bottom"><span>© 2026 Nicholas Bode · Toronto</span><div><a href="https://github.com/simplysoup" target="_blank" rel="noopener noreferrer">GitHub</a><a href="https://www.linkedin.com/in/nicholas-bode-6a29ab1bb/" target="_blank" rel="noopener noreferrer">LinkedIn</a><a href="/resume/">Résumé</a></div></div>
 </div></footer>
 </body></html>

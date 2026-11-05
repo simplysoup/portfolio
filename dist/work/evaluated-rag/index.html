@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f7f6f2">
+  <meta name="theme-color" content="#17242B">
   <meta name="description" content="A reproducible document-QA experiment comparing a deterministic baseline with a bounded tool-using model.">
   <title>Evaluating a RAG system by the ways it can fail · Nicholas Bode</title>
   <meta property="og:type" content="website">
@@ -28,7 +28,7 @@
 </div></header>
 <main id="main"><article>
   <header class="article-header shell"><a href="/work/" class="back-link">← All projects</a><p class="section-label">PUBLIC DEMO / APPLIED AI · 2026</p><h1>Evaluating a RAG system by the ways it can fail</h1><p class="article-deck">A reproducible document-QA experiment comparing a deterministic baseline with a bounded tool-using model.</p><dl class="article-meta"><div><dt>Ownership</dt><dd>Independently developed</dd></div><div><dt>Status</dt><dd>Public repository; development benchmark, not production</dd></div><div><dt>Type</dt><dd>Engineering case study + educational trace</dd></div></dl></header>
-  <div class="shell article-layout"><aside class="article-rail"><div class="sticky-rail"><p class="section-label">Notes</p><p>This write-up describes a public repository. It makes no claims about production use.</p><a href="/research/">Research ↗</a></div></aside><div class="article-prose prose"><h2>The engineering question</h2>
+  <div class="shell article-layout"><aside class="article-rail"><div class="sticky-rail"><p class="section-label">More</p><p>Selected projects and research.</p><a href="/research/">Research ↗</a></div></aside><div class="article-prose prose"><h2>The engineering question</h2>
 <p>When a language model gives a fluent answer, how do we know it was supported by the retrieved source? In a document-QA system, retrieval, citation validity, exact grounding, and abstention are different failure modes. Collapsing them into a single “accuracy” number can conceal which subsystem actually failed.</p>
 <p>I built an <strong>independent, synthetic-data document-QA demo</strong> around those failure modes. I focused on the evaluation harness instead of building another chat interface. It contains eight fictional text documents, a fixed 30-question development set, a local TF-IDF retriever, an extractive baseline, an optional model-driven tool-user, six guardrail checks, and MLflow experiment tracking.</p>
 <p><a href="https://github.com/simplysoup/evaluated-rag-agentic">Inspect the public source and evaluation protocol on GitHub ↗</a></p>
@@ -87,12 +87,12 @@
 </ol>
 <h2>Limitations and next experiment</h2>
 <p>A small synthetic development set does not establish generalization to conflicting documents, adversarial prompts, long corpora, unseen organizations, or real users. Two model runs do not quantify nondeterministic variation. The next experiment should use held-out documents and repeated runs. I also want to replace the invented trace examples with records from a publicly releasable evaluation run.</p>
-<p><strong>Source:</strong> <a href="https://github.com/simplysoup/evaluated-rag-agentic">Repository README, evaluation data, implementation and tests</a>. No client work, private material, or deployment claims are part of this demo.</p>
+<p><strong>Source:</strong> <a href="https://github.com/simplysoup/evaluated-rag-agentic">Repository README, evaluation data, implementation and tests</a>.</p>
 </div></div>
   <section class="interactive-band"><div class="shell"><div class="interactive-intro"><p class="section-label">Interactive example</p><h2>Three possible RAG outcomes</h2><p>Choose a scenario to see retrieval, grounding validation, correction, and abstention. Every example is invented. Actual results are described in the article.</p></div><div id="rag-trace" class="rag-exhibit" data-exhibit="rag"></div></div></section>
 </article></main>
 <footer class="site-footer"><div class="shell">
-  <div class="footer-top"><div><span class="section-label">Contact</span><h2>Get in touch.</h2><p>For engineering and research conversations.</p></div><a class="footer-email" href="mailto:nickbode71@gmail.com">nickbode71@gmail.com <span aria-hidden="true">↗</span></a></div>
+  <div class="footer-top"><div><span class="section-label">Contact</span><h2>Get in touch.</h2><p>AI engineering, applied ML, and research.</p></div><a class="footer-email" href="mailto:nickbode71@gmail.com">nickbode71@gmail.com <span aria-hidden="true">↗</span></a></div>
   <div class="footer-bottom"><span>© 2026 Nicholas Bode · Toronto</span><div><a href="https://github.com/simplysoup" target="_blank" rel="noopener noreferrer">GitHub</a><a href="https://www.linkedin.com/in/nicholas-bode-6a29ab1bb/" target="_blank" rel="noopener noreferrer">LinkedIn</a><a href="/resume/">Résumé</a></div></div>
 </div></footer>
 </body></html>
