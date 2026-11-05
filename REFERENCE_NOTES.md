@@ -14,7 +14,7 @@ We inspected the delivered HTML, bundled CSS/JavaScript, and the author’s `lab
 - Use a personal, specific first-person statement rather than a job title or name-only headline; keep employment near the top.
 - Use a project-specific technical drawing for each featured project rather than generic geometric art or dashboard mockups.
 - Avoid copying typography, project layouts, cursor gimmicks, shader code, branded icons or asset files.
-- Prefer no continuous animation, native scrolling, keyboard accessibility, reduced motion, and progressive enhancement.
+- Use restrained autonomous motion only for the central generative artwork; preserve native scrolling, keyboard access, reduced-motion preferences, and progressive enhancement.
 
 ## Boundaries
 

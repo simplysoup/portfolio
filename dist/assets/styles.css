@@ -539,3 +539,101 @@ h1,h2,h3{letter-spacing:-.048em}
 @media(max-width:800px){.atelier-hero h1{font-size:clamp(60px,10.6vw,86px)}}
 @media(max-width:550px){.atelier-hero h1{font-size:clamp(47px,11.6vw,65px);line-height:1.085;letter-spacing:-.068em}}
 @media(max-width:390px){.atelier-hero h1{font-size:clamp(43px,11.5vw,55px)}}
+
+/* ---------------------------------------------------------------
+   ATELIER 06 / MOTION DIRECTION
+   The dark editorial layout stays intact. Motion is applied only as
+   a readable layer: masked entrances, tactile graphics, context transitions.
+   --------------------------------------------------------------- */
+:root{--motion-expo:cubic-bezier(.16,1,.3,1);--motion-curtain:cubic-bezier(.65,0,.35,1)}
+.atelier-hero h1{perspective:1200px}
+.hero-mask{display:block;overflow:hidden;padding:0 .05em .055em 0;margin-bottom:-.035em;white-space:nowrap}
+.hero-mask>[data-line-inner]{display:block;width:max-content;will-change:transform}
+.atelier-hero .hero-light{color:#D1DEDA}
+.artwork-wrap{pointer-events:auto}
+.artwork-plate{pointer-events:auto;touch-action:pan-y;isolation:isolate}
+.artwork-canvas,.artwork-fallback,.artwork-axis,.artwork-corner{pointer-events:none}
+.artwork-plate::before{content:"";pointer-events:none;position:absolute;inset:5.5%;border-radius:50%;border:1px solid #667d8240;transform:rotate(-9deg) scaleX(.96);z-index:1;mask-image:linear-gradient(100deg,transparent 8%,#000 65%,transparent 92%)}
+.artwork-plate::after{content:"";pointer-events:none;position:absolute;inset:22%;border-radius:50%;z-index:0;box-shadow:0 0 120px 25px #799cb10c}
+.artwork-canvas{z-index:2;opacity:1}
+.artwork-axis,.artwork-corner{z-index:3}
+.field-pulse{position:absolute;bottom:8%;left:15%;z-index:4;display:inline-flex;gap:9px;align-items:center;background:transparent;border:0;padding:8px 4px;font:500 10px var(--mono);letter-spacing:.03em;color:#C4D4D0;cursor:pointer;transition:color .45s var(--motion-expo)}
+.field-pulse::before{content:"";position:absolute;bottom:3px;left:4px;width:calc(100% - 8px);height:1px;background:#8caaadb5;transform:scaleX(.35);transform-origin:left;transition:transform .65s var(--motion-expo)}
+.field-pulse:hover,.field-pulse:focus-visible{color:var(--signal)}
+.field-pulse:hover::before,.field-pulse:focus-visible::before{transform:scaleX(1)}
+.field-pulse:focus-visible{outline:2px solid var(--signal);outline-offset:3px}
+.field-pulse>span{text-transform:uppercase;font-size:9px}
+.atelier-text-link span[aria-hidden]{display:inline-block;will-change:transform}
+/* The route curtain covers navigation, with visible page content behind it until triggered. */
+.route-veil{visibility:hidden;pointer-events:none;position:fixed;inset:0;z-index:100;background:linear-gradient(153deg,#111c24,#1b303c 57%,#101a21);transform:translate3d(0,101%,0);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.route-veil .veil-grain{position:absolute;inset:0;opacity:.28;background:repeating-linear-gradient(0deg,transparent 0,transparent 14px,#899aa20b 14.5px,#899aa20b 15px)}
+.route-veil .veil-sign{position:relative;font:600 clamp(26px,5vw,54px)/1 var(--display);letter-spacing:-.08em;color:var(--paper-light)}
+.route-veil .veil-line{position:absolute;left:0;right:0;top:0;height:3px;background:var(--signal)}
+/* Project illustrations have a distinct, purpose-specific response. */
+.atelier-project{isolation:isolate;transition:border-color .6s var(--motion-expo),background-color .6s var(--motion-expo)}
+.atelier-project::after{content:"";position:absolute;pointer-events:none;inset:auto 0 0 0;height:2px;background:linear-gradient(90deg,transparent 0%,var(--signal) 50%,transparent 100%);transform:scaleX(0);transform-origin:left;opacity:.8;transition:transform 1s var(--motion-expo)}
+.atelier-project.is-interacting::after{transform:scaleX(1)}
+.atelier-project .project-visual{will-change:transform;transition:transform 1.2s var(--motion-expo),filter 1.2s var(--motion-expo);overflow:hidden}
+.atelier-project.is-interacting .project-visual{transform:scale(1.023);filter:brightness(1.10)}
+.atelier-project .project-visit span{display:inline-block;transition:transform .65s var(--motion-expo)}
+.atelier-project.is-interacting .project-visit span{transform:translate3d(6px,-5px,0)}
+/* Trace: signal crosses the steps and branches in response to focus or hover. */
+.rag-visual .rag-chain i{position:relative;overflow:hidden}
+.rag-visual .rag-chain i::before{content:"";position:absolute;width:9px;height:9px;background:var(--signal);border-radius:50%;left:-12px;top:50%;margin-top:-4px;box-shadow:0 0 14px #d9ef8b8f;opacity:0}
+.atelier-project-rag.is-interacting .rag-chain i::before,.atelier-project-rag.is-current .rag-chain i::before{animation:ragTransit 1.35s var(--motion-expo) both infinite}
+.rag-visual .rag-chain i:nth-of-type(2)::before{animation-delay:.3s!important}
+@keyframes ragTransit{0%{left:-12px;opacity:0}15%{opacity:1}85%{opacity:1}100%{left:calc(100% + 4px);opacity:0}}
+.rag-visual .rag-branches>div{transition:transform .6s var(--motion-expo),opacity .6s var(--motion-expo)}
+.atelier-project-rag.is-interacting .rag-branches>div:nth-child(2){transform:translateX(6px)}
+.atelier-project-rag.is-interacting .rag-branches>div:nth-child(3){transform:translateX(12px)}
+/* Data: a single light band passes over the synthetic records. */
+.mini-datagrid{position:relative;overflow:hidden}
+.mini-datagrid::after{content:"";position:absolute;left:0;right:0;top:-25%;height:28%;pointer-events:none;background:linear-gradient(180deg,transparent,#c4e7fc15,transparent);opacity:0}
+.atelier-project.is-interacting .mini-datagrid::after,.atelier-project.is-current .mini-datagrid::after{animation:tableScan 2.15s var(--motion-expo) infinite}
+@keyframes tableScan{0%{transform:translateY(0);opacity:0}10%{opacity:1}85%{opacity:1}100%{transform:translateY(560%);opacity:0}}
+/* Audio: gentle phase changes, not an endlessly bouncing equalizer. */
+.piano-visual .piano-bars i{transform-origin:bottom center;transition:transform 1s var(--motion-expo)}
+.atelier-project.is-interacting .piano-bars i,.atelier-project.is-current .piano-bars i{animation:barsBreathe 2.1s ease-in-out infinite alternate;animation-delay:calc(var(--bar-i,0) * -90ms)}
+.piano-bars i:nth-child(3n+1){--bar-i:1}.piano-bars i:nth-child(3n+2){--bar-i:2}.piano-bars i:nth-child(4n){--bar-i:3}
+@keyframes barsBreathe{from{transform:scaleY(.72)}to{transform:scaleY(1.04)}}
+.research-orbit{animation:orbitDrift 32s linear infinite;will-change:transform}
+.research-orbit .r-orbit-2{animation:orbitInverse 27s linear infinite}
+@keyframes orbitDrift{from{transform:translate(-50%,-50%) rotate(0deg)}to{transform:translate(-50%,-50%) rotate(360deg)}}
+@keyframes orbitInverse{from{transform:rotate(0deg)}to{transform:rotate(-360deg)}}
+/* Fine-grained viewport and input behavior. */
+@media (hover:none),(pointer:coarse){
+ .field-pulse{bottom:7%;left:13%;min-height:40px;min-width:100px}
+ .artwork-axis.axis-bottom{right:8%;bottom:16%}
+ .atelier-project.is-current .project-visual{filter:brightness(1.07)}
+ .atelier-project.is-current::after{transform:scaleX(.7);opacity:.35}
+}
+@media (max-width:760px){
+ .hero-mask{padding-bottom:.07em}
+ .field-pulse{bottom:4%;left:13%}
+ .artwork-plate{touch-action:pan-y}
+ .artwork-axis.axis-bottom{bottom:17%;right:8%}
+ .atelier-hero .artwork-wrap{pointer-events:auto}
+}
+@media (prefers-reduced-motion:reduce){
+ .artwork-canvas{animation:none!important}
+ .research-orbit,.research-orbit .r-orbit-2,.piano-visual .piano-bars i,.mini-datagrid::after,.rag-visual .rag-chain i::before{animation:none!important}
+ .atelier-project,.atelier-project .project-visual,.field-pulse,.field-pulse::before{transition:none!important}
+ .route-veil{display:none!important}
+}
+/* On phones the artwork must be a real interactive surface, not a barely
+   visible layer underneath links and body text. No hover is required. */
+@media (max-width:760px){
+ .atelier-hero-inner{display:flex;flex-direction:column;min-height:0;padding-top:27px;padding-bottom:28px}
+ .atelier-hero-meta{width:100%;order:0}
+ .atelier-hero-copy{order:1;width:100%;padding:55px 0 17px}
+ .atelier-greeting{margin-bottom:25px}
+ .atelier-hero h1{font-size:clamp(46px,10.45vw,70px);margin-bottom:30px}
+ .atelier-intro{font-size:15px;line-height:1.7;max-width:470px}
+ .atelier-actions{margin-top:28px}
+ .artwork-wrap{position:relative;order:2;right:auto;top:auto;width:min(100%,520px);opacity:1;z-index:2;transform:none;align-self:center;margin:4px 0 0;pointer-events:auto}
+ .artwork-plate{width:min(100%,500px);height:auto;aspect-ratio:1;margin:0 auto;touch-action:pan-y}
+ .hero-bottom-line{order:3;width:100%;margin:0 0 4px}
+ .field-pulse{left:10%;bottom:7%}
+ .axis-top{left:10%}.axis-bottom{bottom:13%;right:7%}
+ .artwork-corner{right:11%;top:13%}
+}

@@ -51,6 +51,7 @@ script="""
    });
    if(typeof initPortfolioExhibits === 'function') initPortfolioExhibits();
    if(typeof initializeField === 'function') initializeField();
+   if(typeof initMotionSystem === 'function') initMotionSystem();
    requestAnimationFrame(() => { if(anchor){const el=document.getElementById(anchor);if(el)el.scrollIntoView();}else window.scrollTo(0,0); });
  }
  window.addEventListener('hashchange',()=>{
@@ -64,7 +65,7 @@ script="""
  render();
 })();
 """.replace('__PAGE_DATA__',payload)
-js=(DIST/'assets/site.js').read_text()
+js='\n'.join((DIST/'assets'/name).read_text() for name in ('site.js','field.js','motion.js'))
 new_script=base.new_tag('script');new_script.string=js
 base.body.append(new_script)
 router=base.new_tag('script');router.string=script

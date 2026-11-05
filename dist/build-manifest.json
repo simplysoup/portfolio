@@ -8,9 +8,9 @@
     "/about/",
     "/contact/",
     "/resume/",
+    "/work/evaluated-rag/",
     "/work/analytics-pipeline/",
     "/work/piano-transcription/",
-    "/work/evaluated-rag/",
     "/research/trend-dependencies/"
   ],
   "excluded_drafts": []
