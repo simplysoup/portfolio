@@ -5,3 +5,11 @@ __pycache__/
 *.env.local
 .DS_Store
 portfolio-preview.html
+
+# Local browser regression reports
+cross-browser-report.json
+viewport-composition-report.json
+
+# Generated site and preview
+dist/
+public/resume.pdf

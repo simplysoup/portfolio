@@ -17,17 +17,19 @@ ROOT=Path(__file__).resolve().parents[1]
 OUT=ROOT/'dist'
 BASE='/' + os.getenv('SITE_BASE','').strip('/')
 if BASE!='/' : BASE += '/'
-SITE_URL=os.getenv('SITE_URL','https://example.com').rstrip('/')
+SITE_URL=os.getenv('SITE_URL','https://simplysoup.github.io').rstrip('/')
+PUBLIC_ROOT=os.getenv('PUBLIC_ROOT','https://simplysoup.github.io/portfolio').rstrip('/')
+assert PUBLIC_ROOT.startswith('https://') and 'example.com' not in PUBLIC_ROOT
 assert BASE.startswith('/') and BASE.endswith('/')
 
 MD=MarkdownIt('commonmark',{'html':False,'linkify':False}).enable('table')
 ENV=Environment(loader=FileSystemLoader(ROOT/'templates'),autoescape=select_autoescape(['html','xml']),trim_blocks=True,lstrip_blocks=True)
 
-work_order=['evaluated-rag','analytics-pipeline','piano-transcription']
+work_order=['agent-shield','evaluated-rag','analytics-pipeline','piano-transcription']
 
 SITE={
  'name':'Nicholas Bode',
- 'description':'Personal engineering portfolio of Nicholas Bode in Toronto: AI applications, data systems, independent experiments, music, and original research.',
+ 'description':'Nicholas Bode builds secure AI integrations, evaluation workflows, data systems, and independent applied ML research in Toronto.',
  'email':'nickbode71@gmail.com',
  'github':'https://github.com/simplysoup',
  'linkedin':'https://www.linkedin.com/in/nicholas-bode-6a29ab1bb/',
@@ -59,17 +61,26 @@ PUBLIC_RESEARCH={k:v for k,v in RESEARCH.items() if v.get('public') is True}
 def route_url(path):
  return BASE + path.strip('/') + ('/' if path.strip('/') else '')
 
+RESUME_SOURCE=ROOT/'public'/'resume.pdf'
+HAS_RESUME=RESUME_SOURCE.is_file()
+if HAS_RESUME and not RESUME_SOURCE.read_bytes().startswith(b'%PDF-'):
+ raise ValueError('public/resume.pdf is not a valid PDF')
+
+
 def render(route, template, **context):
  filename=OUT/route.strip('/')/'index.html' if route.strip('/') else OUT/'index.html'
  filename.parent.mkdir(parents=True,exist_ok=True)
- full_url=SITE_URL + route_url(route)
+ full_url=PUBLIC_ROOT + ('/'+route.strip('/')+'/' if route.strip('/') else '/')
  rendered=ENV.get_template(template).render(site=SITE, base=BASE, route=route, url=full_url, route_url=route_url,
+                                               public_url=full_url,og_image_url=PUBLIC_ROOT+'/assets/og-cover.png',has_resume=HAS_RESUME,
                                                work=PUBLIC_WORK,research=PUBLIC_RESEARCH,**context)
  filename.write_text(rendered,encoding='utf-8')
 
 if OUT.exists():shutil.rmtree(OUT)
 OUT.mkdir(parents=True)
 shutil.copytree(ROOT/'assets',OUT/'assets')
+if HAS_RESUME:
+ shutil.copy2(RESUME_SOURCE,OUT/'resume.pdf')
 
 render('', 'index.html', title='Personal index — engineering, research & music',description=SITE['description'], nav='home')
 render('work','work.html',title='Selected engineering work', description='Applied AI, evaluation, and systems engineering projects by Nicholas Bode.',nav='work')
@@ -83,14 +94,12 @@ render('contact','contact.html',title='Contact',description='Contact Nicholas Bo
 render('resume','resume.html',title='Résumé',description='Professional background and résumé availability.',nav='resume')
 
 paths=['','work','research','about','contact','resume']+[f'work/{s}' for s in PUBLIC_WORK]+[f'research/{s}' for s in PUBLIC_RESEARCH]
-# Sitemap must not advertise placeholder domain: a real SITE_URL is required.
-if SITE_URL!='https://example.com':
- ns='http://www.sitemaps.org/schemas/sitemap/0.9'
- root=ET.Element('urlset',xmlns=ns)
- for p in paths:
-  u=ET.SubElement(root,'url');ET.SubElement(u,'loc').text=SITE_URL+route_url(p)
- ET.ElementTree(root).write(OUT/'sitemap.xml',encoding='utf-8',xml_declaration=True)
-(OUT/'robots.txt').write_text('User-agent: *\nAllow: /\n'+(f'Sitemap: {SITE_URL}{BASE}sitemap.xml\n' if SITE_URL!='https://example.com' else ''),encoding='utf-8')
-manifest={'generated':str(date.today()),'base':BASE,'routes':[route_url(p) for p in paths], 'excluded_drafts':sorted(p.name for p in (ROOT/'content/drafts').glob('*.md'))}
+ns='http://www.sitemaps.org/schemas/sitemap/0.9'
+root=ET.Element('urlset',xmlns=ns)
+for p in paths:
+ u=ET.SubElement(root,'url');ET.SubElement(u,'loc').text=PUBLIC_ROOT+('/'+p.strip('/')+'/' if p.strip('/') else '/')
+ET.ElementTree(root).write(OUT/'sitemap.xml',encoding='utf-8',xml_declaration=True)
+(OUT/'robots.txt').write_text('User-agent: *\nAllow: /\n'+f'Sitemap: {PUBLIC_ROOT}/sitemap.xml\n',encoding='utf-8')
+manifest={'generated':str(date.today()),'base':BASE,'routes':[route_url(p) for p in paths], 'resume_pdf_included':HAS_RESUME,'excluded_drafts':sorted(p.name for p in (ROOT/'content/drafts').glob('*.md'))}
 (OUT/'build-manifest.json').write_text(json.dumps(manifest,indent=2),encoding='utf-8')
 print(f"Built {len(paths)} pages in {OUT} ({len(manifest['excluded_drafts'])} private drafts excluded).")

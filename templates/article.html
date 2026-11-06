@@ -2,7 +2,21 @@
 <article>
   <header class="article-header shell"><a href="{{base}}{{kind}}/" class="back-link">← {{'All projects' if kind=='work' else 'Research'}}</a><p class="section-label">{{article.category}} · {{article.year}}</p><h1>{{article.title}}</h1><p class="article-deck">{{article.description}}</p><dl class="article-meta"><div><dt>Ownership</dt><dd>{{article.ownership}}</dd></div><div><dt>Status</dt><dd>{{article.status}}</dd></div><div><dt>Type</dt><dd>{{article.format}}</dd></div></dl></header>
   <div class="shell article-layout"><aside class="article-rail"><div class="sticky-rail"><p class="section-label">More</p><p>{% if kind=='work' %}Selected projects and research.{% else %}Explore the engineering projects.{% endif %}</p><a href="{{base}}{{'research/' if kind=='work' else 'work/'}}">{{'Research' if kind=='work' else 'Other projects'}} ↗</a></div></aside><div class="article-prose prose">{{article.body|safe}}</div></div>
-  {% if article.exhibit == 'rag' %}
+  {% if article.exhibit == 'agentshield' %}
+  <section class="interactive-band shield-band" aria-labelledby="shield-figure-title"><div class="shell">
+    <div class="interactive-intro"><p class="section-label">Observed paired evaluation / GPT-OSS 20B</p><h2 id="shield-figure-title">One payload. Two executions.</h2><p>The figure reconstructs the outcome categories documented in the public repository. It is not a raw execution trace. Both agents completed the legitimate task; only the vulnerable configuration performed the prohibited synthetic notification.</p></div>
+    <div class="shield-flow" aria-label="Diagram: untrusted document content is replayed into both a vulnerable configuration and a policy configuration">
+      <div class="shield-source"><span>01 / INPUT</span><strong>Untrusted document</strong><small>Frozen attack payload · identical SHA-256 hash</small></div>
+      <div class="shield-fork" aria-hidden="true"><span></span><span></span></div>
+      <div class="shield-branches">
+        <div class="shield-branch shield-vulnerable"><span>02A / VULNERABLE</span><strong>Authorization disabled</strong><small>Model invoked prohibited notification tool</small><div class="shield-outcome"><b>1 / 1</b><span>Unauthorized synthetic effect occurred</span></div></div>
+        <div class="shield-branch shield-policy"><span>02B / POLICY</span><strong>Authorization enabled</strong><small>Model ignored the injected instruction</small><div class="shield-outcome"><b>0 / 1</b><span>No prohibited tool call attempted</span></div></div>
+      </div>
+      <p class="shield-interpretation">What this experiment <em>doesn't</em> show: a blocked tool attempt in the paired policy run. A separate, unpaired development run observed a policy denial.</p>
+    </div>
+    <div class="shield-footnote"><span>PYTHON / LANGGRAPH / JSONL FIXTURES</span><a href="https://github.com/simplysoup/agent-shield" target="_blank" rel="noopener noreferrer">EXPLORE THE SOURCE ↗</a></div>
+  </div></section>
+  {% elif article.exhibit == 'rag' %}
   <section class="interactive-band"><div class="shell"><div class="interactive-intro"><p class="section-label">Interactive example</p><h2>Three possible RAG outcomes</h2><p>Choose a scenario to see retrieval, grounding validation, correction, and abstention. Every example is invented. Actual results are described in the article.</p></div><div id="rag-trace" class="rag-exhibit" data-exhibit="rag"></div></div></section>
   {% elif article.exhibit == 'trend' %}
   <section id="experiment" class="interactive-band"><div class="shell"><div class="interactive-intro"><p class="section-label">Interactive example</p><h2>One line or two?</h2><p>Change the noise, the size of a structural break, and the allowable residual. This is a synthetic illustration with ordinary least-squares fits, not a reproduction of the thesis algorithm.</p></div><div id="trend-lab" class="trend-exhibit" data-exhibit="trend"></div></div></section>
