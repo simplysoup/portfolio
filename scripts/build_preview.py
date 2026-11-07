@@ -15,7 +15,8 @@ style=base.new_tag('style');style.string='\n'.join((DIST/'assets'/n).read_text()
 # Convert static links even before script loads; the initial index remains in the HTML.
 for a in base.select('a[href]'):
     href=a.get('href','')
-    if href.startswith('/#'):a['href']='#'+href[2:]
+    if href.endswith('/resume.pdf'):a['href']='resume.pdf'
+    elif href.startswith('/#'):a['href']='#'+href[2:]
     elif href.startswith('/'):a['href']='#'+href
 # Ensure visual fallback artwork remains present when canvas cannot render.
 base.find('main')['id']='main'
@@ -32,7 +33,8 @@ router=r'''(() => {
  function convert(scope){
    scope.querySelectorAll('a[href]').forEach(a=>{
      const h=a.getAttribute('href');
-     if(h.startsWith('/#'))a.setAttribute('href','#'+h.slice(2));
+     if(h.endsWith('/resume.pdf'))a.setAttribute('href','resume.pdf');
+     else if(h.startsWith('/#'))a.setAttribute('href','#'+h.slice(2));
      else if(h.startsWith('/'))a.setAttribute('href','#'+h);
    });
  }

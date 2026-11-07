@@ -1,0 +1,42 @@
+name: Portfolio browser compatibility
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  browser-checks:
+    name: Chromium / Firefox / WebKit
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+      - name: Sync dependencies
+        run: uv sync --extra test
+      - name: Build site and self-contained preview
+        run: |
+          uv run python scripts/build.py
+          uv run python scripts/build_preview.py
+      - name: Verify publication metadata and direct work links
+        run: uv run python tests/verify_publication.py
+      - name: Install cross-browser Playwright engines and system dependencies
+        run: uv run playwright install --with-deps chromium firefox webkit
+      - name: Validate all three engines (fail on missing browser)
+        run: uv run python tests/verify_cross_browser.py --require-all
+      - name: Verify viewport composition at 14 aspect ratios
+        run: uv run python tests/verify_viewport_composition.py --require-all
+      - name: Upload report even on test failure
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: directory-cross-browser-report
+          path: |
+            cross-browser-report.json
+            viewport-composition-report.json
+          if-no-files-found: warn

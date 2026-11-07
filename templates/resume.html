@@ -1,3 +1,11 @@
 {% extends 'base.html' %}{% block content %}
-<section class="page-head shell"><p class="section-label">Résumé</p><h1>Résumé available on request.</h1><p>There isn't a downloadable PDF on this site yet. You can contact me for a current copy.</p><a class="primary-link" href="mailto:{{site.email}}?subject=Resume%20request">Request by email ↗</a></section>
+<section class="page-head shell"><p class="section-label">Résumé / professional background</p><h1>Engineering experience.</h1><p>Secure AI integrations, evaluation, applied ML research, and data-quality engineering.</p>
+{% if has_resume %}<a class="primary-link" href="{{base}}resume.pdf" >Download résumé (PDF) ↗</a>{% else %}<a class="primary-link" href="mailto:{{site.email}}?subject=Resume%20request">Request the current résumé ↗</a>{% endif %}
+</section>
+<section class="shell page-body"><div class="prose">
+<h2>Experience</h2><p><strong>AI Engineer · Environics Analytics · April 2026–present</strong><br>Independent work on authorization for AI-connected search and tools; a tested OAuth2/PKCE remote agent-tool integration; LLM evaluation and human-approval workflows. Contributions to a team-owned agent-tool platform included authenticated access and reporting SDK work.</p>
+<p><strong>Research Associate · Environics Analytics · February 2024–April 2026</strong><br>Recurring analytics quality checks, anomaly investigations, and evaluation of changing data products.</p>
+<h2>Independent projects</h2><p><a href="{{base}}work/agent-shield/">AgentShield ↗</a> — paired prompt-injection testing, tool authorization, and synthetic evaluation traces. <a href="{{base}}work/evaluated-rag/">Evaluated RAG ↗</a> — retrieval, grounding, and abstention experiments.</p><h2>Research</h2><p>MSc Computer Science, Ontario Tech University. <a href="{{base}}research/trend-dependencies/">Discovery of Trend Dependencies Over Time-Series ↗</a></p>
+<p><a href="{{base}}work/">Selected public projects ↗</a> · <a href="{{base}}contact/">Contact ↗</a></p>
+</div></section>
 {% endblock %}

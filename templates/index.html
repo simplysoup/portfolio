@@ -1,25 +1,27 @@
 {% extends 'base.html' %}{% block content %}
 <div class="world" data-world data-base="{{base}}">
   <section class="directory-stage" data-directory aria-label="Portfolio index">
-    <div class="directory-intro"><span class="tiny-symbol" aria-hidden="true">✳</span><span>AN INDEX OF WORK, INQUIRIES &amp; OTHER OBSESSIONS</span></div>
-    <div class="directory-guide"><p>I'm Nick. I build software, investigate systems, and play piano.</p><span>CHOOSE A DIRECTION <b aria-hidden="true">↘</b></span></div>
+    <div class="directory-intro"><span class="tiny-symbol" aria-hidden="true">✳</span><span>ENGINEERING / RESEARCH / MUSIC</span></div>
+    <div class="directory-guide"><div class="directory-introduction"><p>I'm Nick. I build secure AI integrations, evaluate model behavior, and research data quality.</p><span class="directory-current">AI Engineer · Environics Analytics · Toronto, Canada</span></div><span>CHOOSE A DIRECTION <b aria-hidden="true">↘</b></span></div>
     <canvas class="directory-art" data-directory-art aria-label="Decorative animated drawing" aria-hidden="true"></canvas>
+    <aside class="directory-shortcuts" aria-label="Selected showcases — direct links">
+      <span class="shortcut-caption">SELECTED WORK / DIRECT LINKS</span>
+      <div class="shortcut-links">
+        <a class="shortcut shortcut-systems" data-showcase-link href="{{base}}work/agent-shield/"><span>01 <i aria-hidden="true">●</i></span><strong>AgentShield</strong><b aria-hidden="true">↗</b></a>
+        <a class="shortcut shortcut-pipeline" data-showcase-link href="{{base}}work/"><span>02 <i aria-hidden="true">∷</i></span><strong>Secure AI systems</strong><b aria-hidden="true">↗</b></a>
+        <a class="shortcut shortcut-research" data-showcase-link href="{{base}}work/evaluated-rag/"><span>03 <i aria-hidden="true">∿</i></span><strong>RAG evaluation</strong><b aria-hidden="true">↗</b></a>
+        <a class="shortcut shortcut-music" data-showcase-link href="{{base}}research/trend-dependencies/"><span>04 <i aria-hidden="true">◇</i></span><strong>Trend dependencies</strong><b aria-hidden="true">↗</b></a>
+      </div>
+    </aside>
     <nav class="directory-links" aria-label="Explore Nicholas Bode's work">
       <a href="{{base}}work/" data-room-link="systems" data-preview="systems" class="directory-link" data-active="true"><span class="dir-num">01</span><span class="dir-name">Systems</span><span class="dir-desc">AI / DATA / ENGINEERING</span><span class="dir-motif" aria-hidden="true"><svg viewBox="0 0 122 66"><path d="M5 32H27L43 15H73L89 38H115M43 15L53 49H94" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="5" cy="32" r="4"/><circle cx="43" cy="15" r="4"/><circle cx="53" cy="49" r="4"/><circle cx="89" cy="38" r="4"/><circle cx="115" cy="38" r="4"/></svg></span><span class="dir-arrow" aria-hidden="true">↗</span></a>
       <a href="{{base}}research/" data-room-link="research" data-preview="research" class="directory-link"><span class="dir-num">02</span><span class="dir-name">Research</span><span class="dir-desc">MODELS / METHODS / CHANGE</span><span class="dir-motif" aria-hidden="true"><svg viewBox="0 0 122 66"><path d="M3 50Q16 51 26 40T50 34T75 17T119 25" fill="none" stroke="currentColor" stroke-width="2"/><path d="M3 42Q25 31 44 38T87 29T119 13" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="3 4"/><path d="M70 3V63" stroke="currentColor" stroke-width="1" stroke-dasharray="2 4"/></svg></span><span class="dir-arrow" aria-hidden="true">↗</span></a>
       <a href="{{base}}work/piano-transcription/" data-room-link="music" data-preview="music" class="directory-link"><span class="dir-num">03</span><span class="dir-name">Music</span><span class="dir-desc">PIANO / SOUND / SOFTWARE</span><span class="dir-motif" aria-hidden="true"><svg viewBox="0 0 122 66"><path d="M0 13H122M0 27H122M0 41H122M0 55H122" stroke="currentColor" stroke-width=".6" opacity=".45"/><g fill="currentColor"><rect x="9" y="14" width="27" height="8" rx="1"/><rect x="27" y="44" width="39" height="8" rx="1"/><rect x="53" y="28" width="29" height="8" rx="1"/><rect x="87" y="5" width="28" height="8" rx="1"/></g><path d="M76 0V66" stroke="currentColor" stroke-width="1.5"/></svg></span><span class="dir-arrow" aria-hidden="true">↗</span></a>
       <a href="{{base}}about/" data-room-link="about" data-preview="about" class="directory-link"><span class="dir-num">04</span><span class="dir-name">About</span><span class="dir-desc">A BIT MORE PERSONAL</span><span class="dir-motif" aria-hidden="true"><svg viewBox="0 0 122 66"><text x="4" y="53" fill="currentColor" font-size="55" font-weight="600" font-family="monospace" letter-spacing="-13">NB</text><path d="M105 5V61M95 10H115M95 55H115" stroke="currentColor" stroke-width="1"/></svg></span><span class="dir-arrow" aria-hidden="true">↗</span></a>
     </nav>
-    <aside class="directory-shortcuts" aria-label="Selected showcases — direct links">
-      <span class="shortcut-caption">OPEN THE WORK / NO EXTRA STOP</span>
-      <div class="shortcut-links">
-        <a class="shortcut shortcut-systems" data-showcase-link href="{{base}}work/evaluated-rag/"><span>01 <i aria-hidden="true">●</i></span><strong>RAG evaluation</strong><b aria-hidden="true">↗</b></a>
-        <a class="shortcut shortcut-pipeline" data-showcase-link href="{{base}}work/analytics-pipeline/"><span>02 <i aria-hidden="true">∷</i></span><strong>Data pipeline</strong><b aria-hidden="true">↗</b></a>
-        <a class="shortcut shortcut-research" data-showcase-link href="{{base}}research/trend-dependencies/"><span>03 <i aria-hidden="true">∿</i></span><strong>Trend dependencies</strong><b aria-hidden="true">↗</b></a>
-        <a class="shortcut shortcut-music" data-showcase-link href="{{base}}work/piano-transcription/"><span>04 <i aria-hidden="true">♫</i></span><strong>Piano transcription</strong><b aria-hidden="true">↗</b></a>
-      </div>
-    </aside>
-    <a class="directory-scroll-cue" href="#showcases" aria-label="Scroll to the four featured projects">SCROLL TO SELECTED WORK <span aria-hidden="true">↓</span></a>
+
+    <div class="directory-action-row"><a href="{{base}}resume.pdf" class="directory-cta">RÉSUMÉ ↗</a><a href="{{base}}contact/" class="directory-cta">CONTACT ↗</a></div>
+    <a class="directory-scroll-cue" href="#showcases" aria-label="Scroll to the four animated project showcases">SCROLL TO SELECTED WORK <span aria-hidden="true">↓</span></a>
     <div class="directory-floor"><span>NB / 2026</span><span>INDEPENDENT WORK &amp; PROFESSIONAL PRACTICE</span><span>TAP OR CLICK TO ENTER</span></div>
   </section>
 
@@ -131,7 +133,7 @@
   </div>
   <section class="room room-systems" data-room="systems" aria-label="Systems chapter" aria-hidden="true" inert>
     <div class="room-top"><span>CHAPTER 01 / SYSTEMS</span><button type="button" data-room-close aria-label="Back to index">↙ INDEX</button></div>
-    <div class="room-head"><p class="room-kicker">CURRENT PRACTICE / SELECTED ENGINEERING</p><h2>Tools, tests,<br><em>&amp; failure cases.</em></h2><p class="room-intro">I’m an AI Engineer at Environics Analytics, working on applications, model evaluation, and data systems. Below are independent projects with public source code.</p></div>
+    <div class="room-head"><p class="room-kicker">CURRENT PRACTICE / SELECTED ENGINEERING</p><h2>Tools, tests,<br><em>&amp; failure cases.</em></h2><p class="room-intro">I work on secure AI integrations, evaluation, and data systems at Environics Analytics. The projects below are independent work with public source code.</p></div>
     <div class="room-feature room-feature-systems"><div class="feature-graphic system-graphic" aria-hidden="true"><svg viewBox="0 0 600 360"><defs><linearGradient id="systemFade" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#a6e8da"/><stop offset="1" stop-color="#d2ff79"/></linearGradient></defs><g class="sys-grid"><path d="M0 60 H600 M0 120 H600 M0 180 H600 M0 240 H600 M0 300 H600 M100 0 V360 M200 0 V360 M300 0 V360 M400 0 V360 M500 0 V360"/></g><g class="sys-paths"><path d="M50 190 H185 Q230 190 230 142 V100 H360 Q400 100 400 150 V230 H546"/><path d="M50 190 H145 Q220 190 220 250 H340 Q400 250 400 290 H546"/><path d="M50 190 H200 Q264 190 264 195 H546"/></g><g class="sys-nodes"><circle cx="50" cy="190" r="9"/><circle cx="230" cy="100" r="7"/><circle cx="400" cy="230" r="7"/><circle cx="546" cy="230" r="9"/><circle cx="546" cy="195" r="7"/><circle cx="546" cy="290" r="7"/></g><g class="sys-labels"><text x="42" y="166">INPUT</text><text x="210" y="78">RETRIEVE</text><text x="380" y="209">VERIFY</text><text x="496" y="174">OUTPUT</text></g></svg><span class="graphic-stamp">NO. 001 / CONTROLLED PATHS</span></div><span class="room-smallnote">RETRIEVAL → CHECKS → RESOLUTION</span></div>
     <div class="room-list" aria-label="Engineering projects"><a href="{{base}}work/evaluated-rag/"><span>01 / PUBLIC CODE</span><strong>Evaluated RAG &amp; agentic system</strong><b aria-hidden="true">↗</b></a><a href="{{base}}work/analytics-pipeline/"><span>02 / PUBLIC CODE</span><strong>Incremental analytics pipeline</strong><b aria-hidden="true">↗</b></a><a href="{{base}}work/"><span>03 / INDEX</span><strong>All engineering projects</strong><b aria-hidden="true">↗</b></a></div>
   </section>
@@ -149,9 +151,9 @@
   </section>
   <section class="room room-about" data-room="about" aria-label="About chapter" aria-hidden="true" inert>
     <div class="room-top"><span>CHAPTER 04 / ABOUT</span><button type="button" data-room-close>↙ INDEX</button></div>
-    <div class="room-head"><p class="room-kicker">NICHOLAS BODE / TORONTO, CANADA</p><h2>A few things<br><em>about me.</em></h2><p class="room-intro">I work across AI systems, applications, evaluation, and data engineering. I studied computer science and mathematics at Ontario Tech, where I later completed an MSc researching trend dependencies.</p></div>
+    <div class="room-head"><p class="room-kicker">NICHOLAS BODE / TORONTO, CANADA</p><h2>A few things<br><em>about me.</em></h2><p class="room-intro">I work on AI application security, agent-tool integrations, evaluation, and data systems. My independent research studied trend dependencies in noisy time series.</p></div>
     <div class="about-typography" aria-hidden="true"><span class="about-word">NB</span><span class="about-vertical">EST. / CONTINUOUSLY CHANGING</span><span class="about-rule"></span></div>
-    <div class="room-list"><a href="{{base}}about/"><span>01 / BACKGROUND</span><strong>More about me</strong><b aria-hidden="true">↗</b></a><a href="{{site.github}}" target="_blank" rel="noopener"><span>02 / SOURCE</span><strong>GitHub</strong><b aria-hidden="true">↗</b></a><a href="mailto:{{site.email}}"><span>03 / HELLO</span><strong>{{site.email}}</strong><b aria-hidden="true">↗</b></a><a href="{{base}}resume/"><span>04 / DETAILS</span><strong>Résumé</strong><b aria-hidden="true">↗</b></a></div>
+    <div class="room-list"><a href="{{base}}about/"><span>01 / BACKGROUND</span><strong>More about me</strong><b aria-hidden="true">↗</b></a><a href="{{site.github}}" target="_blank" rel="noopener"><span>02 / SOURCE</span><strong>GitHub</strong><b aria-hidden="true">↗</b></a><a href="mailto:{{site.email}}"><span>03 / HELLO</span><strong>{{site.email}}</strong><b aria-hidden="true">↗</b></a><a href="{{base}}resume.pdf"><span>04 / DETAILS</span><strong>Résumé</strong><b aria-hidden="true">↗</b></a></div>
   </section>
   <nav class="room-pager" data-room-pager aria-label="Change chapter" aria-hidden="true" inert><button type="button" data-pager="systems" aria-label="Systems">01</button><button type="button" data-pager="research" aria-label="Research">02</button><button type="button" data-pager="music" aria-label="Music">03</button><button type="button" data-pager="about" aria-label="About">04</button></nav>
 </div>
