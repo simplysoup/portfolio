@@ -1,8 +1,9 @@
 """Cross-engine compatibility checks for Directory 13.
 
 Runs the exact self-contained `OPEN_PORTFOLIO.html` markup, without relying on
-file:// JavaScript permissions. Desktop wheel measurements are a diagnostic,
-not a simulation of native phone touch momentum or Safari browser chrome.
+file:// JavaScript permissions. Programmatic scroll measurements are a
+diagnostic, not a simulation of native phone touch momentum or Safari
+browser chrome.
 
 Run: python tests/verify_cross_browser.py --require-all
 """
@@ -53,18 +54,36 @@ def scroll_sample(page):
     page.wait_for_timeout(100)
     y0 = page.evaluate('scrollY')
     p0 = float(scene.evaluate('(el)=>getComputedStyle(el).getPropertyValue("--progress")||0'))
-    page.mouse.wheel(0, 300)
+    # Programmatic scroll, not mouse.wheel. The page listens for scroll
+    # events, not wheel events, so this exercises exactly the code under
+    # test -- and mouse.wheel does not work as a 300px input in WebKit:
+    # it throws on mobile WebKit ("Mouse wheel is not supported in mobile
+    # WebKit"), and on desktop WebKit the wheel scroll is delayed and then
+    # snap-forwarded to the next chapter (progress jumps to 1.0, or on a
+    # loaded runner has not moved yet at the 320ms read: 0.0 -> 0.0).
+    # window.scrollBy lands at exactly +300px in every engine, mobile
+    # included, and stays there (verified in WebKit at all five viewports).
+    page.evaluate('window.scrollBy(0, 300)')
     page.wait_for_timeout(320)
     y1 = page.evaluate('scrollY')
     p1 = float(scene.evaluate('(el)=>getComputedStyle(el).getPropertyValue("--progress")||0'))
+    # A loaded runner can be slow to run the scroll listener's rAF, so if
+    # progress has not moved yet, keep polling briefly rather than failing
+    # on timing. The common case still reads at 320ms, as before.
+    for _ in range(15):
+        if p1 > p0 + 0.01:
+            break
+        page.wait_for_timeout(100)
+        y1 = page.evaluate('scrollY')
+        p1 = float(scene.evaluate('(el)=>getComputedStyle(el).getPropertyValue("--progress")||0'))
     page.wait_for_timeout(240)
     y2 = page.evaluate('scrollY')
     require(p1 > p0 + 0.01, f'scroll progress not updating: {p0} -> {p1}')
     return {
-        "input": "synthetic mouse wheel; not touch momentum",
-        "wheel_delta_px": 300,
+        "input": "programmatic window.scrollBy(0, 300); not touch momentum",
+        "scroll_delta_px": 300,
         "scroll_delta_320ms_px": round(y1-y0, 1),
-        "post_wheel_drift_240ms_px": round(y2-y1, 1),
+        "post_scroll_drift_240ms_px": round(y2-y1, 1),
         "progress_before": round(p0, 4),
         "progress_after": round(p1, 4),
     }
@@ -189,7 +208,7 @@ def main():
         'notes':[
             'Playwright WebKit runs Safari WebKit engine, not Safari for macOS/iOS.',
             'Narrow Firefox viewports are desktop Firefox responsive layout tests.',
-            'Wheel metrics are not native touchscreen scroll inertia.',
+            'Programmatic scroll metrics are not native touchscreen scroll inertia.',
             'set_content tests bundled scripts, not Android file-viewer policies.',
         ],
         'browsers':{},

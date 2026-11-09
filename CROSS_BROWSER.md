@@ -15,10 +15,19 @@ It checks:
 - recorded engine support for CSS `:has`, `svh`, `clip-path`, `color-mix`, scroll snap and Web Animations.
 
 All four projects receive structural and responsive-layout checks. The RAG
-chapter receives a **300px synthetic wheel gesture** at each viewport to measure
-scroll-progress response and post-gesture settling efficiently. A synthetic wheel test
-is not equivalent to real touch inertia or native trackpad feel. The report
-never claims to validate physical Safari or mobile Firefox touch scrolling.
+chapter receives a **300px programmatic scroll** (`window.scrollBy(0, 300)`)
+at each viewport to measure scroll-progress response and post-scroll settling
+efficiently. A programmatic scroll test is not equivalent to real touch
+inertia or native trackpad feel. The report never claims to validate physical
+Safari or mobile Firefox touch scrolling.
+
+It used to be a synthetic mouse-wheel gesture, changed 2026-11-08 after the
+v14 CI run failed WebKit-only for test-harness reasons, not site reasons
+(see below): `mouse.wheel` throws on mobile WebKit, and on desktop WebKit
+the wheel scroll is delayed and then snap-forwarded to the next chapter, so
+it never measures a 300px scroll there. The page listens for scroll events,
+not wheel events, so `scrollBy` exercises exactly the code under test and
+lands at +300px in every engine, mobile included.
 
 ## Local setup
 
@@ -52,7 +61,7 @@ GPU compositing may differ from Playwright WebKit.
 
 ## Diagnosis from local Chromium run (5 November 2026)
 
-At a 300px wheel input, project scroll progress advanced by approximately:
+At a 300px scroll input, project scroll progress advanced by approximately:
 
 | Viewport | Scroll hold (track minus viewport) | Progress change |
 |---|---:|---:|
@@ -75,6 +84,29 @@ required before claiming those engines pass. A subsequent
 calibration can adjust the track's hold distance by viewport and evaluate
 whether scroll snapping should be disabled below the mobile breakpoint.
 
+## Diagnosis from the v14 CI failure (7 November 2026, fixed 8 November)
+
+The v14 release branch failed CI WebKit-only, 15/18: Chromium 6/6, Firefox
+6/6, WebKit 3/6. The three WebKit failures were all in the scroll-progress
+check, and none was a site bug. Reproduced locally in Playwright WebKit
+1.64.1 / WebKit 27.2:
+
+- **Phone and short-phone:** `mouse.wheel` throws outright — mouse-wheel
+  input is not supported in mobile WebKit.
+- **Wide desktop (1920×1080):** the wheel scroll is delayed, then
+  `scroll-snap-type: y proximity` snaps forward to the next chapter, so
+  progress jumps to 1.0 instead of ~0.51 — or, on a loaded CI runner, the
+  wheel has not moved anything yet at the 320ms read, giving 0.0 -> 0.0.
+  The same race showed up intermittently at 1440×900 locally (still 0.0 at
+  100ms after the wheel, 1.0 by 320ms).
+- **The site itself is fine in WebKit:** `window.scrollBy(0, 300)` lands at
+  exactly +300px at all five viewports, with progress 0.51 / 0.62 / 0.51 /
+  0.85 / ~1.00 — matching the Chromium wheel numbers in the table above.
+
+Fix: the scroll check now uses `window.scrollBy(0, 300)` in all engines,
+and polls briefly for the progress update instead of trusting a single
+320ms read on a loaded runner. No site CSS or JS changed.
+
 ## Viewport composition regression (short desktop / unusual aspect ratios)
 
 `tests/verify_viewport_composition.py` checks the index, all four showcase
@@ -94,3 +126,27 @@ vertically rather than overlap legible text and artwork. The directory behaves
 similarly below 520px. This fallback is an intentional content flow, not clipped
 canvas. Browser zoom, dynamic Safari toolbar changes and physical-device touch
 momentum still merit human checks.
+
+## Diagnosis from the v14 composition failures (8 November 2026)
+
+Once the cross-browser check above went green, this step was the next red
+one locally (it never ran in the 7 November CI, because the workflow stops
+at the first failing step). Two separate causes, both reproduced locally:
+
+- **WebKit "artwork overlaps footer" on the RAG scene, several viewports:**
+  test timing, not layout. The check measured 35ms after `scrollIntoView`,
+  while WebKit was still animating the scroll-snap settle, with `--entry`
+  near 0 — and `--entry` translates the artwork down by up to 88px, so it
+  read as overlapping the footer. By 100–300ms `--entry` reaches 1.0 and
+  the artwork sits 12–55px clear of the footer. Fix: the check now waits
+  for `--entry` to reach 1 before measuring geometry. No site change.
+- **Horizontal overflow at 320×480 in Firefox and WebKit:** a real site
+  bug. The short-height rules in `assets/world.css` set
+  `.directory-stage{overflow:visible}`, which also un-clipped the decorative
+  directory-art canvas (140% wide, `right: -43%` at narrow widths), enlarging
+  the layout viewport to 474px. Chromium's mobile emulation masked it by
+  reporting `innerWidth` as 474. Fix: those rules now use
+  `overflow-x:hidden;overflow-y:auto` — vertical flow is unchanged (the
+  stage is `height:auto`, so there is nothing to scroll inside it), and the
+  art stays inside the index, as the existing "Decorative art stays inside
+  the narrow index" rule intends.

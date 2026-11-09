@@ -128,7 +128,20 @@ def check_case(browser, engine, label, width, height, html):
             page.locator(f'[data-folio="{key}"]').evaluate(
                 '(el) => el.scrollIntoView({block:"start", behavior:"instant"})'
             )
-            page.wait_for_timeout(35)
+            # WebKit animates the scroll-snap settle for a few hundred ms
+            # after scrollIntoView, and the entry animation runs off it:
+            # measuring at a fixed 35ms catches --entry near 0, which
+            # translates the artwork down by up to 88px, so it reads as
+            # overlapping the footer even though the settled layout fits
+            # (verified: entry reaches 1.0 by 100-300ms in WebKit, and the
+            # artwork then sits 12-55px clear of the footer). Wait for the
+            # scene to settle at --entry 1 before measuring geometry.
+            for _ in range(20):
+                entry = page.locator(f'[data-folio="{key}"]').evaluate(
+                    '(el)=>parseFloat(getComputedStyle(el).getPropertyValue("--entry"))||0')
+                if entry >= 0.99:
+                    break
+                page.wait_for_timeout(100)
             project = page.evaluate(PROJECT_CHECK, key)
             projects[key] = project
             if project['errors']:

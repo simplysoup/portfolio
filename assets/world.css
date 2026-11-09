@@ -290,15 +290,18 @@ body,body a,body button,body input,body textarea,
  .directory-floor{font-size:8px;padding-top:7px}
 }
 /* Below this height we cannot promise four readable navigation rows plus
-   metadata inside one viewport. Keep the content scrollable instead of hiding it. */
+   metadata inside one viewport. Keep the content scrollable instead of hiding it.
+   Clip horizontally only: plain overflow:visible also un-clipped the decorative
+   directory-art canvas (140% wide, right -43% at narrow widths), which enlarged
+   the layout viewport to 474px at 320x480 in Firefox and WebKit. */
 @media (max-height:450px){
- .directory-stage{height:auto;min-height:100svh;overflow:visible}
+ .directory-stage{height:auto;min-height:100svh;overflow-x:hidden;overflow-y:auto}
 }
 /* The base .directory-link span selector is more specific than .dir-desc.
    At compact widths the descriptor must actually disappear, not wrap into the motif. */
 @media(max-width:1100px){.directory-link .dir-desc{display:none}}
 @media (max-width:700px) and (max-height:520px){
- .directory-stage{height:auto;min-height:100svh;overflow:visible}
+ .directory-stage{height:auto;min-height:100svh;overflow-x:hidden;overflow-y:auto}
 }
 
 /* Release focus: direct evidence above navigation while preserving the Directory composition. */
