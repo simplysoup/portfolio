@@ -242,3 +242,130 @@ body,body a,body button,body input,body textarea,
 .is-document.map-open .world-menu-trigger,.is-document.map-open .world-brand{color:#121c14}
 .is-document.map-open .world-header-descriptor{color:#586759}
 .is-document.map-open .brand-slash{color:#d44f37}
+
+/* VIEWPORT COMPOSITION / Height is a first-class input, not an implicit desktop
+   constant. A short landscape window keeps the complete index inside its own
+   canvas; the drawing alone is allowed to bleed beyond the composition. */
+@media (min-width:701px) and (max-height:850px){
+ .world-header{height:clamp(55px,9.7svh,76px)}
+ .directory-stage{height:100svh;min-height:0;padding-top:clamp(58px,10.4svh,84px);padding-bottom:clamp(9px,1.7svh,18px)}
+ .directory-intro{font-size:clamp(8px,1.24svh,10px)}
+ .directory-guide{margin-top:clamp(8px,2.1svh,20px);margin-bottom:clamp(5px,1svh,11px)}
+ .directory-guide p{font-size:clamp(17px,min(2.3vw,3.15svh),26px);line-height:1.1}
+ .directory-links{margin-top:auto;margin-bottom:0}
+ .directory-link{height:clamp(42px,8.45svh,69px);min-height:0}
+ .dir-name{font-size:clamp(34px,min(5.65vw,8.85svh),72px);line-height:1.07}
+ .dir-motif{height:clamp(27px,5.7svh,44px)}
+ .directory-shortcuts{margin-top:clamp(4px,1.2svh,11px);padding:clamp(5px,1.1svh,9px) 0}
+ .directory-scroll-cue{margin-bottom:clamp(3px,.6svh,7px)}
+ .directory-floor{padding-top:clamp(4px,1svh,9px)}
+}
+@media (min-width:701px) and (max-height:620px){
+ .directory-guide>span{font-size:9px}
+ .directory-shortcuts{gap:10px}
+ .shortcut-caption{font-size:8px}
+ .directory-floor{font-size:8px}
+ .directory-scroll-cue{font-size:8px}
+ .world-map{padding-top:70px;padding-bottom:16px;overflow-y:auto}
+ .world-map .map-destinations{padding:0;flex:1 0 auto}
+ .world-map .map-destinations a{padding:4px 0}
+ .world-map .map-destinations a strong{font-size:clamp(29px,6.5svh,43px)}
+ .map-shortcuts{padding-top:8px}
+ .map-bottomline{padding-top:9px}
+}
+@media (max-width:700px) and (max-height:740px){
+ .directory-stage{height:100svh;min-height:0;padding-top:clamp(57px,10.9svh,76px);padding-bottom:11px}
+ .directory-guide{margin-top:clamp(8px,1.8svh,13px);margin-bottom:6px}
+ .directory-guide p{font-size:clamp(15px,4.25vw,18px);line-height:1.14}
+ .directory-guide>span{display:none}
+ .directory-links{margin-top:auto;margin-bottom:0}
+ .directory-link{height:clamp(44px,8.2svh,58px);min-height:0}
+ .dir-name{font-size:clamp(27px,7.9vw,40px);line-height:1.05}
+ .dir-motif{height:clamp(29px,5.4svh,36px)}
+ .directory-shortcuts{margin-top:8px;padding:7px 0 9px;gap:5px}
+ .shortcut-links{gap:7px 10px}
+ .shortcut{row-gap:2px}
+ .shortcut strong{font-size:clamp(9px,2.7vw,11px)}
+ .directory-scroll-cue{font-size:8px;margin-bottom:3px}
+ .directory-floor{font-size:8px;padding-top:7px}
+}
+/* Below this height we cannot promise four readable navigation rows plus
+   metadata inside one viewport. Keep the content scrollable instead of hiding it.
+   Clip horizontally only: plain overflow:visible also un-clipped the decorative
+   directory-art canvas (140% wide, right -43% at narrow widths), which enlarged
+   the layout viewport to 474px at 320x480 in Firefox and WebKit. */
+@media (max-height:450px){
+ .directory-stage{height:auto;min-height:100svh;overflow-x:hidden;overflow-y:auto}
+}
+/* The base .directory-link span selector is more specific than .dir-desc.
+   At compact widths the descriptor must actually disappear, not wrap into the motif. */
+@media(max-width:1100px){.directory-link .dir-desc{display:none}}
+@media (max-width:700px) and (max-height:520px){
+ .directory-stage{height:auto;min-height:100svh;overflow-x:hidden;overflow-y:auto}
+}
+
+/* Release focus: direct evidence above navigation while preserving the Directory composition. */
+.world-header{grid-template-columns:minmax(0,1fr) auto minmax(0,.8fr) auto;column-gap:clamp(10px,2vw,26px)}
+.world-header-descriptor{grid-column:2;justify-self:center}
+.world-header-resume{grid-column:3;justify-self:end;font:500 11px/1.3 var(--world-type,monospace);letter-spacing:.09em;text-decoration:none;color:var(--world-paper);white-space:nowrap}
+.world-header-resume:hover,.world-header-resume:focus-visible{color:var(--world-acid)}
+.world-menu-trigger{grid-column:4}
+.directory-introduction{max-width:min(650px,66vw)}
+.directory-current{display:block;margin-top:10px;color:#aabbb0;font:500 clamp(10px,1vw,12px)/1.5 var(--world-type,monospace);letter-spacing:.015em}
+.directory-guide{flex-shrink:0}
+.directory-shortcuts{order:1;margin-top:clamp(14px,2.8vh,26px);border-top:1px solid #b9c7b060;border-bottom:1px solid #b9c7b048;padding-block:clamp(9px,1.8vh,16px)}
+.directory-links{order:2;margin-top:auto;margin-bottom:auto}
+.directory-action-row{order:3;display:flex;gap:22px;align-items:center;margin-top:clamp(7px,1.3vh,15px)}
+.directory-cta{color:#dce5d6;text-decoration:none;border-bottom:1px solid #8ca58c70;padding-bottom:3px;font:500 10px/1.5 var(--world-type,monospace);letter-spacing:.065em}
+.directory-cta:hover,.directory-cta:focus-visible{color:var(--world-acid);border-color:var(--world-acid)}
+.directory-scroll-cue{order:4;align-self:flex-end;margin-top:-20px}
+.directory-floor{order:5}
+@media(max-width:880px){.world-header{grid-template-columns:minmax(0,1fr) auto auto;gap:12px}.world-header-descriptor{display:none}.world-header-resume{grid-column:2;font-size:10px}.world-menu-trigger{grid-column:3}}
+@media(max-width:700px){.directory-introduction{max-width:100%}.directory-shortcuts{order:1;margin-top:14px;padding:8px 0 10px}.directory-links{order:2;margin-top:12px;margin-bottom:8px}.directory-action-row{margin-top:8px;gap:18px}.directory-scroll-cue{margin:3px 0 4px auto}.directory-current{font-size:10px}.directory-guide{margin-top:18px;margin-bottom:8px}}
+@media(max-width:360px){.world-brand .brand-name{display:none}.world-header{gap:9px}.directory-current{font-size:9px}}
+@media(max-height:680px) and (min-width:701px){.directory-current{margin-top:3px;font-size:9px}.directory-shortcuts{margin-top:5px;padding-block:3px}.directory-action-row{margin-top:4px}.directory-scroll-cue{margin-top:-10px}}
+@media(max-width:700px) and (max-height:740px){.directory-shortcuts{margin-top:6px;padding:3px 0 4px}.directory-current{margin-top:3px}.directory-links{margin-top:6px;margin-bottom:4px}.directory-action-row{margin-top:3px}.directory-scroll-cue{margin:0 0 2px auto}}
+.contact-location{font-size:13px;color:#a9bcb7;font-family:var(--world-type,monospace);letter-spacing:.035em}
+/* Keep the new evidence-first composition inside its viewport at all supported sizes. */
+@media(min-width:701px) and (min-height:851px){
+  .directory-guide{margin-top:clamp(15px,2.1svh,26px);margin-bottom:8px}
+  .directory-guide p{font-size:clamp(18px,1.9vw,25px);line-height:1.18}
+  .directory-shortcuts{margin-top:14px;padding-block:9px}
+  .dir-name{font-size:clamp(44px,5.5vw,77px);line-height:1.05}
+  .directory-link{min-height:clamp(64px,8.2svh,82px)}
+  .directory-action-row{margin-top:6px}
+  .directory-scroll-cue{margin-top:-16px}
+}
+@media(max-width:700px){
+ .directory-guide p{line-height:1.28}
+ .directory-scroll-cue{display:none}
+ .directory-action-row{margin-bottom:5px}
+}
+@media(max-width:700px) and (max-height:740px){
+ .directory-guide{margin-top:10px;margin-bottom:4px}
+ .directory-current{margin-top:2px}
+ .directory-shortcuts{margin-top:4px}
+ .directory-action-row{margin-top:2px;margin-bottom:0}
+}
+@media(max-width:700px){
+ .directory-link{min-height:clamp(55px,8svh,76px)}
+ .directory-guide{margin-top:10px;margin-bottom:4px}
+ .directory-shortcuts{margin-top:7px;padding-block:5px 7px}
+ .directory-links{margin-top:8px;margin-bottom:3px}
+ .directory-floor{padding-top:6px}
+}
+@media(max-width:700px) and (max-height:740px){
+ .directory-link{min-height:clamp(52px,7.9svh,66px)}
+ .directory-guide{margin-top:5px}
+ .directory-shortcuts{margin-top:3px;padding-block:3px}
+ .directory-links{margin-top:4px;margin-bottom:2px}
+ .directory-floor{padding-top:3px}
+}
+@media(max-width:360px) and (min-height:521px){
+ .directory-stage{padding-top:54px;padding-bottom:7px}
+ .directory-guide{margin-top:3px;margin-bottom:2px}
+ .directory-links{margin-top:2px;margin-bottom:0}
+ .directory-link{min-height:49px}
+ .directory-shortcuts{padding-block:2px;gap:5px}
+ .directory-action-row{margin-top:0}
+}

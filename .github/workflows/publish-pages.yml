@@ -1,0 +1,44 @@
+name: Publish portfolio to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-24.04
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+      - name: Sync build dependencies
+        run: uv sync --frozen
+      - name: Build public-safe résumé PDF
+        run: uv run --with "reportlab>=4,<5" python scripts/generate_resume.py
+      - name: Build for GitHub Pages subpath
+        env:
+          SITE_BASE: portfolio
+          PUBLIC_ROOT: https://simplysoup.github.io/portfolio
+        run: uv run python scripts/build.py
+      - name: Verify SEO, public routes and résumé PDF
+        run: uv run python tests/verify_publication.py --require-resume
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+      - id: deployment
+        uses: actions/deploy-pages@v4

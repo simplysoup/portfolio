@@ -196,3 +196,51 @@ html:has(body.is-home.map-open),html:has(body.is-home.chapter-open){scroll-snap-
  .folio-visual{transform:translate3d(0,calc((1 - var(--entry))*88px - var(--release)*18px),0) scale(calc(.93 + var(--entry)*.07 + var(--pressure)*.075 - var(--release)*.025));clip-path:inset(calc(var(--release)*4%) calc(var(--release)*2%))}
  .folio-track .folio-screen::before{opacity:calc(.25 + var(--pressure)*.22)}
 }
+
+/* VIEWPORT COMPOSITION / No fixed 650px sticky scene inside a 600px browser.
+   Scaling headline, gaps and scene padding by the smaller viewport dimension
+   preserves the full artwork, CTA and footer without allowing them to overlap. */
+@media (min-width:701px) and (max-height:850px){
+ .folio-track{height:154svh;min-height:0}
+ .folio-track .folio-screen{height:100svh;min-height:0;padding:clamp(60px,10.4svh,88px) clamp(22px,5vw,85px) clamp(12px,2.4svh,23px)}
+ .folio-topline{padding-bottom:clamp(7px,1.35svh,12px)}
+ .folio-layout{gap:clamp(17px,3vw,48px);padding:clamp(8px,1.8svh,20px) 0}
+ .folio-overline{margin-bottom:clamp(7px,1.6svh,15px)}
+ .folio-overline i{width:clamp(26px,4.5svh,34px);height:clamp(26px,4.5svh,34px);font-size:clamp(11px,1.8svh,14px)}
+ .folio-copy h2{font-size:clamp(38px,min(5.7vw,9.55svh),84px);line-height:.98}
+ .folio-copy p{font-size:clamp(11px,min(1.07vw,2.25svh),15px);line-height:1.49;margin-top:clamp(8px,1.7svh,19px)}
+ .folio-link{min-height:clamp(36px,5.9svh,50px);margin-top:clamp(10px,2svh,20px);font-size:clamp(9px,1.25svh,11px)}
+ .folio-floor{padding-top:clamp(6px,1.3svh,12px);font-size:9px}
+ .folio-end{min-height:100svh;padding:clamp(68px,13svh,105px) clamp(22px,6vw,100px) 23px}
+ .folio-end h2{font-size:clamp(44px,min(8.5vw,13svh),108px);margin:clamp(17px,3svh,30px) 0}
+}
+@media (min-width:701px) and (max-height:520px){
+ .folio-track .folio-screen{padding-top:55px;padding-bottom:9px}
+ .folio-layout{padding:5px 0}
+ .folio-overline{margin-bottom:5px;font-size:9px}
+ .folio-copy h2{font-size:clamp(30px,min(4.4vw,8svh),45px)}
+ .folio-copy p{line-height:1.36;margin-top:7px;font-size:11px}
+ .folio-link{min-height:32px;margin-top:8px}
+ .folio-topline{padding-bottom:6px}
+ .folio-floor{padding-top:5px}
+}
+/* Tiny portrait viewports cannot contain a legible title, CTA and technical
+   illustration in one screen. Make the scene a deliberate scrolling canvas
+   instead of stacking the CTA on top of the illustration. */
+@media (max-width:700px) and (max-height:540px){
+ html:has(body.is-home){scroll-snap-type:none}
+ .folio-track{height:auto;min-height:0;scroll-snap-align:none}
+ .folio-track .folio-screen{position:relative;top:auto;height:auto;min-height:100svh;overflow:visible;padding-bottom:16px}
+ .folio-layout{height:auto;display:flex;flex-direction:column;padding:12px 0 17px;gap:16px}
+ .folio-copy{flex:none;min-height:0;transform:none!important;opacity:1}
+ .folio-visual{flex:none;height:clamp(180px,42svh,260px);transform:none!important;opacity:1}
+ .folio-floor{margin-top:0}
+}
+/* Give the copy/CTA its intrinsic breathing room before allocating remaining
+   height to the art; the piano description is the longest mobile scene. */
+@media (max-width:700px) and (min-height:741px){
+ .folio-layout{grid-template-rows:minmax(0,1.15fr) minmax(175px,.85fr)}
+}
+@media (max-width:700px) and (min-height:541px) and (max-height:740px){
+ .folio-layout{grid-template-rows:minmax(0,1.24fr) minmax(140px,.76fr)}
+}

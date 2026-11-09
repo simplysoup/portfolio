@@ -59,3 +59,39 @@ The site was built and the self-contained HTML exercised in headless Chromium at
 No physical Android-device test or public deployment has been performed.
 
 For the new full-screen scroll mechanics and mobile table layout, see [`SCROLL_SYSTEM.md`](SCROLL_SYSTEM.md).
+
+### Responsive / cross-browser regression
+
+The directory and sticky project scenes size to both viewport width and height.
+To check short desktops, ultrawide displays and small phones:
+
+```bash
+uv sync --extra test
+uv run python scripts/build.py
+uv run python scripts/build_preview.py
+uv run python tests/verify_viewport_composition.py --browsers chromium
+```
+
+To require Chromium, Firefox and WebKit, install the Playwright browsers and run
+both test scripts with `--require-all`. See [CROSS_BROWSER.md](CROSS_BROWSER.md).
+
+## Publication checklist (unreleased)
+
+This revision adds SEO absolute URLs and an optional approved résumé download. Generate the public-safe PDF with `python scripts/generate_resume.py` (ReportLab), or supply a reviewed `public/resume.pdf` before building. The build copies it to `/resume.pdf` and makes download links visible in the résumé and contact pages. Without an approved PDF the résumé page remains a useful experience summary and offers email contact; no broken PDF links are emitted. Do not copy employer-owned assets or an application-specific résumé containing unapproved figures into this folder.
+
+The canonical and social URLs default to `https://simplysoup.github.io/portfolio/`. For another deployment root, set `PUBLIC_ROOT` to the full HTTPS root without a trailing slash, plus `SITE_BASE` for any subpath. For example:
+
+```bash
+SITE_BASE=portfolio PUBLIC_ROOT=https://simplysoup.github.io/portfolio uv run python scripts/build.py
+```
+
+Deployment and link-preview verification require a live HTTPS endpoint. The GitHub Pages workflow generates a public-safe PDF before building, and runs on pushes to `main` as well as manually. Configure Settings → Pages → Source: GitHub Actions once.
+
+For publishing this release, see [DEPLOY.md](DEPLOY.md).
+
+
+## AgentShield v0.1.0 case study
+
+The public-source security evaluation case study is at `/work/agent-shield/` and is linked first from the homepage and Work index. It uses the verified public `v0.1.0` tag and documents the one-case 20B comparison without conflating model refusal with runtime policy denial. The figure is a labeled reconstruction of observed results, not a raw execution log. The PDF résumé includes a concise independent-project entry.
+
+The upstream AgentShield repository is public but its README currently states that no license has been granted; avoid calling it permissively licensed or reusable until the repository has an explicit license.
