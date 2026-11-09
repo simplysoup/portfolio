@@ -107,6 +107,16 @@ Fix: the scroll check now uses `window.scrollBy(0, 300)` in all engines,
 and polls briefly for the progress update instead of trusting a single
 320ms read on a loaded runner. No site CSS or JS changed.
 
+That first fix still flaked once in CI (push run 42543552008, wide-desktop
+0.0 -> 0.0, while the PR run of the same commit passed with progress 0.51):
+a scroll issued while WebKit is still animating the scroll-snap settle
+after `scrollIntoView` can be swallowed and pulled back to the snap point,
+and polling alone cannot recover a scroll that never happened. So the check
+now also waits for the scroll to settle (stable `scrollY`, scene at the top)
+before scrolling, and re-issues the scroll if `scrollY` did not move at
+all. The retry only fires when nothing moved, so a successful measurement
+is still exactly one 300px scroll.
+
 ## Viewport composition regression (short desktop / unusual aspect ratios)
 
 `tests/verify_viewport_composition.py` checks the index, all four showcase

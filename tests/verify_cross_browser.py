@@ -47,13 +47,39 @@ def checksum(page, selector: str):
     }""")
 
 
+def _scroll_state(page, scene):
+    y = page.evaluate('scrollY')
+    p = float(scene.evaluate('(el)=>getComputedStyle(el).getPropertyValue("--progress")||0'))
+    top = scene.evaluate('(el)=>el.getBoundingClientRect().top')
+    return y, p, top
+
+
+def _wait_settled(page, scene, timeout_ms=2000):
+    """Wait until the scroll position is stable with the scene at the top.
+
+    WebKit animates the scroll-snap settle for a few hundred ms after
+    scrollIntoView (longer on a loaded runner). A scroll issued during
+    that animation can be swallowed and pulled back to the snap point,
+    so the measurement must not start until the settle has finished.
+    Returns False on timeout; the caller still proceeds, and the later
+    require() fails honestly if progress really does not move.
+    """
+    prev_y = None
+    for _ in range(timeout_ms // 100):
+        y, _p, top = _scroll_state(page, scene)
+        if prev_y is not None and y == prev_y and abs(top) <= 2:
+            return True
+        prev_y = y
+        page.wait_for_timeout(100)
+    return False
+
+
 def scroll_sample(page):
     """Measure one chapter per viewport; all four receive structural checks."""
     scene = page.locator('[data-folio="rag"]')
     scene.evaluate('(el) => el.scrollIntoView({block:"start",behavior:"instant"})')
-    page.wait_for_timeout(100)
-    y0 = page.evaluate('scrollY')
-    p0 = float(scene.evaluate('(el)=>getComputedStyle(el).getPropertyValue("--progress")||0'))
+    _wait_settled(page, scene)
+    y0, p0, _top = _scroll_state(page, scene)
     # Programmatic scroll, not mouse.wheel. The page listens for scroll
     # events, not wheel events, so this exercises exactly the code under
     # test -- and mouse.wheel does not work as a 300px input in WebKit:
@@ -63,27 +89,38 @@ def scroll_sample(page):
     # loaded runner has not moved yet at the 320ms read: 0.0 -> 0.0).
     # window.scrollBy lands at exactly +300px in every engine, mobile
     # included, and stays there (verified in WebKit at all five viewports).
-    page.evaluate('window.scrollBy(0, 300)')
-    page.wait_for_timeout(320)
-    y1 = page.evaluate('scrollY')
-    p1 = float(scene.evaluate('(el)=>getComputedStyle(el).getPropertyValue("--progress")||0'))
-    # A loaded runner can be slow to run the scroll listener's rAF, so if
-    # progress has not moved yet, keep polling briefly rather than failing
-    # on timing. The common case still reads at 320ms, as before.
-    for _ in range(15):
+    y1, p1 = y0, p0
+    attempts = 0
+    for attempts in range(1, 4):
+        page.evaluate('window.scrollBy(0, 300)')
+        # Poll for the progress update; a loaded runner can be slow to
+        # run the scroll listener's rAF.
+        for _ in range(10):
+            page.wait_for_timeout(100)
+            y1, p1, _top = _scroll_state(page, scene)
+            if p1 > p0 + 0.01:
+                break
         if p1 > p0 + 0.01:
             break
-        page.wait_for_timeout(100)
-        y1 = page.evaluate('scrollY')
-        p1 = float(scene.evaluate('(el)=>getComputedStyle(el).getPropertyValue("--progress")||0'))
+        if y1 - y0 >= 50:
+            # The page scrolled but progress is lagging: give the rAF one
+            # more chance rather than re-scrolling and moving twice as far.
+            page.wait_for_timeout(400)
+            y1, p1, _top = _scroll_state(page, scene)
+            break
+        # scrollY did not move at all: the scrollBy was swallowed by a
+        # still-running snap settle. Wait for it to finish, then retry.
+        _wait_settled(page, scene)
+        y0, p0, _top = _scroll_state(page, scene)
     page.wait_for_timeout(240)
     y2 = page.evaluate('scrollY')
     require(p1 > p0 + 0.01, f'scroll progress not updating: {p0} -> {p1}')
     return {
         "input": "programmatic window.scrollBy(0, 300); not touch momentum",
-        "scroll_delta_px": 300,
-        "scroll_delta_320ms_px": round(y1-y0, 1),
+        "scroll_requested_px": 300,
+        "scroll_delta_px": round(y1-y0, 1),
         "post_scroll_drift_240ms_px": round(y2-y1, 1),
+        "scroll_attempts": attempts,
         "progress_before": round(p0, 4),
         "progress_after": round(p1, 4),
     }
