@@ -1,5 +1,13 @@
 {% extends 'base.html' %}{% block content %}
 {% include 'partials/hero.html' %}
 {% include 'partials/marquee.html' %}
-<div id="about"></div><div id="work"></div><div id="research"></div><div id="contact"></div>
+<div data-chapter="about">
+{% include 'partials/about.html' %}
+{% include 'partials/expertise.html' %}
+{% include 'partials/skills.html' %}
+{% include 'partials/experience.html' %}
+{% include 'partials/highlights.html' %}
+{% include 'partials/offclock.html' %}
+</div>
+<div id="work"></div><div id="research"></div><div id="contact"></div>
 {% endblock %}

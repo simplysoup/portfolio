@@ -59,7 +59,7 @@
     document.querySelectorAll('[data-nav]').forEach(link => {
       const href = link.getAttribute('href');
       if (!href.startsWith('#')) return;
-      const section = document.getElementById(link.dataset.nav); if (!section) return;
+      const section = document.querySelector(`[data-chapter="${link.dataset.nav}"]`) || document.getElementById(link.dataset.nav); if (!section) return;
       const previous = navObservers.get(link); if (previous?.section === section) return;
       previous?.observer.disconnect();
       const observer = new IntersectionObserver(entries => entries.forEach(entry => { if (entry.isIntersecting) { document.querySelectorAll('[data-nav]').forEach(a => a.removeAttribute('aria-current')); link.setAttribute('aria-current', 'true'); } else link.removeAttribute('aria-current'); }), {rootMargin: '-35% 0px -64% 0px'});

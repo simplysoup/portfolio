@@ -37,9 +37,9 @@
 </div>
 <main id="main"{% if nav != 'home' %} class="pt-12 lg:pt-14"{% endif %}>{% block content %}{% endblock %}</main>
 <footer class="relative border-t border-line"><div class="shell">
-  <div class="grid gap-6 py-10 md:grid-cols-3 md:py-12"><p class="label">Nicholas Bode — Toronto, Canada</p><a class="font-mono text-[12px] uppercase tracking-[0.12em] hover:text-paper" href="mailto:{{site.email}}">{{site.email}}</a><div class="md:text-right"><a class="label hover:text-paper" href="{{site.github}}">GitHub ↗</a> · <a class="label hover:text-paper" href="{{site.linkedin}}">LinkedIn ↗</a> · <a class="label hover:text-paper" href="{{base}}resume/">Résumé ↗</a></div></div>
+  <div class="grid gap-6 py-10 md:grid-cols-3 md:items-baseline md:py-12"><p class="label">Nicholas Bode — Toronto, Canada</p><a class="font-mono text-[12px] uppercase tracking-[0.12em] hover:text-paper" href="mailto:{{site.email}}">{{site.email}}</a><div class="flex flex-wrap items-center gap-x-3 gap-y-2 md:justify-end"><a class="label hover:text-paper" href="{{site.github}}">GitHub ↗</a><span aria-hidden="true" class="text-paper/30">·</span><a class="label hover:text-paper" href="{{site.linkedin}}">LinkedIn ↗</a><span aria-hidden="true" class="text-paper/30">·</span><a class="label hover:text-paper" href="{{base}}resume/">Résumé ↗</a></div></div>
   <div class="overflow-hidden"><p aria-hidden="true" data-fit class="display font-extrabold leading-[0.78] tracking-[-0.02em] whitespace-nowrap select-none text-paper/[0.07] text-[11vw]">NICHOLAS BODE</p></div>
-  <div class="flex flex-wrap gap-x-3 gap-y-1 items-center justify-between border-t border-line py-4 label"><span>© 2026</span><span>Local time <span data-clock>--:--</span> EST/EDT</span><a href="{{ '' if nav == 'home' else base }}#top">Back to top ↑</a></div>
+  <div class="flex flex-wrap items-center justify-between gap-x-6 gap-y-2 border-t border-line py-4 label"><span>© 2026</span><span class="hidden sm:block">Local time <span data-clock>--:--</span> EST/EDT</span><a href="{{ '' if nav == 'home' else base }}#top">Back to top ↑</a></div>
 </div></footer>
 {% if nav != 'home' %}<script defer src="{{base}}assets/site.js"></script>{% endif %}
 <script defer src="{{base}}assets/js/art.js"></script><script defer src="{{base}}assets/js/main.js"></script>

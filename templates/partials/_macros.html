@@ -1,0 +1,5 @@
+{% macro chapter_header(tag_num, tag_name, title) -%}
+<div class="shell"><p class="chapter-tag mb-6 md:mb-8"><span class="text-paper/35">[ {{ tag_num }} / 04 ] ·</span> {{ tag_name }}</p><h2 class="h2-display" data-split>{{ title }}</h2></div>
+{%- endmacro %}
+{% macro chip_list(items, extra_classes='mt-6') -%}<div class="flex flex-wrap gap-1.5 {{ extra_classes }}">{% for item in items %}<span class="chip">{{ item }}</span>{% endfor %}</div>{%- endmacro %}
+{% macro ticks() -%}<span aria-hidden="true" class="tick -left-[5px] -top-[5px]"></span><span aria-hidden="true" class="tick -right-[5px] -top-[5px]"></span><span aria-hidden="true" class="tick -left-[5px] -bottom-[5px]"></span><span aria-hidden="true" class="tick -right-[5px] -bottom-[5px]"></span>{%- endmacro %}
