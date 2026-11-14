@@ -17,7 +17,7 @@ from _browser import launch
 ROOT = Path(__file__).resolve().parents[1]
 DIST = ROOT / "dist"
 OUT = ROOT / "screenshots/v14/final"
-VIEWPORTS = [(320, 640), (390, 844), (768, 1024), (1024, 768), (1440, 900), (1920, 1080)]
+VIEWPORTS = [(320, 640), (390, 844), (768, 1024), (853, 480), (1024, 768), (1440, 900), (1920, 600), (1920, 1080)]
 SLUGS = ("trainstore", "piano-transcription", "casestruct-lora", "analytics-pipeline", "evaluated-rag", "agent-shield")
 FORBIDDEN = ("envision", "mobilescapes", "esri", "52tb", "52 tb", "customer 360", "cortex", "onyx", "statistics canada", "six-figure", "6-figure")
 results: list[tuple[str, bool, str]] = []
@@ -51,8 +51,8 @@ def main():
     try:
         with sync_playwright() as p:
             browser = launch(p)
-            route_results = []
             for width, height in VIEWPORTS:
+                route_results = []
                 page = browser.new_page(viewport={"width": width, "height": height})
                 errors, external = [], []
                 page.on("pageerror", lambda error: errors.append(str(error)))
@@ -70,13 +70,122 @@ def main():
                     if any(not row[2] for row in rr) or e or x else f"{len(rr)} routes HTTP 200, font loaded, no overflow/errors/external requests"))
                 page.close()
 
-            # Hero fit, section structure, and active section nav.
+            # Header controls sit between the outer rim and the header divider.
+            for width, height in [(320, 640), (768, 1024), (1440, 900)]:
+                page = browser.new_page(viewport={"width": width, "height": height})
+                page.goto(base + "/", wait_until="networkidle")
+                spacing = page.evaluate("""() => {
+                  const rim = document.querySelector('body > .pointer-events-none.fixed').getBoundingClientRect();
+                  const header = document.querySelector('body > header').getBoundingClientRect();
+                  return [...document.querySelectorAll('header .btn-ghost')].filter(e => e.getClientRects().length).map(e => {
+                    const r = e.getBoundingClientRect();
+                    return {top: r.top - rim.top - 1, bottom: header.bottom - 1 - r.bottom};
+                  });
+                }""")
+                check(f"header rim spacing {width}×{height}", lambda s=spacing: (s and all(x['top'] >= 0 and x['bottom'] >= 0 and abs(x['top'] - x['bottom']) <= 1 for x in s)) or (_ for _ in ()).throw(AssertionError(str(s))))
+                page.close()
+
+            # Hero fits common and non-standard viewports without covering its copy.
+            for width, height in [(320, 640), (390, 844), (768, 1024), (1024, 768), (1440, 900), (1920, 600)]:
+                page = browser.new_page(viewport={"width": width, "height": height})
+                page.goto(base + "/", wait_until="networkidle")
+                metrics = page.evaluate("""() => {
+                  const rect = s => document.querySelector(s).getBoundingClientRect();
+                  const hero = rect('#top'), copy = rect('.hero-copy'), art = rect('.hero-art'), name = rect('.hero-name-wrap');
+                  return {bottom: hero.bottom, nameBottom: name.bottom,
+                    overlap: copy.left < art.right && copy.right > art.left && copy.top < art.bottom && copy.bottom > art.top};
+                }""")
+                check(f"hero layout {width}×{height}", lambda m=metrics, h=height: (m['bottom'] <= h + 1 and m['nameBottom'] <= h + 1 and not m['overlap']) or (_ for _ in ()).throw(AssertionError(str(m))))
+                page.close()
+
+            # The original point artwork responds to pointer movement and keeps rendering.
+            page = browser.new_page(viewport={"width": 1024, "height": 768})
+            page.goto(base + "/", wait_until="networkidle")
+            page.wait_for_timeout(500)
+            art = page.locator('[data-hero-art]')
+            before = art.evaluate("e => e.toDataURL()")
+            box = art.bounding_box()
+            page.mouse.move(box['x'] + box['width'] * .4, box['y'] + box['height'] * .4)
+            page.mouse.move(box['x'] + box['width'] * .7, box['y'] + box['height'] * .55, steps=8)
+            page.wait_for_timeout(250)
+            after = art.evaluate("e => e.toDataURL()")
+            check("hero artwork pointer interaction", lambda: (before != after and page.locator('.hero-art').evaluate("e => e.classList.contains('is-rendered')")) or (_ for _ in ()).throw(AssertionError("art did not update")))
+            page.close()
+
+            # A missing canvas implementation must leave the static fallback visible.
+            page = browser.new_page(viewport={"width": 390, "height": 844})
+            page.add_init_script("""(() => { const get = HTMLCanvasElement.prototype.getContext;
+              HTMLCanvasElement.prototype.getContext = function(type, ...args) {
+                return this.hasAttribute('data-hero-art') ? null : get.call(this, type, ...args);
+              }; })();""")
+            page.goto(base + "/", wait_until="networkidle")
+            page.wait_for_timeout(600)
+            check("hero artwork fallback without canvas", lambda: (page.locator('.hero-art-fallback').is_visible() and not page.locator('.hero-art').evaluate("e => e.classList.contains('is-rendered')")) or (_ for _ in ()).throw(AssertionError("fallback hidden")))
+            page.close()
+
+            # Wordmark scales uniformly, filling the width when height permits.
+            for width, height in [(320, 640), (375, 667), (390, 844), (1440, 900), (1920, 600)]:
+                page = browser.new_page(viewport={"width": width, "height": height})
+                page.goto(base + "/", wait_until="networkidle")
+                page.evaluate("document.fonts.ready")
+                page.wait_for_timeout(1600)
+                m = page.evaluate("""() => { const el=document.querySelector('.hero-name'), n=el.getBoundingClientRect(), p=document.querySelector('.hero-name-wrap').getBoundingClientRect(); return {ratio:n.width/p.width, bottom:n.bottom, transform:getComputedStyle(el).transform}; }""")
+                check(f"hero wordmark {width}×{height}", lambda m=m, h=height: (0 < m['ratio'] <= 1.02 and m['bottom'] <= h + 1 and m['transform'] == 'none') or (_ for _ in ()).throw(AssertionError(str(m))))
+                page.close()
+
+            # Outcome cards stay compact and readable on mobile.
+            for width in (320, 390):
+                page = browser.new_page(viewport={"width": width, "height": 844})
+                page.goto(base + "/", wait_until="networkidle")
+                m = page.evaluate("""() => [...document.querySelectorAll('.outcome-card')].map(card => {
+                  const number = card.querySelector('.outcome-number').getBoundingClientRect();
+                  const copy = card.querySelector('.outcome-copy').getBoundingClientRect();
+                  return {height: card.getBoundingClientRect().height, separated: number.right <= copy.left, contained: copy.right <= card.getBoundingClientRect().right};
+                })""")
+                check(f"compact outcomes {width}px", lambda m=m: (len(m) == 6 and all(c['height'] < 160 and c['separated'] and c['contained'] for c in m)) or (_ for _ in ()).throw(AssertionError(str(m))))
+                page.close()
+
+            # Contact details and form share the viewport at desktop sizes.
+            for width, height in [(1280, 633), (1440, 900)]:
+                page = browser.new_page(viewport={"width": width, "height": height})
+                page.goto(base + "/contact/", wait_until="networkidle")
+                m = page.evaluate("""() => {
+                  const form = document.querySelector('.contact-form').getBoundingClientRect();
+                  const links = document.querySelector('.contact-links').getBoundingClientRect();
+                  const name = document.querySelector('[name=name]').getBoundingClientRect();
+                  const email = document.querySelector('[name=email]').getBoundingClientRect();
+                  return {bottom: Math.max(form.bottom, links.bottom), aligned: Math.abs(name.top - email.top) < 1, inputHeight: name.height};
+                }""")
+                check(f"contact layout {width}×{height}", lambda m=m, h=height: (m['bottom'] <= h - 8 and m['aligned'] and m['inputHeight'] <= 44) or (_ for _ in ()).throw(AssertionError(str(m))))
+                page.close()
+
+            # The band moves with scrolling, then comes to rest.
+            page = browser.new_page(viewport={"width": 1440, "height": 900})
+            page.goto(base + "/", wait_until="networkidle")
+            page.evaluate("scrollTo({top:650,behavior:'instant'})")
+            page.wait_for_timeout(1300)
+            band_before = page.locator('[data-motion-track]').evaluate('e => getComputedStyle(e).transform')
+            page.wait_for_timeout(500)
+            band_idle = page.locator('[data-motion-track]').evaluate('e => getComputedStyle(e).transform')
+            page.evaluate("scrollTo({top:900,behavior:'instant'})")
+            page.wait_for_timeout(1300)
+            band_after = page.locator('[data-motion-track]').evaluate('e => getComputedStyle(e).transform')
+            check("band follows scroll and rests", lambda: (band_before == band_idle and band_after != band_before) or (_ for _ in ()).throw(AssertionError(f'{band_before} / {band_idle} / {band_after}')))
+            card = page.locator('.motion-copy').first
+            page.evaluate("scrollTo({top:0,behavior:'instant'})")
+            page.wait_for_timeout(200)
+            hidden_opacity = float(card.evaluate("e => getComputedStyle(e).opacity"))
+            page.evaluate("""() => { const r=document.querySelector('.motion-copy').getBoundingClientRect(); scrollTo({top:scrollY+r.top-innerHeight*.55,behavior:'instant'}); }""")
+            page.wait_for_timeout(300)
+            shown_opacity = float(card.evaluate("e => getComputedStyle(e).opacity"))
+            check("description reveal follows scroll", lambda: (hidden_opacity < shown_opacity and shown_opacity > .95) or (_ for _ in ()).throw(AssertionError(f'{hidden_opacity} / {shown_opacity}')))
+            page.close()
+
+            # Section structure and active section nav.
             for width in (390, 1440, 1920):
                 page = browser.new_page(viewport={"width": width, "height": 900})
                 page.goto(base + "/", wait_until="networkidle")
                 page.evaluate("document.fonts.ready")
-                ratio = page.evaluate("""() => { const e=document.querySelector('#top [data-fit]'), r=document.createRange(); r.selectNodeContents(e); return r.getBoundingClientRect().width/e.parentElement.clientWidth }""")
-                check(f"home wordmark fit {width}", lambda r=ratio: .96 <= r <= 1.0 or (_ for _ in ()).throw(AssertionError(f"width ratio {r}")))
                 if width == 390:
                     check("home required sections and removed off-clock copy", lambda pg=page: (all(pg.locator('#'+s).count() for s in ('about','work','research','contact')) and not pg.get_by_text("Off the clock", exact=True).count()) or (_ for _ in ()).throw(AssertionError("required section missing or off-clock content present")))
                 if width == 1440:
@@ -136,7 +245,9 @@ def main():
             page.add_init_script("""(() => { const raf=window.requestAnimationFrame.bind(window); window.__rafRequests=0; window.requestAnimationFrame=(fn)=>{window.__rafRequests++;return raf(fn)}; })();""")
             page.goto(base + "/", wait_until="networkidle")
             page.wait_for_timeout(1000)
-            check("reduced-motion marquee and canvas RAF", lambda: (page.locator(".animate-marquee").evaluate("e=>getComputedStyle(e).animationName") == "none" and page.evaluate("window.__rafRequests") <= 2) or (_ for _ in ()).throw(AssertionError(f"raf={page.evaluate('window.__rafRequests')}")))
+            before = page.evaluate("window.__rafRequests")
+            page.wait_for_timeout(500)
+            check("reduced-motion band and canvas RAF", lambda: (page.locator("[data-motion-track]").evaluate("e=>getComputedStyle(e).transform") == "none" and page.evaluate("window.__rafRequests") == before) or (_ for _ in ()).throw(AssertionError(f"raf={page.evaluate('window.__rafRequests')}")))
             page.close()
 
             # Contact uses a local submit dispatch so no mail client is launched.

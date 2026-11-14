@@ -36,6 +36,63 @@
       }); node.replaceWith(fragment);
     });
   }
+  // Scroll remains native; the band follows distance with a short, damped
+  // catch-up instead of running on a clock or capturing wheel input.
+  const motionController = (() => {
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+    let frame = 0, position = null, lastTime = 0;
+    const clamp = (x, a, b) => Math.max(a, Math.min(b, x));
+    function update(now) {
+      frame = 0;
+      const hero = document.querySelector('.hero');
+      if (hero) hero.style.setProperty('--hero-grid-shift', `${Math.max(-80, hero.getBoundingClientRect().top * .15)}px`);
+      const band = document.querySelector('[data-motion-band]'), track = band?.querySelector('[data-motion-track]');
+      let moving = false;
+      if (band && track && !reduced.matches) {
+        const rect = band.getBoundingClientRect(), group = track.firstElementChild;
+        const target = Math.max(0, window.scrollY - (rect.top + window.scrollY - innerHeight)) * .42;
+        if (position === null) position = target;
+        const dt = Math.min(50, now - (lastTime || now));
+        position += (target - position) * (1 - Math.exp(-dt / 140));
+        moving = Math.abs(target - position) > .15;
+        const width = group?.getBoundingClientRect().width || 1;
+        const skew = clamp((target - position) * .012, -3, 3);
+        track.style.transform = `translate3d(${-((position % width + width) % width)}px,0,0) skewX(${skew}deg)`;
+        band.style.setProperty('--field-shift', `${rect.top * -.08}px`);
+      } else if (track) { track.style.transform = ''; position = null; }
+      lastTime = now;
+      document.querySelectorAll('[data-scroll-reveal]').forEach(el => {
+        if (reduced.matches) { el.style.removeProperty('--reveal-opacity'); el.style.removeProperty('--reveal-y'); return; }
+        const rect = el.getBoundingClientRect();
+        const p = clamp((innerHeight * .92 - rect.top) / Math.min(innerHeight * .32, 240), 0, 1);
+        const eased = 1 - Math.pow(1 - p, 3);
+        el.style.setProperty('--reveal-opacity', (.42 + .58 * eased).toFixed(3));
+        el.style.setProperty('--reveal-y', `${(20 * (1 - eased)).toFixed(1)}px`);
+        el.style.setProperty('--field-shift', `${rect.top * -.07}px`);
+      });
+      if (moving) frame = requestAnimationFrame(update);
+    }
+    const request = () => { if (!frame) frame = requestAnimationFrame(update); };
+    addEventListener('scroll', request, {passive:true});
+    addEventListener('resize', request, {passive:true});
+    reduced.addEventListener('change', request);
+    return request;
+  })();
+  function fitHeroName(name) {
+    if (!name?.isConnected) return;
+    const hero = name.closest('.hero'), main = hero.querySelector('.hero-main');
+    const copy = main.querySelector('.hero-copy'), art = main.querySelector('.hero-art');
+    const style = getComputedStyle(main), stacked = style.gridTemplateColumns.split(' ').length === 1;
+    const mainHeight = (stacked ? copy.offsetHeight + art.offsetHeight + parseFloat(style.rowGap) : Math.max(copy.offsetHeight, art.offsetHeight)) + parseFloat(style.paddingTop) + parseFloat(style.paddingBottom);
+    const fixedHeight = parseFloat(getComputedStyle(hero).paddingTop) + [...hero.children].filter(el => el !== main && !el.classList.contains('hero-signature') && getComputedStyle(el).position !== 'absolute').reduce((sum, el) => sum + el.offsetHeight, 0);
+    const available = Math.max(32, innerHeight - fixedHeight - mainHeight - 8);
+    name.style.fontSize = '100px';
+    const range = document.createRange(); range.selectNodeContents(name);
+    const width = range.getBoundingClientRect().width;
+    if (width) name.style.fontSize = `${Math.min(100 * name.parentElement.clientWidth / width, available / 1.08)}px`;
+  }
+  const heroNameObserver = new ResizeObserver(entries => entries.forEach(({target}) => fitHeroName(target.querySelector('[data-hero-name]'))));
+  addEventListener('resize', () => fitHeroName(document.querySelector('[data-hero-name]')), {passive:true});
   const navObservers = new WeakMap();
   // A single rail controller follows whichever home DOM the preview router installed.
   const initRail = (() => {
@@ -84,6 +141,17 @@
     };
   })();
   function initSite() {
+    const heroName = document.querySelector('[data-hero-name]');
+    if (heroName && !heroName.dataset.fitReady) {
+      heroName.dataset.fitReady = 'true';
+      const measure = () => fitHeroName(heroName);
+      heroNameObserver.observe(heroName.parentElement);
+      document.fonts.ready.then(measure);
+      window.heroEntranceStart = performance.now();
+      document.documentElement.classList.remove('hero-entered');
+      requestAnimationFrame(() => document.documentElement.classList.add('hero-entered'));
+    }
+    motionController();
     document.querySelectorAll('[data-split], [data-reveal]').forEach(el => {
       if (el.dataset.siteRevealReady) return; el.dataset.siteRevealReady = 'true';
       if (el.hasAttribute('data-split')) split(el);

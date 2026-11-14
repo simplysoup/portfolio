@@ -2,35 +2,7 @@
   'use strict';
   const motion = matchMedia('(prefers-reduced-motion: reduce)');
   const mulberry32 = seed => () => { let t = seed += 0x6D2B79F5; t = Math.imul(t ^ t >>> 15, t | 1); t ^= t + Math.imul(t ^ t >>> 7, t | 61); return ((t ^ t >>> 14) >>> 0) / 4294967296; };
-  const ARTS = {
-    sphere: {
-      setup(ctx, w, h) {
-        const random = mulberry32(104); const dots = [];
-        for (let y = 6; y < h; y += 12) for (let x = 6; x < w; x += 12) if (random() < 0.15) dots.push([x, y]);
-        return {dots, pointer: 0, target: 0};
-      },
-      frame(ctx, w, h, t, state) {
-        const r = Math.min(w, h) * 0.46, cx = w / 2, cy = h / 2, cell = Math.min(w, h) < 320 ? 5 : 6;
-        ctx.clearRect(0, 0, w, h); ctx.fillStyle = 'rgb(242,242,238)'; ctx.globalAlpha = .1;
-        state.dots.forEach(([x, y]) => { if (Math.hypot(x-cx, y-cy) > r) ctx.fillRect(x, y, 2, 2); });
-        state.pointer += (state.target - state.pointer) * .06;
-        const angle = t * .14, lightLength = Math.hypot(-.55, -.45, .70);
-        const baseLx = -.55/lightLength, ly = -.45/lightLength, baseLz = .70/lightLength;
-        const cosNudge = Math.cos(state.pointer), sinNudge = Math.sin(state.pointer);
-        const lx = baseLx*cosNudge + baseLz*sinNudge, lz = -baseLx*sinNudge + baseLz*cosNudge;
-        const craterX = Math.sin(angle - .7) * Math.sqrt(1 - .25*.25), craterZ = Math.cos(angle - .7) * Math.sqrt(1 - .25*.25), craterY = -.25;
-        for (let y = cy-r; y <= cy+r; y += cell) for (let x = cx-r; x <= cx+r; x += cell) {
-          const nx = (x-cx)/r, ny = (y-cy)/r, d = nx*nx + ny*ny; if (d >= 1) continue;
-          const nz = Math.sqrt(1-d), dist = Math.hypot(nx-craterX, ny-craterY, nz-craterZ);
-          const crater = .35*Math.exp(-(dist*dist)/(2*.18*.18));
-          const lum = Math.max(0, Math.min(1, .04 + Math.max(0, nx*lx + ny*ly + nz*lz) - crater));
-          if (lum <= .015) continue;
-          const size = cell*.92*Math.pow(lum, .8); ctx.globalAlpha = .35 + .65*lum; ctx.fillRect(x-size/2, y-size/2, size, size);
-        }
-        ctx.globalAlpha = 1;
-      }
-    }
-  };
+  const ARTS = {};
   ARTS.burst = {
     setup() { const random = mulberry32(201); return Array.from({length:260}, (_, i) => ({a:i*Math.PI*2/260, length:.3+random()*1.1, alpha:.08+random()*.42, width:.6+random()*.4, phase:random()*6.28})); },
     frame(ctx,w,h,t,lines) { ctx.clearRect(0,0,w,h); const x=w*.62,y=h*.55,diag=Math.hypot(w,h); lines.forEach(line => { const a=line.a+t*.01, length=line.length*diag*(.96+.04*Math.sin(t*.3+line.phase)); ctx.strokeStyle=`rgba(242,242,238,${line.alpha})`; ctx.lineWidth=line.width; ctx.beginPath(); ctx.moveTo(x,y); ctx.lineTo(x+Math.cos(a)*length,y+Math.sin(a)*length); ctx.stroke(); }); ctx.fillStyle='rgb(242,242,238)'; ctx.beginPath(); ctx.arc(x,y,4.5,0,Math.PI*2); ctx.fill(); ctx.lineWidth=2; ctx.strokeStyle='rgba(242,242,238,.6)'; ctx.beginPath(); ctx.arc(x,y,10,0,Math.PI*2); ctx.stroke(); }
@@ -52,6 +24,7 @@
     frame(ctx,w,h,t,events) { ctx.clearRect(0,0,w,h); const left=30, top=36, bottom=22, rows=16, rowH=(h-top-bottom)/rows, beat=Math.max(35,Math.min(86,w*.1)), cycle=40*.72*beat, scroll=t*40; ctx.strokeStyle='rgba(242,242,238,.12)';ctx.lineWidth=1;for(let r=0;r<=rows;r++){const y=Math.round(top+r*rowH)+.5;ctx.beginPath();ctx.moveTo(left,y);ctx.lineTo(w,y);ctx.stroke();} ctx.save();ctx.beginPath();ctx.rect(left,top,w-left,h-top-bottom);ctx.clip();const firstBar=Math.floor(scroll/(4*beat))-1;for(let b=firstBar;b<firstBar+Math.ceil(w/(4*beat))+3;b++){let x=Math.round(left+b*4*beat-scroll)+.5;ctx.beginPath();ctx.moveTo(x,top);ctx.lineTo(x,h-bottom);ctx.stroke();} const start=Math.floor(scroll/cycle)-1;for(let c=start;c<=Math.floor((scroll+w)/cycle)+1;c++)for(const n of events){const x=left+c*cycle+n.beat*beat-scroll,width=n.duration*beat,y=top+n.row*rowH+rowH*.22;if(x+width<left||x>w)continue;ctx.fillStyle=`rgba(242,242,238,${n.strength})`;ctx.beginPath();ctx.roundRect(x,y,width,Math.max(2,rowH*.56),3);ctx.fill();}ctx.restore(); for(let r=0;r<rows;r++){let y=top+r*rowH;ctx.strokeStyle='rgba(242,242,238,.35)';ctx.strokeRect(.5,Math.round(y)+.5,left-1,Math.ceil(rowH)); if([1,3,6,8,10].includes(r%12)){ctx.fillStyle='rgba(242,242,238,.35)';ctx.fillRect(0,y,left*.6,rowH*.7);}} const head=Math.round(w*.62)+.5;ctx.strokeStyle='rgba(242,242,238,.9)';ctx.beginPath();ctx.moveTo(head,top);ctx.lineTo(head,h-bottom);ctx.stroke(); }
   };
   function initArt(root = document) {
+    window.initHeroArt?.(root);
     const canvases = [...root.querySelectorAll('[data-art]')]; if (root.matches?.('[data-art]')) canvases.unshift(root);
     canvases.forEach(canvas => {
       const art = ARTS[canvas.dataset.art]; if (!art || canvas.dataset.artReady) return; canvas.dataset.artReady = 'true';
@@ -61,7 +34,6 @@
       new ResizeObserver(entries => { const box = entries[0].contentRect; w = box.width; h = box.height; if (!w || !h) return; const dpr = Math.min(devicePixelRatio || 1, 2); canvas.width = Math.round(w*dpr); canvas.height = Math.round(h*dpr); ctx.setTransform(dpr,0,0,dpr,0,0); state = art.setup(ctx,w,h,canvas.dataset); update(); }).observe(canvas);
       new IntersectionObserver(entries => { visible = entries[0].isIntersecting; update(); }).observe(canvas);
       document.addEventListener('visibilitychange', update); motion.addEventListener('change', update);
-      if (canvas.dataset.art === 'sphere' && matchMedia('(pointer: fine)').matches) { canvas.parentElement.parentElement.addEventListener('pointermove', e => { if (state) state.target = ((e.clientX-canvas.getBoundingClientRect().left)/w-.5)*.5; }); canvas.parentElement.parentElement.addEventListener('pointerleave', () => { if (state) state.target = 0; }); }
     });
   }
   window.initArt = initArt; initArt();
