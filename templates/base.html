@@ -17,7 +17,7 @@
 <a class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[70] btn-solid" href="#main">Skip to content</a>
 <div aria-hidden="true" class="pointer-events-none fixed inset-1 z-[60] border border-line md:inset-2 print:hidden"><span class="tick -left-[5px] -top-[5px]"></span><span class="tick -right-[5px] -top-[5px]"></span><span class="tick -left-[5px] -bottom-[5px]"></span><span class="tick -right-[5px] -bottom-[5px]"></span></div>
 <header class="fixed inset-x-0 top-0 z-50 border-b border-line bg-ink/80 backdrop-blur-md">
-  <div class="shell flex h-12 items-center justify-between lg:h-14">
+  <div class="shell flex h-12 items-center justify-between pt-1 md:pt-2 lg:h-14">
     <a href="{{base}}" class="font-mono text-[12px] uppercase tracking-[0.12em] text-paper">NICHOLAS<span class="text-paper/40">.</span>BODE</a>
     <nav aria-label="Main navigation" class="hidden lg:flex items-center gap-8 absolute left-1/2 -translate-x-1/2">
       {% for id, name in [('about','About'),('work','Work'),('research','Research'),('contact','Contact')] %}
@@ -28,7 +28,7 @@
     <div class="flex items-center gap-2"><a class="btn-ghost hidden h-8 sm:inline-flex" href="{{base}}resume/">Résumé ↗</a><button type="button" data-menu-toggle class="btn-ghost h-8 px-3 lg:hidden" aria-expanded="false" aria-controls="site-menu">Menu</button></div>
   </div>
 </header>
-<div id="site-menu" class="fixed inset-0 z-40 flex flex-col bg-ink pt-12 lg:hidden" hidden>
+<div id="site-menu" class="fixed inset-0 z-40 flex flex-col overflow-y-auto bg-ink pt-12 lg:hidden" hidden>
   <div class="shell flex flex-1 flex-col justify-between pb-6 pt-8">
     <nav aria-label="Mobile navigation">{% for id, name in [('about','About'),('work','Work'),('research','Research'),('contact','Contact')] %}<a href="{{ '' if nav == 'home' else base }}#{{id}}" class="flex items-baseline justify-between border-b border-line py-4"><span class="label">0{{loop.index}}</span><span class="display text-[56px] sm:text-[72px]">{{name}}</span></a>{% endfor %}</nav>
     <div><a class="font-mono text-[12px]" href="mailto:{{site.email}}">{{site.email}}</a><div class="flex flex-wrap gap-2"><a class="chip" href="{{site.github}}">GitHub ↗</a><a class="chip" href="{{site.linkedin}}">LinkedIn ↗</a><a class="chip" href="{{base}}resume/">Résumé ↗</a></div></div>
