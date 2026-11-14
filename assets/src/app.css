@@ -106,3 +106,19 @@ html.js [data-split].is-in .split-word { transform: translateY(0); }
 
 html.no-js #site-menu { display: flex !important; position: static; }
 html.no-js [data-menu-toggle] { display: none; }
+
+/* The rail only changes the default, no-JS grid when motion is enabled. */
+html.rail-on [data-rail-wrapper] { position: relative; }
+html.rail-on [data-rail-viewport] { position: sticky; top: 56px; height: calc(100svh - 56px); overflow: hidden; display: flex; flex-direction: column; justify-content: center; }
+html.rail-on [data-rail-track] { display: flex; width: max-content; max-width: none; margin: 0; padding: 0 30vw 0 40px; gap: 24px; will-change: transform; }
+html.rail-on .rail-card { width: min(72vw, 880px); height: calc(100svh - 56px - 112px); flex-shrink: 0; }
+html.rail-on .rail-art { aspect-ratio: auto; min-height: 180px; flex: 1 1 0%; }
+html.rail-on .rail-body { flex-shrink: 0; grid-template-columns: repeat(2, minmax(0, 1fr)); padding: 16px; gap: 16px; }
+html.rail-on .rail-title { font-size: 32px; }
+html.rail-on .rail-desc { -webkit-line-clamp: 3; }
+@media (min-width: 1280px) {
+  html.rail-on [data-rail-track] { padding-left: 48px; }
+  html.rail-on .rail-card { width: min(64vw, 920px); }
+  html.rail-on .rail-body { padding: 24px; gap: 32px; }
+  html.rail-on .rail-title { font-size: 48px; }
+}

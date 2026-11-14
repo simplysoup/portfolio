@@ -37,6 +37,52 @@
     });
   }
   const navObservers = new WeakMap();
+  // A single rail controller follows whichever home DOM the preview router installed.
+  const initRail = (() => {
+    const wide = matchMedia('(min-width: 1024px)'), reduced = matchMedia('(prefers-reduced-motion: reduce)');
+    let rail, wrapper, viewport, track, cards, progress, fill, counter, frame = 0;
+    const update = () => {
+      frame = 0;
+      if (!rail || !document.documentElement.classList.contains('rail-on')) return;
+      const distance = Math.max(0, track.scrollWidth - viewport.clientWidth);
+      const range = wrapper.offsetHeight - viewport.offsetHeight - 56;
+      const p = Math.max(0, Math.min(1, (56 - wrapper.getBoundingClientRect().top) / range));
+      track.style.transform = `translate3d(${-p * distance}px,0,0)`;
+      fill.style.transform = `scaleX(${p})`;
+      counter.textContent = `${String(Math.min(cards.length, Math.floor(p * cards.length) + 1)).padStart(2, '0')} / ${String(cards.length).padStart(2, '0')}`;
+    };
+    const request = () => { if (!frame) frame = requestAnimationFrame(update); };
+    const configure = () => {
+      const on = !!rail && wide.matches && !reduced.matches;
+      document.documentElement.classList.toggle('rail-on', on);
+      if (!rail) return;
+      wrapper.style.height = on ? `calc(${cards.length} * 70vh + 100svh)` : '';
+      track.style.transform = ''; progress.hidden = !on;
+      if (on) request();
+    };
+    addEventListener('scroll', request, {passive:true});
+    addEventListener('resize', () => { configure(); request(); }, {passive:true});
+    wide.addEventListener('change', configure); reduced.addEventListener('change', configure);
+    return () => {
+      const next = document.querySelector('[data-rail]');
+      if (next === rail) { configure(); return; }
+      rail = next;
+      if (!rail) { configure(); return; }
+      wrapper = rail.querySelector('[data-rail-wrapper]'); viewport = rail.querySelector('[data-rail-viewport]'); track = rail.querySelector('[data-rail-track]');
+      cards = [...rail.querySelectorAll('.rail-card')]; progress = rail.querySelector('[data-rail-progress]'); fill = rail.querySelector('[data-rail-fill]'); counter = rail.querySelector('[data-rail-count]');
+      rail.addEventListener('focusin', event => {
+        if (!document.documentElement.classList.contains('rail-on')) return;
+        const card = event.target.closest('.rail-card'); if (!card) return;
+        const rect = card.getBoundingClientRect(), visible = viewport.getBoundingClientRect();
+        if (rect.left >= visible.left && rect.right <= visible.right) return;
+        const distance = track.scrollWidth - viewport.clientWidth;
+        const centre = card.offsetLeft + card.offsetWidth / 2 - viewport.clientWidth / 2;
+        const p = Math.max(0, Math.min(1, centre / distance));
+        window.scrollTo({top: window.scrollY + wrapper.getBoundingClientRect().top - 56 + p * (wrapper.offsetHeight - viewport.offsetHeight - 56), behavior: 'instant'});
+      });
+      configure();
+    };
+  })();
   function initSite() {
     document.querySelectorAll('[data-split], [data-reveal]').forEach(el => {
       if (el.dataset.siteRevealReady) return; el.dataset.siteRevealReady = 'true';
@@ -56,6 +102,19 @@
       menu.addEventListener('click', e => { if (e.target.closest('a')) close(); });
       document.addEventListener('keydown', e => { if (e.key === 'Escape' && !menu.hidden) close(); });
     }
+    document.querySelectorAll('[data-mailto]').forEach(form => {
+      if (form.dataset.mailtoReady) return;
+      form.dataset.mailtoReady = 'true';
+      form.addEventListener('submit', event => {
+        event.preventDefault();
+        const fields = new FormData(form), name = fields.get('name'), email = fields.get('email'), message = fields.get('message');
+        const mailto = `mailto:${form.dataset.email}?subject=${encodeURIComponent(`Hello from ${name}`)}&body=${encodeURIComponent(`${message}\n\n— ${name} (${email})`)}`;
+        form.dataset.lastMailto = mailto;
+        form.querySelector('[data-mailto-status]').hidden = false;
+        location.href = mailto;
+      });
+    });
+    initRail();
     document.querySelectorAll('[data-nav]').forEach(link => {
       const href = link.getAttribute('href');
       if (!href.startsWith('#')) return;

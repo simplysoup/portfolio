@@ -7,7 +7,7 @@ about:
   body:
     - "I'm an AI Engineer at Environics Analytics, building LLM-powered applications that combine models, data and cloud infrastructure: agent-facing tool servers, secured remote access, review workflows with humans in the loop, and the evaluations that decide whether any of it ships."
     - "Before that I spent two years as a Research Associate in machine learning — building production data pipelines, automated quality control and XGBoost models over foot-traffic, GPS, demographic and mapping data, and investigating anomalies down to their root cause."
-    - "I hold an MSc in Computer Science from Ontario Tech University, where my thesis introduced trend dependencies: approximate, learned constraints over noisy time series. Outside of work I play piano, and for five years I worked as a screen actor."
+    - "I hold an MSc in Computer Science from Ontario Tech University, where my thesis introduced trend dependencies: approximate, learned constraints over noisy time series. Outside of work, I play piano."
   facts:
     - [Based in, "Toronto, ON"]
     - [Role, "AI Engineer"]

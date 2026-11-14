@@ -1,6 +1,6 @@
 # Phase 4 — Work rail, project diagrams, research, contact, new case studies. Implementer: GPT-6.1 Terra.
 
-Repo: /home/soup/Projects/portfolio, branch `redesign-v14`. Read docs/redesign-v14/PROJECT_RULES.md and docs/redesign-v14/SPEC.md completely (§4.9–4.11, §5.2, §8.6, §9 are your sections). Phases 1–3 are done. Do NOT commit. Do not restyle earlier sections.
+Repo: /home/soup/Projects/portfolio, branch `redesign-v14`. Read docs/redesign-v14/PROJECT_RULES.md and docs/redesign-v14/SPEC.md completely (§4.9–4.11, §5.2, §8.6, §9 are your sections). Phases 1–3 are done. Do NOT commit. Do not restyle earlier sections. Never run `git checkout`/`git restore`/`git stash` (other edits are in the working tree). Owner decision: the Off-the-clock section is NOT on the home page — do not add it back.
 
 ## Scope
 1. `partials/work.html` §4.9 — both modes. Mode B (horizontal rail) logic goes in `assets/js/main.js` as a self-contained module inside `initSite()`: passive scroll/resize listeners + rAF, no wheel handling, no scroll snapping, `html.rail-on` only when `matchMedia('(min-width:1024px)').matches && !reduced-motion`; re-evaluate on change (switching modes must not leave a stale height/transform). Keyboard focus-follow per spec. Verify that scrolling by wheel, keyboard (PgDn/Space/arrow) and the scrollbar all behave natively.

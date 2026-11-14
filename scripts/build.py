@@ -24,7 +24,7 @@ assert BASE.startswith('/') and BASE.endswith('/')
 MD=MarkdownIt('commonmark',{'html':False,'linkify':False}).enable('table')
 ENV=Environment(loader=FileSystemLoader(ROOT/'templates'),autoescape=select_autoescape(['html','xml']),trim_blocks=True,lstrip_blocks=True)
 
-work_order=['evaluated-rag','analytics-pipeline','piano-transcription']
+work_order=['trainstore','agent-shield','casestruct-lora','evaluated-rag','analytics-pipeline','piano-transcription']
 
 SITE={
  'name':'Nicholas Bode',
