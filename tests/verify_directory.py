@@ -1,11 +1,12 @@
 from playwright.sync_api import sync_playwright
+from _browser import launch
 from pathlib import Path
 import hashlib, time
 ROOT=Path(__file__).resolve().parents[1]
 source=(ROOT/'OPEN_PORTFOLIO.html').read_text(encoding='utf-8')
 out=ROOT/'screenshots';out.mkdir(exist_ok=True)
 with sync_playwright() as p:
- browser=p.chromium.launch(executable_path='/usr/bin/chromium',headless=True,args=['--no-sandbox','--disable-dev-shm-usage'])
+ browser=launch(p)
  for tag,vp,touch in [('desktop',{'width':1440,'height':900},False),('mobile',{'width':390,'height':844},True)]:
   page=browser.new_page(viewport=vp,is_mobile=touch,has_touch=touch,device_scale_factor=1)
   errors=[];page.on('pageerror',lambda ex:errors.append(str(ex)))

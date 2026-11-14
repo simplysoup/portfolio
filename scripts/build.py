@@ -12,6 +12,7 @@ import yaml
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 from markdown_it import MarkdownIt
 from bs4 import BeautifulSoup
+import tailwind
 
 ROOT=Path(__file__).resolve().parents[1]
 OUT=ROOT/'dist'
@@ -51,6 +52,7 @@ def parse_md(path):
  meta['body']=str(doc)
  return meta
 
+PROFILE=yaml.safe_load((ROOT/'content/profile.yaml').read_text(encoding='utf-8'))
 WORK={p.stem:parse_md(p) for p in (ROOT/'content/work').glob('*.md')}
 RESEARCH={p.stem:parse_md(p) for p in (ROOT/'content/research').glob('*.md')}
 PUBLIC_WORK={k:v for k,v in WORK.items() if v.get('public') is True}
@@ -63,13 +65,14 @@ def render(route, template, **context):
  filename=OUT/route.strip('/')/'index.html' if route.strip('/') else OUT/'index.html'
  filename.parent.mkdir(parents=True,exist_ok=True)
  full_url=SITE_URL + route_url(route)
- rendered=ENV.get_template(template).render(site=SITE, base=BASE, route=route, url=full_url, route_url=route_url,
+ rendered=ENV.get_template(template).render(site=SITE, profile=PROFILE, base=BASE, route=route, url=full_url, route_url=route_url,
                                                work=PUBLIC_WORK,research=PUBLIC_RESEARCH,**context)
  filename.write_text(rendered,encoding='utf-8')
 
 if OUT.exists():shutil.rmtree(OUT)
 OUT.mkdir(parents=True)
-shutil.copytree(ROOT/'assets',OUT/'assets')
+shutil.copytree(ROOT/'assets',OUT/'assets',ignore=shutil.ignore_patterns('src'))
+tailwind.compile(OUT/'assets'/'app.css')
 
 render('', 'index.html', title='Personal index — engineering, research & music',description=SITE['description'], nav='home')
 render('work','work.html',title='Selected engineering work', description='Applied AI, evaluation, and systems engineering projects by Nicholas Bode.',nav='work')
@@ -91,6 +94,7 @@ if SITE_URL!='https://example.com':
   u=ET.SubElement(root,'url');ET.SubElement(u,'loc').text=SITE_URL+route_url(p)
  ET.ElementTree(root).write(OUT/'sitemap.xml',encoding='utf-8',xml_declaration=True)
 (OUT/'robots.txt').write_text('User-agent: *\nAllow: /\n'+(f'Sitemap: {SITE_URL}{BASE}sitemap.xml\n' if SITE_URL!='https://example.com' else ''),encoding='utf-8')
-manifest={'generated':str(date.today()),'base':BASE,'routes':[route_url(p) for p in paths], 'excluded_drafts':sorted(p.name for p in (ROOT/'content/drafts').glob('*.md'))}
+drafts=ROOT/'content/drafts'
+manifest={'generated':str(date.today()),'base':BASE,'routes':[route_url(p) for p in paths], 'excluded_drafts':sorted(p.name for p in drafts.glob('*.md')) if drafts.exists() else []}
 (OUT/'build-manifest.json').write_text(json.dumps(manifest,indent=2),encoding='utf-8')
 print(f"Built {len(paths)} pages in {OUT} ({len(manifest['excluded_drafts'])} private drafts excluded).")

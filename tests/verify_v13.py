@@ -1,10 +1,11 @@
 """Homepage scroll rooms, mobile table reflow, and piano regression (offline preview)."""
 from pathlib import Path
 from playwright.sync_api import sync_playwright
+from _browser import launch
 ROOT=Path(__file__).resolve().parents[1]
 OUT=ROOT/'screenshots'; OUT.mkdir(exist_ok=True)
 with sync_playwright() as p:
- browser=p.chromium.launch(executable_path='/usr/bin/chromium',headless=True,args=['--no-sandbox','--disable-dev-shm-usage'])
+ browser=launch(p)
  for name,w,h,mobile in [('desktop',1440,900,False),('phone',390,844,True),('short-phone',320,640,True)]:
   page=browser.new_page(viewport={'width':w,'height':h},is_mobile=mobile,has_touch=mobile,device_scale_factor=1)
   errors=[];page.on('pageerror',lambda e:errors.append(str(e)))

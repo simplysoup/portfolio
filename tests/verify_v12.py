@@ -1,12 +1,13 @@
 """V12 regression: showcase shortcuts, themed index, music timeline and offline navigation."""
 from pathlib import Path
 from playwright.sync_api import sync_playwright
+from _browser import launch
 ROOT=Path(__file__).resolve().parents[1]
 OUT=ROOT/'screenshots'
 OUT.mkdir(exist_ok=True)
 
 with sync_playwright() as p:
- browser=p.chromium.launch(executable_path='/usr/bin/chromium',headless=True,args=['--no-sandbox','--disable-dev-shm-usage'])
+ browser=launch(p)
  for name,size,phone in [('desktop',(1440,900),False),('mobile',(390,844),True),('small',(320,640),True)]:
   page=browser.new_page(viewport={'width':size[0],'height':size[1]},is_mobile=phone,has_touch=phone,device_scale_factor=1)
   errors=[]

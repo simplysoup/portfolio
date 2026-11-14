@@ -1,13 +1,14 @@
 """Regression: uniform type, non-clipping chapter titles, and robust navigation."""
 from pathlib import Path
 from playwright.sync_api import sync_playwright
+from _browser import launch
 ROOT = Path(__file__).resolve().parents[1]
 HTML = (ROOT / 'OPEN_PORTFOLIO.html').read_text(encoding='utf-8')
 OUT = ROOT / 'screenshots'
 OUT.mkdir(exist_ok=True)
 
 with sync_playwright() as p:
-    browser = p.chromium.launch(executable_path='/usr/bin/chromium', headless=True, args=['--no-sandbox', '--disable-dev-shm-usage'])
+    browser = launch(p)
     for name, size, is_mobile in [('desktop',(1440,900),False),('mobile',(390,844),True),('small-mobile',(320,640),True)]:
         page = browser.new_page(viewport={'width':size[0],'height':size[1]}, is_mobile=is_mobile,has_touch=is_mobile,device_scale_factor=1)
         errors=[]

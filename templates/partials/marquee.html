@@ -1,0 +1,4 @@
+<section aria-label="Practice" class="relative overflow-hidden border-t border-line py-8 md:py-10">
+  <div class="flex w-max animate-marquee motion-reduce:animate-none hover:[animation-play-state:paused]">{% for copy in range(2) %}<div class="flex"{% if copy %} aria-hidden="true"{% endif %}>{% for word in ['Evaluate','Retrieve','Orchestrate','Ship'] %}<span class="display px-6 text-[72px] md:text-[120px] lg:text-[160px] leading-none{% if loop.index is even %} text-transparent [-webkit-text-stroke:1px_rgb(242_242_238_/_0.7)]{% endif %}">{{word}}</span><span class="font-mono text-[28px] md:text-[40px] text-paper/50 self-center">✳</span>{% endfor %}</div>{% endfor %}</div>
+  <p class="shell mt-4 text-center label">LLM applications, agents &amp; data systems — measured, not assumed</p>
+</section>

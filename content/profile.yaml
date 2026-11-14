@@ -1,0 +1,165 @@
+hero:
+  intro: "I build LLM-powered applications, agent tooling and evaluation harnesses — and I care about knowing when they are wrong. Before that, I built ML models and production data pipelines on large, real-world location data."
+about:
+  statement:
+    - "AI Engineer in Toronto."
+    - "I turn messy, real-world data into LLM applications and agents that can be tested, audited and trusted."
+  body:
+    - "I'm an AI Engineer at Environics Analytics, building LLM-powered applications that combine models, data and cloud infrastructure: agent-facing tool servers, secured remote access, review workflows with humans in the loop, and the evaluations that decide whether any of it ships."
+    - "Before that I spent two years as a Research Associate in machine learning — building production data pipelines, automated quality control and XGBoost models over foot-traffic, GPS, demographic and mapping data, and investigating anomalies down to their root cause."
+    - "I hold an MSc in Computer Science from Ontario Tech University, where my thesis introduced trend dependencies: approximate, learned constraints over noisy time series. Outside of work I play piano, and for five years I worked as a screen actor."
+  facts:
+    - [Based in, "Toronto, ON"]
+    - [Role, "AI Engineer"]
+    - [At, "Environics Analytics"]
+    - [Before, "Research Associate, ML"]
+    - [Education, "MSc Computer Science"]
+    - [Focus, "LLMs · Agents · Evaluation"]
+expertise:
+  - tag: "#01 · Agents"
+    title: "Agents & tool interfaces"
+    art: burst
+    caption: "Fig. 01 — tool fan-out"
+    body: "Agent-facing tool servers (MCP) with permission-gated read, write and delete tool families, authenticated remote access via OAuth with PKCE, and composite tools that bundle expensive sequences into single agent-usable operations."
+    chips: [MCP, LangGraph, Microsoft Agent Framework, FastAPI, pydantic, OAuth / PKCE]
+  - tag: "#02 · Evaluation"
+    title: "Evaluation & guardrails"
+    art: ridges
+    caption: "Fig. 02 — distributions"
+    body: "Benchmarks with baselines, paired comparisons and stated limits. Grounding and citation checks, prompt-injection test suites, random audits and human review queues — so a model's output is accepted on evidence, not fluency."
+    chips: [LangSmith, MLflow, RAG evaluation, Red-teaming, Human-in-the-loop]
+  - tag: "#03 · Data"
+    title: "Data & ML pipelines"
+    art: halftone
+    caption: "Fig. 03 — signal field"
+    body: "Production pipelines in dbt and Airflow on Snowflake, QC gates that decide release readiness, geospatial ingestion, and XGBoost models carried into production QA."
+    chips: [Snowflake, dbt, Airflow, PySpark, XGBoost, Databricks]
+  - tag: "#04 · Research"
+    title: "Time-series research"
+    art: trend
+    caption: "Fig. 04 — trend dependencies"
+    body: "An MSc on discovering approximate, learned relationships over noisy time series — symbolic regression, policy-gradient regression and change-point segmentation."
+    chips: [PyTorch, Transformers, Symbolic regression, Segmentation]
+skills:
+  - name: "LLMs & agents"
+    items: [LLMs, RAG, Prompt engineering, LangGraph, LangSmith, Microsoft Agent Framework, Azure AI Foundry, MCP, pydantic]
+  - name: "Machine learning"
+    items: [PyTorch, scikit-learn, XGBoost, Neural networks, CNNs, Time series]
+  - name: "Data engineering"
+    items: [Python, SQL, Snowflake, dbt, Airflow, PySpark, Pandas, Databricks]
+  - name: "Cloud & platform"
+    items: [Microsoft Azure, AWS, Azure DevOps, Docker, Git]
+  - name: "Applications"
+    items: [FastAPI, REST APIs, TypeScript, React, Node.js, Power BI]
+  - name: "Portfolio-only"
+    portfolio_only: true
+    items: [Go, Kubernetes (k3s), JuiceFS, MLflow, Hugging Face PEFT / TRL, Weights & Biases]
+experience:
+  - when: "Apr 2026 — Present"
+    title: "AI Engineer"
+    org: "Environics Analytics · Toronto (hybrid)"
+    summary: "Building LLM-powered applications that combine AI, data and cloud infrastructure, and supporting other teams as they adopt AI through regular sessions and shared demos."
+    bullets:
+      - "Extended an agent-facing MCP tool platform: authenticated remote HTTPS access per client alongside a local stdio entry point, and SDK extensions for native report creation and PDF export."
+      - "Built an OAuth-secured remote tool service (Azure AD B2C, PKCE, per-profile tokens, encrypted server-side token storage) exposing existing business APIs to agents."
+      - "Built an LLM-assisted review workbench: rule-based auto-approval plus LLM review of justification quality, random 100-record audits and a human review queue."
+      - "Implemented authorization enforcement across document search, connectors and tools for a self-hosted enterprise search deployment, with audit trails and access revocation."
+      - "Built a human-labelling and outlier-review pipeline (HDBSCAN, UMAP) on top of an existing rule-based dbt model."
+      - "Designed reusable agent skills for data-quality exploration, anomaly diagnosis and root-cause workflows, and agent automations that require explicit approval before any mutation."
+    chips: [Azure AI Foundry, LangGraph, LangSmith, FastAPI, pydantic, RAG]
+  - when: "Feb 2024 — Apr 2026"
+    title: "Research Associate, Machine Learning"
+    org: "Environics Analytics · Toronto"
+    summary: "Statistical and ML evaluation of large-scale mobile and location datasets, production data pipelines, automated quality control and release investigations."
+    bullets:
+      - "Built a mobility data product end to end on Snowflake: weekly incremental processing and QC gates that produce a release-readiness recommendation."
+      - "Benchmarked four model versions across nine evaluation dimensions against public retail benchmarks and client ground truth, recommending a conditional go."
+      - "Built XGBoost foot-traffic models that went into production QA, chosen over alternatives for retraining speed and fit."
+      - "Traced apparent traffic spikes to an upstream methodology change rather than real-world movement, after reimplementing the outlier method."
+      - "Built a unified product-health and QC repository: weekly and annual reporting, volume estimation, outlier detection and orchestration."
+      - "Wrote pipelines in dbt for two years and ported them to Airflow 3.x; built batched OpenStreetMap ingestion into Snowflake."
+    chips: [Snowflake, dbt, Airflow, XGBoost, Python, SQL]
+  - when: "Jan 2020 — Feb 2024"
+    title: "Teaching Assistant"
+    org: "Ontario Tech University · Oshawa"
+    summary: "Part-time teaching assistant for undergraduate computer science alongside BSc and MSc studies."
+    bullets: []
+    chips: []
+education:
+  - year: "2021 — 2024"
+    title: "MSc, Computer Science"
+    org: "Ontario Tech University"
+    detail: "Thesis: Discovery of Trend Dependencies Over Time-Series"
+    link: "/research/trend-dependencies/"
+  - year: "2017 — 2021"
+    title: "BSc, Computer Science"
+    org: "Ontario Tech University"
+    detail: "Mathematics minor"
+  - year: "2024"
+    title: "Automated Image Captioning for the Visually Impaired"
+    org: "Springer Nature"
+    detail: "Encyclopedia entry · first & corresponding author"
+    link: "https://doi.org/10.1007/978-3-031-23161-2_501"
+highlights:
+  - "Agent tool servers with permission-gated tool families and authenticated remote access."
+  - "OAuth + PKCE secured remote tooling with encrypted server-side token storage."
+  - "LLM review workflows that pair automatic rules with audits and a human queue."
+  - "A QC-gated mobility data product, built end to end on Snowflake."
+  - "A four-version, nine-dimension release benchmark ending in a go / no-go call."
+  - "XGBoost foot-traffic models carried into production QA."
+offclock:
+  body: "I passed Grade 10 piano with the Royal Conservatory of Music, and from 2011 to 2016 I worked as a professional screen actor — including roles on Hannibal and Murdoch Mysteries. Both taught me the same thing engineering does: rehearse, then perform under scrutiny."
+  stats: [["10", "RCM piano grade"], ["5", "Years on set"]]
+work_intro: "Independent projects, all public on GitHub. Each one states what it measured, what it did not, and where it breaks."
+contact:
+  intro: "Open to conversations about AI engineering, agents, evaluation and data systems. The fastest way to reach me is email."
+  base: "Toronto, Canada"
+research:
+  thesis:
+    summary: "Introduces trend dependencies — constraints built from a learned function and an allowed deviation — and methods to discover them in noisy time series, including approximate and conditional variants that hold only over particular regimes."
+    chips: [Symbolic regression, Policy-gradient regression, Change-point segmentation]
+# Retain the phase-1 component classes in generated CSS before phase-2 templates use them.
+# shell label label-strong chip display heading btn btn-solid btn-ghost h2-display section chapter-tag prose-nb tick
+projects:
+  - slug: trainstore
+    title: "TrainStore"
+    tagline: "Kubernetes-native ML storage"
+    year: "2026"
+    desc: "S3-compatible object storage, JuiceFS POSIX access and checkpointing for PyTorch on a k3s cluster across two AWS availability zones — with a manifest-committed checkpoint protocol that a stale writer cannot overwrite."
+    chips: [Python, Go, k3s, AWS, JuiceFS, PyTorch]
+    repo: "https://github.com/simplysoup/trainstore"
+  - slug: agent-shield
+    title: "AgentShield"
+    tagline: "Prompt-injection evaluation for tool-using agents"
+    year: "2026"
+    desc: "Paired vulnerable and policy-enforced agent runs, frozen fixtures, adaptive attack generation and tool-level authorization with audit events. 68 automated tests."
+    chips: [Python, LangGraph, OpenAI, Groq, pytest]
+    repo: "https://github.com/simplysoup/agent-shield"
+  - slug: casestruct-lora
+    title: "CaseStruct-LoRA"
+    tagline: "LoRA study for incident-text classification"
+    year: "2026"
+    desc: "A reproducible Qwen3-0.6B LoRA study on construction-accident and occupational-injury classification, with paired-bootstrap confidence intervals against the strongest baselines."
+    chips: [PyTorch, PEFT, TRL, Hugging Face, Qwen]
+    repo: "https://github.com/simplysoup/casestruct-lora"
+  - slug: evaluated-rag
+    title: "Evaluated RAG"
+    tagline: "Grounded document QA, measured"
+    year: "2026"
+    desc: "A reproducible document-QA experiment comparing a deterministic baseline with a bounded tool-using model."
+    chips: [Python, LangGraph, Pydantic, MLflow]
+    repo: "https://github.com/simplysoup/evaluated-rag-agentic"
+  - slug: analytics-pipeline
+    title: "Analytics pipeline"
+    tagline: "Incremental dbt models that prove idempotency"
+    year: "2026"
+    desc: "A local DuckDB + dbt analytics pipeline that makes incremental correctness and data-quality failures visible."
+    chips: [Python, DuckDB, dbt]
+    repo: "https://github.com/simplysoup/analytics-pipeline-dbt"
+  - slug: piano-transcription
+    title: "Piano transcription"
+    tagline: "Expressive audio to editable notation"
+    year: "2026"
+    desc: "An audio-to-MIDI-to-score pipeline that makes timing preservation and notation loss explicit."
+    chips: [Python, Audio ML, MIDI]
+    repo: "https://github.com/simplysoup/yt-piano-transcription"
