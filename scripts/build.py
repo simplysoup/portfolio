@@ -18,7 +18,7 @@ OUT=ROOT/'dist'
 BASE='/' + os.getenv('SITE_BASE','').strip('/')
 if BASE!='/' : BASE += '/'
 SITE_URL=os.getenv('SITE_URL','https://simplysoup.github.io').rstrip('/')
-PUBLIC_ROOT=os.getenv('PUBLIC_ROOT','https://simplysoup.github.io/portfolio').rstrip('/')
+PUBLIC_ROOT=os.getenv('PUBLIC_ROOT','https://nicholasbode.myaddr.io').rstrip('/')
 assert PUBLIC_ROOT.startswith('https://') and 'example.com' not in PUBLIC_ROOT
 assert BASE.startswith('/') and BASE.endswith('/')
 

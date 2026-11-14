@@ -29,10 +29,10 @@ jobs:
         run: uv sync --frozen
       - name: Build public-safe résumé PDF
         run: uv run --with "reportlab>=4,<5" python scripts/generate_resume.py
-      - name: Build for GitHub Pages subpath
+      - name: Build for the custom domain root
         env:
-          SITE_BASE: portfolio
-          PUBLIC_ROOT: https://simplysoup.github.io/portfolio
+          SITE_BASE: ""
+          PUBLIC_ROOT: https://nicholasbode.myaddr.io
         run: uv run python scripts/build.py
       - name: Verify SEO, public routes and résumé PDF
         run: uv run python tests/verify_publication.py --require-resume
