@@ -1,0 +1,9 @@
+{
+  "$schema": "https://pi.dev/schemas/settings.schema.json",
+  "skills": [
+    "!/home/soup/.pi/agent/skills/aws-*/SKILL.md",
+    "!/home/soup/.pi/agent/skills/launch-with-aws/SKILL.md",
+    "!/home/soup/.pi/agent/skills/signing-in-to-aws/SKILL.md",
+    "!/home/soup/.pi/agent/npm/node_modules/pi-subagents/skills/**/SKILL.md"
+  ]
+}
