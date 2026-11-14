@@ -1,8 +1,8 @@
-# Nicholas Bode — The Directory
+# Nicholas Bode — Portfolio
 
-A navigation-led personal engineering portfolio. The homepage opens as an index for four distinct chapters, then scrolls through four full-screen featured project scenes and a closing contact chapter. The work and research articles remain static, readable deep dives.
+A static portfolio for independent AI engineering, data systems, research, and selected public projects. The v14 “Instrument” design uses a typographic grid, restrained monochrome styling, original canvas illustrations, and a native-scroll work rail.
 
-## Build
+## Build and preview
 
 Requires Python 3.11+ and [uv](https://docs.astral.sh/uv/).
 
@@ -10,52 +10,44 @@ Requires Python 3.11+ and [uv](https://docs.astral.sh/uv/).
 uv sync
 uv run python scripts/build.py
 uv run python scripts/build_preview.py
-```
-
-Preview the production output with a local HTTP server:
-
-```bash
 uv run python -m http.server 8000 --directory dist
 ```
 
-Open `http://localhost:8000` in a browser. For mobile testing, open the equivalent local-network address on your phone. Hosting via HTTPS is strongly recommended for reliable mobile navigation and canvas interaction.
+Open `http://localhost:8000`. `dist/` is the generated static site. `OPEN_PORTFOLIO.html` is a self-contained offline preview with route content and fonts embedded. Both are generated artifacts; make changes in source files and rebuild.
 
-`OPEN_PORTFOLIO.html` is a self-contained offline preview with embedded CSS, JavaScript, and route content. Opening it from a restricted file viewer on Android may prevent scripts from running, despite the static page being visible.
+The build uses the standalone Tailwind CSS CLI **v3.4.17**, pinned by `scripts/tailwind.py`. Its platform-specific binary is stored in `.cache/` and downloaded on demand; it is not an npm dependency. `TAILWIND_BIN` may point to an existing compatible CLI binary.
 
 ## Structure
 
-- `templates/index.html` — the four-part index and scenes
-- `templates/base.html` — global directory and page chrome
-- `assets/world.css` — site art direction and transition styling
-- `assets/world.js` — index transitions, touch navigation, music renderer
-- `assets/scrollchapters.css` and `assets/scrollchapters.js` — scroll-aware full-viewport project scenes (no scroll-jacking)
-- `content/work/*.md` — publicly releasable case studies
-- `content/research/*.md` — research articles
-- `assets/site.js` — synthetic trend and RAG exhibits
-- `scripts/build.py` — static site generator (Jinja / MarkdownIt)
-- `scripts/build_preview.py` — self-contained multipage HTML generator
-- `tests/verify_directory.py` — desktop + touchscreen navigation checks
-- `tests/verify_v13.py` — scroll progression, short-phone CTA layout, mobile table comparisons, and music animation checks
+- `templates/` — Jinja page layouts and home-page sections
+- `content/profile.yaml` — portfolio content and home-page data
+- `content/work/*.md`, `content/research/*.md` — articles and case studies
+- `assets/src/app.css` — Tailwind input and component styles
+- `assets/fonts/` — self-hosted Big Shoulders Display, Geist, and Geist Mono variable fonts
+- `assets/js/main.js`, `assets/js/art.js`, `assets/site.js` — progressive enhancement, canvas art, and interactive exhibits
+- `scripts/build.py` — builds `dist/` and its route manifest
+- `scripts/build_preview.py` — creates `OPEN_PORTFOLIO.html`
+- `tests/verify_v14.py` — browser verification for production routes and offline preview
 
-To deploy at the root of a domain: set `SITE_URL` to your domain and run the build. For path-hosting, set `SITE_BASE` to the repository subdirectory (e.g. `SITE_BASE=my-portfolio`). Build output goes in `dist/`.
+The included Big Shoulders Display font is copyright The Big Shoulders Project Authors; Geist and Geist Mono are copyright Vercel. All three are distributed under the SIL Open Font License 1.1; the license and notices are in `assets/fonts/LICENSE-OFL.txt`.
 
-## Interaction
+## Interaction and accessibility
 
-- From the homepage, click/tap one of the four index rows, or scroll past the hero through four full-screen project profiles. Every profile links directly to its case study.
-- `INDEX` opens a full-screen directory from any page.
-- On chapter screens, use `INDEX`, the keyboard arrow keys, or the close-to-index button. Horizontal swipes retain their normal scrolling behavior.
-- Escape returns to the index (or closes the full-screen directory).
-- All chapter and project deep links are regular anchors in the source, and navigation has a no-JS fallback.
-- `prefers-reduced-motion` disables the cinematic transitions and continuous canvas animation.
+Navigation uses ordinary links and native scrolling. The work rail is sticky and progress-driven on wide screens, with no wheel interception; reduced-motion and small-screen modes show a vertical project list. The mobile menu supports keyboard operation and restores focus when closed. Decorative animation respects `prefers-reduced-motion`, and content remains available as static HTML.
+
+RAG and trend-lab examples are synthetic, client-side exhibits. Contact form submission creates a `mailto:` link; it does not send information to a server.
+
+## Verification
+
+Install the optional browser test dependency and run the complete build and verification sequence:
+
+```bash
+uv sync --extra test
+uv run python scripts/build.py && uv run python scripts/build_preview.py && uv run --with playwright python tests/verify_v14.py
+```
+
+The verifier starts its own local HTTP server, tests all generated routes at the project viewport sizes, exercises key interactions and print layout in Chromium, scans generated HTML for publication-safety phrases, and writes representative screenshots to `screenshots/v14/final/`. Playwright is used only for this local automated browser verification; `tests/_browser.py` selects an installed Chromium browser or falls back to Playwright's bundled browser.
 
 ## Publication safety
 
-Only independent public-project material and sanitized professional background are included. There are no employer source files, tenant identifiers, API endpoints, private metrics, internal screenshots, or named proprietary products. No employer-owned project name appears in the published content. Case-study status and ownership are deliberately differentiated.
-
-## Validation
-
-The site was built and the self-contained HTML exercised in headless Chromium at 1440×900 and 390×844. The checks cover opening chapters, the directory overlay, changing chapters, returning to the index, mobile layout overflow, and JavaScript errors. The RAG and synthetic time-series exhibits were also exercised after offline route navigation.
-
-No physical Android-device test or public deployment has been performed.
-
-For the new full-screen scroll mechanics and mobile table layout, see [`SCROLL_SYSTEM.md`](SCROLL_SYSTEM.md).
+Published material is limited to independent public-project work and sanitized professional background. Generated HTML is checked for disallowed names, metrics, and phrases before release. This automated text scan does not replace a human publication review. No physical device testing has been performed.

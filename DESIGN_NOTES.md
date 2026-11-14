@@ -1,26 +1,13 @@
-# The Directory — art and motion decisions
+# Design notes
 
-## The change
+## V14 — Instrument
 
-Version 10 abandons the previous landing-page/card/gallery format. The navigation itself is the primary artifact. There are four distinct destinations, rather than four identical sections of the same page:
+V14 organizes the portfolio as an editorial instrument panel: fine grid lines, compact mono labels, oversized condensed type, measured monochrome contrast, and restrained original dot-matrix canvas art. Home sections present professional background, expertise, skills, experience, selected work, research, and contact in a direct reading flow.
 
-1. **Systems:** dark mineral-green, explicit tests and evidence diagrams; current professional engineering role is present without becoming the headline.
-2. **Research:** midnight blue, change-point motif, link to the original research and a synthetic experiment.
-3. **Music:** iron-red, procedural piano-roll texture, source and case study for solo-piano transcription.
-4. **About:** pale paper, typographic monogram, direct biographical information and contact links.
+The work rail is a sticky viewport driven by native scroll progress. It does not capture wheel or touch input. Mobile and reduced-motion users receive the same six projects in a vertical grid. Canvas artwork and the moving marquee are decorative and stop animating under reduced-motion preferences.
 
-The index is intentionally spare: one human introduction, four oversized, responsive destinations, subtle interference artwork and small surrounding metadata. A separate pale green full-screen menu can be opened from any page.
+The visual reference influence is the language of monochrome condensed typography, mono labels, hairline grids, dot-matrix artwork, and numbered chapters. That language was borrowed as inspiration; no reference text, code, logo, or images were copied. All portfolio copy, artwork, and implementation are original.
 
-## Reference influence
+## Verification and content boundary
 
-The *design principles* come from studying the bundles supplied by the user, particularly Roberto Attanasio's personal-world approach and cinematic navigation. The implementation does not import any reference site's source, fonts, imagery, text, or assets.
-
-- The symmetric transition curve `cubic-bezier(.65,0,.35,1)` governs the shutter's scene entry and exit.
-- The exponential curve `cubic-bezier(.16,1,.3,1)` gives responsive typographic motion and index stagger.
-- The wipe reveals a new thematic room; the four shutter segments are etched, typographic materials, not a generic color-band loader.
-- Input is universal: touch, mouse, keyboard, and reduced motion are accounted for.
-- The graphics are original mathematical SVG/Canvas illustrations rather than borrowed artwork.
-
-## Future improvements
-
-If advancing this further: capture physical-device testing, add a refined visual transition from a chapter to the corresponding case-study title, bring the long-form article templates into closer typographic harmony, and consider one or two carefully chosen real, non-proprietary photographic studies. Avoid adding motion without a clear narrative or spatial role.
+`tests/verify_v14.py` covers responsive routes, navigation and exhibits, reduced motion, print output, the offline preview, and a generated-HTML publication-safety scan. The scan is an additional safeguard, not a substitute for editorial review. No physical device testing has been performed.
