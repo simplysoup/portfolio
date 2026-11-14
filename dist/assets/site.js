@@ -64,16 +64,16 @@ function initPortfolioExhibits() {
       const xx=x=>xmin+(xmax-xmin)*x, yy=y=>ymax-(y-ylo)/(yhi-ylo)*(ymax-ymin);
       for(let i=0;i<=5;i++){
         const x=xx(i/5),y=ymax-(ymax-ymin)*i/5;
-        element('line',{x1:x,x2:x,y1:ymin,y2:ymax,stroke:'#655674','stroke-width':.7});
-        element('line',{x1:xmin,x2:xmax,y1:y,y2:y,stroke:'#655674','stroke-width':.7});
+        element('line',{x1:x,x2:x,y1:ymin,y2:ymax,stroke:'rgb(242 242 238 / .15)','stroke-width':.7});
+        element('line',{x1:xmin,x2:xmax,y1:y,y2:y,stroke:'rgb(242 242 238 / .15)','stroke-width':.7});
       }
-      element('line',{x1:xx(.55),x2:xx(.55),y1:ymin,y2:ymax,stroke:'#ffa786','stroke-dasharray':'3 6','stroke-width':1.2,opacity:.7});
-      points.forEach(p=>element('circle',{cx:xx(p[0]),cy:yy(p[1]),r:2.6,fill:'#ffd0b0',opacity:.85}));
+      element('line',{x1:xx(.55),x2:xx(.55),y1:ymin,y2:ymax,stroke:'rgb(242 242 238 / .5)','stroke-dasharray':'3 6','stroke-width':1.2,opacity:.7});
+      points.forEach(p=>element('circle',{cx:xx(p[0]),cy:yy(p[1]),r:2.6,fill:'rgb(242 242 238 / .7)',opacity:.85}));
       const path=(f,a,b,stroke,dash='')=>element('path',{d:`M ${xx(a).toFixed(1)} ${yy(f(a)).toFixed(1)} L ${xx(b).toFixed(1)} ${yy(f(b)).toFixed(1)}`,fill:'none',stroke,'stroke-width':3,'stroke-dasharray':dash});
-      path(globalFit,0,1,'#aea0fb','7 5');
-      if(segmented.checked){path(leftFit,0,.55,'#ff947b');path(rightFit,.55,1,'#ff947b');}
-      const xaxis=element('text',{x:xx(.5),y:307,fill:'#dacbdd','text-anchor':'middle','font-size':11,'font-family':'monospace'});xaxis.textContent='NORMALIZED TIME / t';
-      const marker=element('text',{x:xx(.55)+6,y:13,fill:'#ffd0b0','font-size':9,'font-family':'monospace'});marker.textContent='KNOWN SPLIT';
+      path(globalFit,0,1,'rgb(242 242 238 / .5)','7 5');
+      if(segmented.checked){path(leftFit,0,.55,'rgb(242 242 238 / .9)');path(rightFit,.55,1,'rgb(242 242 238 / .9)');}
+      const xaxis=element('text',{x:xx(.5),y:307,fill:'rgb(242 242 238 / .7)','text-anchor':'middle','font-size':11,'font-family':'monospace'});xaxis.textContent='NORMALIZED TIME / t';
+      const marker=element('text',{x:xx(.55)+6,y:13,fill:'rgb(242 242 238 / .7)','font-size':9,'font-family':'monospace'});marker.textContent='KNOWN SPLIT';
     }
     [noise,shift,tol,segmented].forEach(input=>input.addEventListener('input',render));render();
   }

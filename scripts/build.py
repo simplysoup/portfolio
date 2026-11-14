@@ -44,6 +44,20 @@ def parse_md(path):
  meta['slug']=path.stem
  html_body=MD.render(match.group(2))
  doc=BeautifulSoup(html_body,'html.parser')
+ used_ids=set()
+ toc=[]
+ for heading in doc.find_all('h2'):
+  title=heading.get_text(' ',strip=True)
+  base=re.sub(r'[^a-z0-9]+','-',title.lower()).strip('-') or 'section'
+  slug=base
+  n=2
+  while slug in used_ids:
+   slug=f'{base}-{n}'
+   n+=1
+  used_ids.add(slug)
+  heading['id']=slug
+  toc.append({'id':slug,'title':title})
+ meta['toc']=toc
  for table in doc.find_all('table'):
   headers=[th.get_text(' ',strip=True) for th in table.select('thead th')]
   for row in table.select('tbody tr'):
@@ -77,7 +91,7 @@ tailwind.compile(OUT/'assets'/'app.css')
 render('', 'index.html', title='Personal index — engineering, research & music',description=SITE['description'], nav='home')
 render('work','work.html',title='Selected engineering work', description='Applied AI, evaluation, and systems engineering projects by Nicholas Bode.',nav='work')
 for slug,article in PUBLIC_WORK.items():
- render('work/'+slug,'article.html',title=article['title'],description=article['description'],nav='work',article=article,kind='work')
+ render('work/'+slug,'article.html',title=article['title'],description=article['description'],nav='work',article=article,kind='work',next_project=next(p for p in PROFILE['projects'] if p['slug']==work_order[(work_order.index(slug)+1)%len(work_order)]))
 render('research','research.html',title='Research & writing',description='Original MSc research on trend dependencies and work in accessible AI.',nav='research')
 for slug,article in PUBLIC_RESEARCH.items():
  render('research/'+slug,'article.html',title=article['title'],description=article['description'],nav='research',article=article,kind='research')

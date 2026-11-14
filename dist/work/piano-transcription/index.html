@@ -11,7 +11,7 @@
   <link rel="preload" href="/assets/fonts/BigShouldersDisplay-var.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/fonts/Geist-var.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/assets/app.css">
-<link rel="stylesheet" href="/assets/styles.css"></head>
+</head>
 <body class="bg-ink text-paper">
 <a class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[70] btn-solid" href="#main">Skip to content</a>
 <div aria-hidden="true" class="pointer-events-none fixed inset-1 z-[60] border border-line md:inset-2 print:hidden"><span class="tick -left-[5px] -top-[5px]"></span><span class="tick -right-[5px] -top-[5px]"></span><span class="tick -left-[5px] -bottom-[5px]"></span><span class="tick -right-[5px] -bottom-[5px]"></span></div>
@@ -34,12 +34,13 @@
   </div>
 </div>
 <main id="main" class="pt-12 lg:pt-14"><article>
-  <header class="article-header shell"><a href="/work/" class="back-link">← All projects</a><p class="section-label">PUBLIC PROJECT / AUDIO ML · 2026</p><h1>From expressive piano audio to editable notation</h1><p class="article-deck">An audio-to-MIDI-to-score pipeline that makes timing preservation and notation loss explicit.</p><dl class="article-meta"><div><dt>Ownership</dt><dd>Independently developed</dd></div><div><dt>Status</dt><dd>Public repository; prototype pipeline with documented limitations</dd></div><div><dt>Type</dt><dd>Engineering case study</dd></div></dl></header>
-  <div class="shell article-layout"><aside class="article-rail"><div class="sticky-rail"><p class="section-label">More</p><p>Selected projects and research.</p><a href="/research/">Research ↗</a></div></aside><div class="article-prose prose"><h2>The problem</h2>
+  <header class="shell pt-28 lg:pt-36"><a href="/work/" class="label hover:text-paper">← All work</a><p class="chapter-tag mt-10">PUBLIC PROJECT / AUDIO ML · 2026</p><h1 class="display text-[48px] sm:text-[64px] md:text-[80px] lg:text-[96px] max-w-[16ch]">From expressive piano audio to editable notation</h1><p class="mt-8 max-w-[60ch] text-[18px] md:text-[20px] text-paper/70">An audio-to-MIDI-to-score pipeline that makes timing preservation and notation loss explicit.</p><dl class="mt-12 grid border-l border-t border-line sm:grid-cols-3"><div class="border-b border-r border-line p-5"><dt class="label">Ownership</dt><dd class="mt-2 text-[14px]">Independently developed</dd></div><div class="border-b border-r border-line p-5"><dt class="label">Status</dt><dd class="mt-2 text-[14px]">Public repository; prototype pipeline with documented limitations</dd></div><div class="border-b border-r border-line p-5"><dt class="label">Type</dt><dd class="mt-2 text-[14px]">Engineering case study</dd></div></dl>
+  <div class="relative mt-12 aspect-[16/9] border border-line bg-stage dot-field-fine overflow-hidden"><svg viewBox="0 0 800 500" preserveAspectRatio="xMidYMid meet" aria-hidden="true" class="absolute inset-0 h-full w-full" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="dots-piano-transcription" width="3" height="3" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r=".6" fill="rgb(242 242 238 / .7)"/></pattern><marker id="arrow-piano-transcription" viewBox="0 0 6 6" refX="6" refY="3" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 L6 3 L0 6" fill="none" stroke="rgb(242 242 238 / .7)"/></marker></defs><g stroke="rgb(242 242 238 / .7)" stroke-width="1" fill="none"><g font-family="Geist Mono" font-size="11" letter-spacing=".12em" fill="rgb(242 242 238 / .7)" stroke="none"><rect x="35.0" y="190" width="162.5" height="65" fill="#0b0b0b" stroke="rgb(242 242 238 / .7)"/><text x="45.0" y="226.5">AUDIO</text><path d="M197.5 222 L217.5 222" stroke="rgb(242 242 238 / .7)" marker-end="url(#arrow-piano-transcription)"/><rect x="217.5" y="190" width="162.5" height="65" fill="#0b0b0b" stroke="rgb(242 242 238 / .7)"/><text x="227.5" y="226.5">ONSETS</text><path d="M380.0 222 L400.0 222" stroke="rgb(242 242 238 / .7)" marker-end="url(#arrow-piano-transcription)"/><rect x="400.0" y="190" width="162.5" height="65" fill="url(#dots-piano-transcription)" stroke="rgb(242 242 238 / .7)"/><text x="410.0" y="226.5">MIDI</text><path d="M562.5 222 L582.5 222" stroke="rgb(242 242 238 / .7)" marker-end="url(#arrow-piano-transcription)"/><rect x="582.5" y="190" width="162.5" height="65" fill="#0b0b0b" stroke="rgb(242 242 238 / .7)"/><text x="592.5" y="226.5">SCORE</text><text x="45" y="370"></text><rect x="150" y="300" width="100" height="10" fill="rgb(242 242 238 / .7)"/><rect x="280" y="320" width="160" height="10" fill="rgb(242 242 238 / .7)"/><rect x="460" y="290" width="80" height="10" fill="rgb(242 242 238 / .7)"/><rect x="560" y="340" width="120" height="10" fill="rgb(242 242 238 / .7)"/></g></g></svg></div></header>
+  <div class="shell grid lg:grid-cols-12 gap-x-6 py-20"><aside class="lg:col-span-3 lg:sticky lg:top-24 self-start"><p class="label">On this page</p><nav aria-label="On this page" class="mt-4 flex flex-col gap-3"><a class="label hover:text-paper" href="#the-problem">The problem</a><a class="label hover:text-paper" href="#processing-stages">Processing stages</a><a class="label hover:text-paper" href="#default-preserve-performance-timing">Default: preserve performance timing</a><a class="label hover:text-paper" href="#a-preprocessing-step-i-removed">A preprocessing step I removed</a><a class="label hover:text-paper" href="#what-remains-uncertain">What remains uncertain</a></nav></aside><div class="lg:col-span-7 lg:col-start-5 prose-nb"><h2 id="the-problem">The problem</h2>
 <p>A piano performance is a sequence of notes, durations, dynamics and expressive timing. A readable score is a different representation. Turning a recording into notation therefore involves more than recognizing pitches: it forces a choice between <strong>preserving the performance</strong> and <strong>regularizing it into a readable grid</strong>.</p>
 <p>I built a pipeline for recordings the user owns or is authorized to process. It takes local audio/video or an authorized URL, extracts a WAV file, runs a transcription model, preserves the resulting performance MIDI, and produces editable MusicXML and optionally PDF scores.</p>
 <p><a href="https://github.com/simplysoup/yt-piano-transcription">Explore the public source and usage notes ↗</a></p>
-<h2>Processing stages</h2>
+<h2 id="processing-stages">Processing stages</h2>
 <ol>
 <li><strong>Input:</strong> accept a local recording or a permitted video URL; use <code>yt-dlp</code> for URLs only.</li>
 <li><strong>Normalize audio:</strong> <code>ffmpeg</code> converts the source to 44.1 kHz mono WAV.</li>
@@ -47,12 +48,12 @@
 <li><strong>Score conversion:</strong> create full MusicXML and a simplified alternative, using MuseScore when PDF rendering is requested.</li>
 <li><strong>Optional grid mode:</strong> snap notes to a fixed tempo grid only on explicit request; timing-preserving conversion is the default.</li>
 </ol>
-<h2>Default: preserve performance timing</h2>
+<h2 id="default-preserve-performance-timing">Default: preserve performance timing</h2>
 <p>The implementation favors <strong>timing fidelity</strong> over pretending it can automatically infer a composer's intended notation. Grid quantization can move onsets and note lengths. Conversely, preserving expressive performance timing can generate intricate written rhythms.</p>
 <p>The project supports a simplified score by identifying possible ornament notes, while preserving their original timestamps in a separate record. That simplification is heuristic: flagged notes may be legitimate musical material, and should be reviewed against the recording.</p>
-<h2>A preprocessing step I removed</h2>
+<h2 id="a-preprocessing-step-i-removed">A preprocessing step I removed</h2>
 <p>An attempted source-separation/denoising stage was removed after it suppressed real notes in test material. For solo piano, that cost outweighed its apparent preprocessing benefit. This is a useful example of why a plausible model-pipeline stage should be justified through observed behavior, rather than inserted because it is fashionable.</p>
-<h2>What remains uncertain</h2>
+<h2 id="what-remains-uncertain">What remains uncertain</h2>
 <table>
 <thead>
 <tr>
@@ -89,7 +90,8 @@
 </table>
 <p><strong>Source:</strong> <a href="https://github.com/simplysoup/yt-piano-transcription">Solo piano transcription repository</a>.</p>
 </div></div>
-</article></main>
+</article>
+<div class="border-t border-line"><a class="shell block py-12 display text-[48px] md:text-[96px]" href="/work/trainstore/">Next → TrainStore</a></div></main>
 <footer class="relative border-t border-line"><div class="shell">
   <div class="grid gap-6 py-10 md:grid-cols-3 md:items-baseline md:py-12"><p class="label">Nicholas Bode — Toronto, Canada</p><a class="font-mono text-[12px] uppercase tracking-[0.12em] hover:text-paper" href="mailto:nickbode71@gmail.com">nickbode71@gmail.com</a><div class="flex flex-wrap items-center gap-x-3 gap-y-2 md:justify-end"><a class="label hover:text-paper" href="https://github.com/simplysoup">GitHub ↗</a><span aria-hidden="true" class="text-paper/30">·</span><a class="label hover:text-paper" href="https://www.linkedin.com/in/nicholas-bode-6a29ab1bb/">LinkedIn ↗</a><span aria-hidden="true" class="text-paper/30">·</span><a class="label hover:text-paper" href="/resume/">Résumé ↗</a></div></div>
   <div class="overflow-hidden"><p aria-hidden="true" data-fit class="display font-extrabold leading-[0.78] tracking-[-0.02em] whitespace-nowrap select-none text-paper/[0.07] text-[11vw]">NICHOLAS BODE</p></div>

@@ -22,3 +22,6 @@ Screenshots to screenshots/v14/phase5/ — look at them and iterate.
 
 ## Output
 Files changed/deleted, screenshot paths, PDF page count, deviations with reasons.
+
+## Extra polish item
+`templates/partials/project_art/evaluated-rag.svg.html`: CITATION and GROUNDING currently float as unattached labels and "30-Q DEV SET" floats bottom-left. Make CITATION and GROUNDING two 28px diamonds (rotated squares, stroke 1px) placed below the CHECK box, each connected to CHECK with a 1px dashed line (`stroke-dasharray="3 4"`), labels centred 16px under each diamond. Make "30-Q DEV SET" a stack of three offset document rectangles (40×52, offset 6px) left of RETRIEVE with an arrow into RETRIEVE, label under it. Keep viewBox 0 0 800 500 and the visual style of the other diagrams.

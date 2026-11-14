@@ -71,8 +71,52 @@
   .h2-display { @apply display text-[52px] sm:text-[64px] md:text-[80px] lg:text-[104px] xl:text-[120px]; }
   .section { @apply relative border-t border-line py-24 md:py-32 lg:py-40; }
   .chapter-tag { @apply label; }
-  /* Article typography is added with the phase-4 article templates. */
-  .prose-nb { }
+  .prose-nb { min-width: 0; overflow-wrap: anywhere; }
+  .prose-nb h2 { @apply heading text-[32px] md:text-[40px] mt-16 mb-5; }
+  .prose-nb h3 { @apply heading text-[24px] mt-10 mb-3; }
+  .prose-nb p { @apply text-[16px] leading-[1.75] text-paper/75 my-5; }
+  .prose-nb a { @apply underline decoration-paper/30 underline-offset-4 hover:decoration-paper; }
+  .prose-nb strong { @apply text-paper font-medium; }
+  .prose-nb ul { @apply my-5 space-y-2; }
+  .prose-nb li { @apply relative pl-5 text-paper/75 before:absolute before:left-0 before:top-[0.6em] before:h-1.5 before:w-1.5 before:bg-paper/40; }
+  .prose-nb code { @apply font-mono text-[13px] bg-paper/[0.06] px-1.5 py-0.5; }
+  .prose-nb pre { @apply overflow-x-auto my-5; }
+  .prose-nb table { @apply w-full border-collapse text-[14px]; }
+  .prose-nb th { @apply label text-left border-b border-line-strong py-3 pr-4; }
+  .prose-nb td { @apply border-b border-line py-3 pr-4 text-paper/75; }
+  .prose-nb blockquote { @apply border-l border-paper/40 pl-5 text-paper/80; }
+  @media (max-width: 699px) {
+    .prose-nb table, .prose-nb tbody, .prose-nb tr { display: block; }
+    .prose-nb thead { display: none; }
+    .prose-nb tr { @apply border border-line mb-4 p-4; }
+    .prose-nb td { @apply grid grid-cols-[minmax(96px,40%)_1fr] gap-3; }
+    .prose-nb td::before { content: attr(data-label); @apply label; }
+  }
+  .exhibit { @apply border border-line bg-stage; }
+  .exhibit-top { @apply flex flex-wrap justify-between gap-3 border-b border-line p-5 label; }
+  .trend-grid, .trace-content { @apply grid lg:grid-cols-2; }
+  .trend-plot, .trend-controls, .trace-surface, .trace-steps { @apply p-5 md:p-6; min-width: 0; }
+  .trend-plot svg { @apply w-full; }
+  .trend-legend, .trace-controls { @apply flex flex-wrap gap-3; }
+  .trend-legend, .trend-caption, .trace-footnote { @apply text-[13px] text-paper/70 mt-4; }
+  .control-group { @apply mb-5; }
+  .control-group label { @apply flex justify-between label; }
+  .control-group input { @apply w-full h-10; accent-color: rgb(242 242 238); }
+  .check-row { @apply flex items-center gap-3 min-h-[40px]; }
+  .check-row input { accent-color: rgb(242 242 238); }
+  .trend-stats { @apply grid grid-cols-2 gap-3 mt-5; }
+  .trend-stat { @apply border border-line p-4; }
+  .trend-stat span, .trace-label { @apply label block; }
+  .trend-stat strong { @apply block mt-2; }
+  .trace-controls { @apply p-5 border-b border-line; }
+  .trace-choice { @apply btn-ghost; }
+  .trace-choice[aria-pressed="true"] { @apply bg-paper text-ink; }
+  .trace-surface h3 { @apply heading text-[28px] my-4; }
+  .trace-evidence { @apply border border-line p-4 mt-3; }
+  .trace-step { @apply grid grid-cols-[auto_1fr_auto] gap-3 border-b border-line py-4; }
+  .trace-step span, .trace-step b { @apply label; }
+  .trace-step p { @apply text-paper/70 text-[14px]; }
+  .trace-footnote { @apply border-t border-line p-5; }
   .tick { @apply pointer-events-none absolute h-[9px] w-[9px]; }
   .tick::before { content: ''; @apply absolute left-1/2 top-0 h-[9px] w-px -translate-x-1/2; background: rgb(242 242 238 / .45); }
   .tick::after { content: ''; @apply absolute left-0 top-1/2 h-px w-[9px] -translate-y-1/2; background: rgb(242 242 238 / .45); }
@@ -121,4 +165,24 @@ html.rail-on .rail-desc { -webkit-line-clamp: 3; }
   html.rail-on .rail-card { width: min(64vw, 920px); }
   html.rail-on .rail-body { padding: 24px; gap: 32px; }
   html.rail-on .rail-title { font-size: 48px; }
+}
+
+@page { size: letter; margin: 0.5in; }
+@media print {
+  html { color-scheme: light; }
+  body { background: white !important; color: black !important; font: 10.5pt/1.3 Geist, sans-serif; overflow: visible; }
+  body > header, body > footer, #site-menu, body > .fixed, .resume button, .sr-only { display: none !important; }
+  main { padding: 0 !important; }
+  .resume { max-width: none; padding: 0; }
+  .resume * { font-family: Geist, sans-serif !important; color: black !important; border-color: #888 !important; }
+  .resume h1 { font: 700 24pt/1 Geist, sans-serif; }
+  .resume h2 { break-after: avoid; font: 700 11pt/1.2 Geist, sans-serif; margin-top: 14pt; padding-bottom: 3pt; }
+  .resume h3, .resume > p { font: 700 12pt/1.2 Geist, sans-serif; }
+  .resume p, .resume ul, .resume-role { margin-top: 5pt; }
+  .resume ul { padding-left: 14pt; }
+  .resume li { margin-top: 1pt; }
+  .resume-role { break-inside: avoid; }
+  .resume a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 8pt; overflow-wrap: anywhere; }
+  .resume a.repo-url::after { content: none; }
+  .resume a[href^="http"] { overflow-wrap: anywhere; }
 }

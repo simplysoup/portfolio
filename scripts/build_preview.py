@@ -86,6 +86,8 @@ for node in list(base.find_all(['link', 'script'])):
             local_scripts.append(path.read_text(encoding='utf-8'))
             node.decompose()
 
+local_scripts.append((DIST / 'assets/site.js').read_text(encoding='utf-8'))
+
 if styles:
     if first_style is None:
         first_style = base.new_tag('style')
@@ -130,16 +132,24 @@ router = r'''(() => {
    const isHome=name==='/' || chapter;
    if(!pages[name])name='/';
    main.innerHTML=pages[name].content;document.title=pages[name].title;
+   main.className=isHome?'':'pt-12 lg:pt-14';
    document.body.classList.toggle('is-home',isHome);
    document.body.classList.toggle('is-document',!isHome);
    convert(main);
    window.initSite?.();
    window.initArt?.();
-   window.initWorld?.();
    window.initPortfolioExhibits?.();
-   if(!isHome)window.scrollTo(0,0);
+   if(!isHome)window.scrollTo({top:0,behavior:'instant'});
    else if(chapter) document.getElementById(hash.slice(1))?.scrollIntoView();
  }
+ document.addEventListener('click', event => {
+   const link=event.target.closest('a[href^="#"]');
+   if (!link || main.querySelector('#top')) return;
+   const hash=link.getAttribute('href');
+   if (hash.startsWith('#/') || ['#top','#about','#work','#research','#contact'].includes(hash)) return;
+   const target=document.getElementById(hash.slice(1));
+   if (target) { event.preventDefault(); target.scrollIntoView(); }
+ });
  window.addEventListener('hashchange',()=>{
    if(location.hash.startsWith('#/') || ['#top','#about','#work','#research','#contact'].includes(location.hash)){
      const onHome=!!main.querySelector('#top');

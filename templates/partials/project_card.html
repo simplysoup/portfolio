@@ -1,0 +1,8 @@
+        <article class="rail-card flex flex-col border border-line bg-ink">
+          <div class="flex justify-between border-b border-line px-4 py-3 md:px-6 label"><span>0{{project_index}} / 0{{profile.projects|length}}</span><span>Independent project · {{project.year}}</span></div>
+          <div class="rail-art relative aspect-[16/10] border-b border-line bg-stage dot-field-fine overflow-hidden">{% include 'partials/project_art/' ~ project.slug ~ '.svg.html' %}</div>
+          <div class="rail-body grid gap-6 p-4 md:p-6 xl:grid-cols-2 xl:gap-8">
+            <div><h3 class="rail-title heading text-[32px] md:text-[40px] xl:text-[48px]">{{project.title}}</h3><p class="label mt-3">{{project.tagline}}</p></div>
+            <div><p class="rail-desc text-[14px] leading-[1.6] text-paper/70 line-clamp-4">{{project.desc}}</p><div class="mt-4 flex flex-wrap gap-1.5">{% for chip in project.chips %}<span class="chip">{{chip}}</span>{% endfor %}</div><div class="mt-5 flex flex-wrap gap-2"><a class="btn-solid h-9" href="{{base}}work/{{project.slug}}/">Case study</a><a class="btn-ghost h-9" href="{{project.repo}}">Source ↗</a></div></div>
+          </div>
+        </article>

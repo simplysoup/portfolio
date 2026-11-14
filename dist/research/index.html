@@ -11,7 +11,7 @@
   <link rel="preload" href="/assets/fonts/BigShouldersDisplay-var.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/fonts/Geist-var.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/assets/app.css">
-<link rel="stylesheet" href="/assets/styles.css"></head>
+</head>
 <body class="bg-ink text-paper">
 <a class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[70] btn-solid" href="#main">Skip to content</a>
 <div aria-hidden="true" class="pointer-events-none fixed inset-1 z-[60] border border-line md:inset-2 print:hidden"><span class="tick -left-[5px] -top-[5px]"></span><span class="tick -right-[5px] -top-[5px]"></span><span class="tick -left-[5px] -bottom-[5px]"></span><span class="tick -right-[5px] -bottom-[5px]"></span></div>
@@ -33,13 +33,17 @@
     <div><a class="font-mono text-[12px]" href="mailto:nickbode71@gmail.com">nickbode71@gmail.com</a><div class="flex flex-wrap gap-2"><a class="chip" href="https://github.com/simplysoup">GitHub ↗</a><a class="chip" href="https://www.linkedin.com/in/nicholas-bode-6a29ab1bb/">LinkedIn ↗</a><a class="chip" href="/resume/">Résumé ↗</a></div></div>
   </div>
 </div>
-<main id="main" class="pt-12 lg:pt-14"><section class="page-head shell"><p class="section-label">Research</p><h1>Research & writing.</h1><p>My MSc work investigated relationships in changing time-series data. I also coauthored a reference entry on automated image captioning for people with visual impairments.</p></section>
-<section class="shell page-body"><div class="project-index"><a class="project-row" href="/research/trend-dependencies/"><span class="project-no">01</span><span class="project-main"><strong>Discovery of Trend Dependencies Over Time-Series</strong><small>MSc thesis · symbolic regression, segmentation, approximate constraints. Includes an interactive synthetic experiment.</small></span><span class="project-side">2023<br>Thesis</span><span class="project-arrow" aria-hidden="true">↗</span></a><a class="project-row" href="https://doi.org/10.1007/978-3-031-23161-2_501" target="_blank" rel="noopener noreferrer"><span class="project-no">02</span><span class="project-main"><strong>Automated Image Captioning for the Visually Impaired</strong><small>With Mahadeo Sukhai. A 2024 encyclopedia entry in Springer's Encyclopedia of Computer Graphics and Games.</small></span><span class="project-side">2024<br>Reference entry</span><span class="project-arrow" aria-hidden="true">↗</span></a></div></section>
-</main>
+<main id="main" class="pt-12 lg:pt-14"><section id="research" class="section">
+  <div class="shell"><p class="chapter-tag mb-6 md:mb-8">[ 03 / 04 ] · Research</p><h2 class="h2-display" data-split>Patterns inside change</h2></div>
+  <div class="shell mt-12 md:mt-16">
+    <article class="grid gap-8 border-t border-line py-12 lg:grid-cols-12 lg:gap-x-6 lg:py-16"><div class="relative aspect-[4/3] border border-line bg-stage lg:col-span-5"><canvas data-art="trend" data-variant="segments" class="absolute inset-0 h-full w-full" aria-hidden="true"></canvas></div><div class="lg:col-span-6 lg:col-start-7"><p class="label">MSc thesis · 2023</p><h3 class="heading mt-4 text-[36px] md:text-[48px]">Discovery of Trend Dependencies Over Time-Series</h3><p class="mt-4 text-paper/70">Introduces trend dependencies — constraints built from a learned function and an allowed deviation — and methods to discover them in noisy time series, including approximate and conditional variants that hold only over particular regimes.</p><div class="mt-6 flex flex-wrap gap-1.5"><span class="chip">Symbolic regression</span><span class="chip">Policy-gradient regression</span><span class="chip">Change-point segmentation</span></div><div class="mt-6 flex flex-wrap gap-2"><a class="btn-solid" href="/research/trend-dependencies/">Read the explainer</a><a class="btn-ghost" href="https://ontariotechu.scholaris.ca/server/api/core/bitstreams/af2acd24-e895-43e3-8781-b04aca070e66/content">Thesis PDF ↗</a></div></div></article>
+    <article class="grid gap-8 border-t border-line py-12 lg:grid-cols-12 lg:gap-x-6 lg:py-16"><p class="lg:col-span-5 label">Springer Nature · 2024</p><div class="lg:col-span-6 lg:col-start-7"><h3 class="heading text-[28px] md:text-[36px]">Automated Image Captioning for the Visually Impaired</h3><p class="mt-4 text-paper/70">Bode, N. &amp; Sukhai, M. Encyclopedia of Computer Graphics and Games. First and corresponding author.</p><a class="btn-ghost mt-6" href="https://doi.org/10.1007/978-3-031-23161-2_501">DOI ↗</a></div></article>
+  </div>
+</section></main>
 <footer class="relative border-t border-line"><div class="shell">
   <div class="grid gap-6 py-10 md:grid-cols-3 md:items-baseline md:py-12"><p class="label">Nicholas Bode — Toronto, Canada</p><a class="font-mono text-[12px] uppercase tracking-[0.12em] hover:text-paper" href="mailto:nickbode71@gmail.com">nickbode71@gmail.com</a><div class="flex flex-wrap items-center gap-x-3 gap-y-2 md:justify-end"><a class="label hover:text-paper" href="https://github.com/simplysoup">GitHub ↗</a><span aria-hidden="true" class="text-paper/30">·</span><a class="label hover:text-paper" href="https://www.linkedin.com/in/nicholas-bode-6a29ab1bb/">LinkedIn ↗</a><span aria-hidden="true" class="text-paper/30">·</span><a class="label hover:text-paper" href="/resume/">Résumé ↗</a></div></div>
   <div class="overflow-hidden"><p aria-hidden="true" data-fit class="display font-extrabold leading-[0.78] tracking-[-0.02em] whitespace-nowrap select-none text-paper/[0.07] text-[11vw]">NICHOLAS BODE</p></div>
   <div class="flex flex-wrap items-center justify-between gap-x-6 gap-y-2 border-t border-line py-4 label"><span>© 2026</span><span class="hidden sm:block">Local time <span data-clock>--:--</span> EST/EDT</span><a href="/#top">Back to top ↑</a></div>
 </div></footer>
-<script defer src="/assets/site.js"></script><script defer src="/assets/js/art.js"></script><script defer src="/assets/js/main.js"></script>
+<script defer src="/assets/js/art.js"></script><script defer src="/assets/js/main.js"></script>
 </body></html>
