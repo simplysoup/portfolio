@@ -122,6 +122,18 @@
   .tick::after { content: ''; @apply absolute left-0 top-1/2 h-px w-[9px] -translate-y-1/2; background: rgb(242 242 238 / .45); }
 }
 
+/* Compact outcome cards keep the numbered list readable on narrow screens. */
+.outcomes-section { padding-block: clamp(56px, 8vh, 112px); }
+.outcomes-grid-wrap { margin-top: 32px; }
+.outcome-card { display: flex; flex-direction: column; justify-content: space-between; gap: 20px; min-height: 170px; padding: 24px; }
+.outcome-number { font-size: 64px; }
+.outcome-copy { margin: 0; }
+@media (max-width: 639px) {
+  .outcomes-grid-wrap { margin-top: 24px; }
+  .outcome-card { flex-direction: row; justify-content: flex-start; align-items: flex-start; min-height: 0; gap: 16px; padding: 16px; }
+  .outcome-number { flex: 0 0 42px; font-size: 40px; }
+}
+
 /* Contact keeps the details and form together on desktop while allowing
    the stacked layout to grow naturally on small or short screens. */
 .contact-section { padding-block: clamp(32px, 6vh, 72px); }

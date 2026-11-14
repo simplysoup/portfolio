@@ -1,1 +1,13 @@
-<section class="section"><div class="shell"><h2 class="h2-display" data-split>Selected outcomes</h2></div><div class="shell mt-12"><div class="grid border-l border-t border-line sm:grid-cols-2 lg:grid-cols-3">{% for item in profile.highlights %}<div class="border-b border-r border-line p-6 lg:p-8 min-h-[220px] flex flex-col justify-between" data-reveal><span class="font-display font-thin text-[64px] lg:text-[80px] leading-none text-paper/90">{{ '%02d' | format(loop.index) }}</span><p class="mt-8 text-[15px] leading-[1.55] text-paper/80 max-w-[34ch]">{{ item }}</p></div>{% endfor %}</div></div></section>
+<section class="section outcomes-section">
+  <div class="shell"><h2 class="h2-display" data-split>Selected outcomes</h2></div>
+  <div class="shell outcomes-grid-wrap">
+    <div class="grid border-l border-t border-line sm:grid-cols-2 lg:grid-cols-3">
+      {% for item in profile.highlights %}
+      <div class="outcome-card border-b border-r border-line" data-reveal>
+        <span class="outcome-number font-display font-thin leading-none text-paper/90">{{ '%02d' | format(loop.index) }}</span>
+        <p class="outcome-copy text-[15px] leading-[1.55] text-paper/80 max-w-[34ch]">{{ item }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
