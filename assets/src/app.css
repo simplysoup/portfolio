@@ -122,6 +122,22 @@
   .tick::after { content: ''; @apply absolute left-0 top-1/2 h-px w-[9px] -translate-y-1/2; background: rgb(242 242 238 / .45); }
 }
 
+/* Contact keeps the details and form together on desktop while allowing
+   the stacked layout to grow naturally on small or short screens. */
+.contact-section { padding-block: clamp(32px, 6vh, 72px); }
+.contact-tag { margin-bottom: 16px; }
+.contact-heading { font-size: clamp(52px, min(7vw, 10vh), 100px); }
+.contact-layout { margin-top: clamp(24px, 4vh, 40px); align-items: start; }
+.contact-links { margin-top: 20px; }
+.contact-fields { display: grid; gap: 18px; margin-top: 18px; }
+.contact-input { display: block; min-height: 38px; margin-top: 2px; padding-block: 6px; line-height: 1.4; }
+textarea.contact-input { min-height: 76px; resize: vertical; }
+.contact-submit { margin-top: 20px; }
+@media (min-width: 640px) {
+  .contact-fields { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 24px; }
+  .contact-message { grid-column: 1 / -1; }
+}
+
 /* The opening composition flexes with both dimensions; content may grow on
    very short screens rather than being clipped to a fixed viewport. */
 .hero { position: relative; display: flex; flex-direction: column; min-height: 100svh; padding-top: 48px; isolation: isolate; }

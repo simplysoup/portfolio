@@ -1,3 +1,30 @@
-<section id="contact" class="section"><div class="shell"><p class="chapter-tag mb-6 md:mb-8">[ 04 / 04 ] · Contact</p><h2 class="h2-display" data-split>Let's work<br class="sm:hidden"> together</h2></div>
-<div class="shell mt-12 grid gap-12 md:mt-16 lg:grid-cols-12 lg:gap-x-6"><div class="lg:col-span-5"><p class="max-w-[40ch] text-paper/70">{{profile.contact.intro}}</p><div class="mt-8 border-t border-line">{% for key, value, href in [('Email',site.email,'mailto:' ~ site.email),('LinkedIn','LinkedIn',site.linkedin),('GitHub','GitHub',site.github),('Base',profile.contact.base,'')] %}<div class="flex items-center justify-between gap-4 border-b border-line py-4"><span class="label">{{key}}</span>{% if href %}<a class="font-mono text-[12px] md:text-[13px] uppercase tracking-[0.08em] break-all" href="{{href}}">{{value}} ↗</a>{% else %}<span class="font-mono text-[12px] md:text-[13px] uppercase tracking-[0.08em]">{{value}}</span>{% endif %}</div>{% endfor %}</div></div>
-<form data-mailto data-email="{{site.email}}" action="mailto:{{site.email}}" method="post" enctype="text/plain" class="relative border border-line p-5 md:p-8 lg:col-span-6 lg:col-start-7"><span class="tick -left-[5px] -top-[5px]"></span><span class="tick -right-[5px] -top-[5px]"></span><span class="tick -left-[5px] -bottom-[5px]"></span><span class="tick -right-[5px] -bottom-[5px]"></span><div class="flex justify-between label"><span>› New message</span><span>mailto</span></div><div class="mt-6 space-y-6">{% for name, type, label in [('name','text','Name'),('email','email','Email'),('message','textarea','Message')] %}<label class="block"><span class="label">0{{loop.index}} · {{label}}</span>{% if type == 'textarea' %}<textarea name="{{name}}" rows="5" required class="mt-2 w-full border-0 border-b border-line bg-transparent px-0 py-3 text-[15px] text-paper placeholder:text-paper/30 focus:border-paper focus:outline-none focus:ring-0"></textarea>{% else %}<input name="{{name}}" type="{{type}}" required class="mt-2 w-full border-0 border-b border-line bg-transparent px-0 py-3 text-[15px] text-paper placeholder:text-paper/30 focus:border-paper focus:outline-none focus:ring-0">{% endif %}</label>{% endfor %}</div><button class="btn-solid mt-8 w-full sm:w-auto" type="submit">Compose email →</button><p data-mailto-status hidden class="label text-signal mt-3" role="status">Opening your mail app…</p></form></div></section>
+<section id="contact" class="section contact-section">
+  <div class="shell">
+    <p class="chapter-tag contact-tag">[ 04 / 04 ] · Contact</p>
+    <h2 class="h2-display contact-heading" data-split>Let's work<br class="sm:hidden"> together</h2>
+  </div>
+  <div class="shell contact-layout grid gap-8 lg:grid-cols-12 lg:gap-x-6">
+    <div class="lg:col-span-5">
+      <p class="max-w-[40ch] text-paper/70">{{profile.contact.intro}}</p>
+      <div class="contact-links border-t border-line">
+        {% for key, value, href in [('Email',site.email,'mailto:' ~ site.email),('LinkedIn','LinkedIn',site.linkedin),('GitHub','GitHub',site.github),('Base',profile.contact.base,'')] %}
+        <div class="flex items-center justify-between gap-4 border-b border-line py-3"><span class="label">{{key}}</span>{% if href %}<a class="font-mono text-[12px] md:text-[13px] uppercase tracking-[0.08em] break-all" href="{{href}}">{{value}} ↗</a>{% else %}<span class="font-mono text-[12px] md:text-[13px] uppercase tracking-[0.08em]">{{value}}</span>{% endif %}</div>
+        {% endfor %}
+      </div>
+    </div>
+    <form data-mailto data-email="{{site.email}}" action="mailto:{{site.email}}" method="post" enctype="text/plain" class="contact-form relative border border-line p-5 lg:col-span-6 lg:col-start-7">
+      <span class="tick -left-[5px] -top-[5px]"></span><span class="tick -right-[5px] -top-[5px]"></span><span class="tick -left-[5px] -bottom-[5px]"></span><span class="tick -right-[5px] -bottom-[5px]"></span>
+      <div class="flex justify-between label"><span>› New message</span><span>mailto</span></div>
+      <div class="contact-fields">
+        {% for name, type, label in [('name','text','Name'),('email','email','Email'),('message','textarea','Message')] %}
+        <label class="block{% if type == 'textarea' %} contact-message{% endif %}">
+          <span class="label">0{{loop.index}} · {{label}}</span>
+          {% if type == 'textarea' %}<textarea name="{{name}}" rows="3" required class="contact-input w-full border-0 border-b border-line bg-transparent px-0 text-[15px] text-paper placeholder:text-paper/30 focus:border-paper focus:outline-none focus:ring-0"></textarea>{% else %}<input name="{{name}}" type="{{type}}" required class="contact-input w-full border-0 border-b border-line bg-transparent px-0 text-[15px] text-paper placeholder:text-paper/30 focus:border-paper focus:outline-none focus:ring-0">{% endif %}
+        </label>
+        {% endfor %}
+      </div>
+      <button class="btn-solid contact-submit w-full sm:w-auto" type="submit">Compose email →</button>
+      <p data-mailto-status hidden class="label text-signal mt-3" role="status">Opening your mail app…</p>
+    </form>
+  </div>
+</section>
