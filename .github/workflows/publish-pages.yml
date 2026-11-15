@@ -1,8 +1,8 @@
-name: Publish portfolio (design/interactive-refinements) to GitHub Pages
+name: Publish portfolio (review/portfolio-review-nov15) to GitHub Pages
 
 on:
   push:
-    branches: [design/interactive-refinements]
+    branches: [review/portfolio-review-nov15]
   workflow_dispatch:
 
 permissions:
