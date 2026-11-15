@@ -1,5 +1,5 @@
-        <article class="rail-card flex flex-col border border-line bg-ink">
-          <div class="flex justify-between border-b border-line px-4 py-3 md:px-6 label"><span>0{{project_index}} / 0{{profile.projects|length}}</span><span>Independent project · {{project.year}}</span></div>
+        <article id="work-{{project.slug}}" class="rail-card flex flex-col border border-line bg-ink">
+          <div class="flex justify-between border-b border-line px-4 py-3 md:px-6 label"><span>0{{project_index}} / 0{{profile.projects|length}}</span><span>{% if project_index <= 3 %}Featured · {% endif %}Independent project · {{project.year}}</span></div>
           <div class="rail-art relative aspect-[16/10] border-b border-line bg-stage dot-field-fine overflow-hidden">{% include 'partials/project_art/' ~ project.slug ~ '.svg.html' %}</div>
           <div class="rail-body grid gap-6 p-4 md:p-6 xl:grid-cols-2 xl:gap-8">
             <div><h3 class="rail-title heading text-[32px] md:text-[40px] xl:text-[48px]">{{project.title}}</h3><p class="label mt-3">{{project.tagline}}</p></div>

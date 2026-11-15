@@ -1,8 +1,10 @@
 (() => {
   'use strict';
-  const revealObserver = new IntersectionObserver(entries => entries.forEach(entry => {
+  // Important text must never depend on an entrance animation becoming visible:
+  // without IntersectionObserver support, everything is shown immediately.
+  const revealObserver = ('IntersectionObserver' in window) ? new IntersectionObserver(entries => entries.forEach(entry => {
     if (entry.isIntersecting) { entry.target.classList.add('is-in'); revealObserver.unobserve(entry.target); }
-  }), { threshold: 0.2 });
+  }), { threshold: 0.2 }) : null;
   const fit = el => {
     const parent = el.parentElement;
     const width = parent.clientWidth - parseFloat(getComputedStyle(parent).paddingLeft) - parseFloat(getComputedStyle(parent).paddingRight);
@@ -94,52 +96,6 @@
   const heroNameObserver = new ResizeObserver(entries => entries.forEach(({target}) => fitHeroName(target.querySelector('[data-hero-name]'))));
   addEventListener('resize', () => fitHeroName(document.querySelector('[data-hero-name]')), {passive:true});
   const navObservers = new WeakMap();
-  // A single rail controller follows whichever home DOM the preview router installed.
-  const initRail = (() => {
-    const wide = matchMedia('(min-width: 1024px)'), reduced = matchMedia('(prefers-reduced-motion: reduce)');
-    let rail, wrapper, viewport, track, cards, progress, fill, counter, frame = 0;
-    const update = () => {
-      frame = 0;
-      if (!rail || !document.documentElement.classList.contains('rail-on')) return;
-      const distance = Math.max(0, track.scrollWidth - viewport.clientWidth);
-      const range = wrapper.offsetHeight - viewport.offsetHeight - 56;
-      const p = Math.max(0, Math.min(1, (56 - wrapper.getBoundingClientRect().top) / range));
-      track.style.transform = `translate3d(${-p * distance}px,0,0)`;
-      fill.style.transform = `scaleX(${p})`;
-      counter.textContent = `${String(Math.min(cards.length, Math.floor(p * cards.length) + 1)).padStart(2, '0')} / ${String(cards.length).padStart(2, '0')}`;
-    };
-    const request = () => { if (!frame) frame = requestAnimationFrame(update); };
-    const configure = () => {
-      const on = !!rail && wide.matches && !reduced.matches;
-      document.documentElement.classList.toggle('rail-on', on);
-      if (!rail) return;
-      wrapper.style.height = on ? `calc(${cards.length} * 70vh + 100svh)` : '';
-      track.style.transform = ''; progress.hidden = !on;
-      if (on) request();
-    };
-    addEventListener('scroll', request, {passive:true});
-    addEventListener('resize', () => { configure(); request(); }, {passive:true});
-    wide.addEventListener('change', configure); reduced.addEventListener('change', configure);
-    return () => {
-      const next = document.querySelector('[data-rail]');
-      if (next === rail) { configure(); return; }
-      rail = next;
-      if (!rail) { configure(); return; }
-      wrapper = rail.querySelector('[data-rail-wrapper]'); viewport = rail.querySelector('[data-rail-viewport]'); track = rail.querySelector('[data-rail-track]');
-      cards = [...rail.querySelectorAll('.rail-card')]; progress = rail.querySelector('[data-rail-progress]'); fill = rail.querySelector('[data-rail-fill]'); counter = rail.querySelector('[data-rail-count]');
-      rail.addEventListener('focusin', event => {
-        if (!document.documentElement.classList.contains('rail-on')) return;
-        const card = event.target.closest('.rail-card'); if (!card) return;
-        const rect = card.getBoundingClientRect(), visible = viewport.getBoundingClientRect();
-        if (rect.left >= visible.left && rect.right <= visible.right) return;
-        const distance = track.scrollWidth - viewport.clientWidth;
-        const centre = card.offsetLeft + card.offsetWidth / 2 - viewport.clientWidth / 2;
-        const p = Math.max(0, Math.min(1, centre / distance));
-        window.scrollTo({top: window.scrollY + wrapper.getBoundingClientRect().top - 56 + p * (wrapper.offsetHeight - viewport.offsetHeight - 56), behavior: 'instant'});
-      });
-      configure();
-    };
-  })();
   function initSite() {
     const heroName = document.querySelector('[data-hero-name]');
     if (heroName && !heroName.dataset.fitReady) {
@@ -155,7 +111,7 @@
     document.querySelectorAll('[data-split], [data-reveal]').forEach(el => {
       if (el.dataset.siteRevealReady) return; el.dataset.siteRevealReady = 'true';
       if (el.hasAttribute('data-split')) split(el);
-      revealObserver.observe(el);
+      if (revealObserver) revealObserver.observe(el); else el.classList.add('is-in');
     });
     document.querySelectorAll('[data-fit]').forEach(el => {
       if (el.dataset.fitReady) return; el.dataset.fitReady = 'true';
@@ -170,25 +126,13 @@
       menu.addEventListener('click', e => { if (e.target.closest('a')) close(); });
       document.addEventListener('keydown', e => { if (e.key === 'Escape' && !menu.hidden) close(); });
     }
-    document.querySelectorAll('[data-mailto]').forEach(form => {
-      if (form.dataset.mailtoReady) return;
-      form.dataset.mailtoReady = 'true';
-      form.addEventListener('submit', event => {
-        event.preventDefault();
-        const fields = new FormData(form), name = fields.get('name'), email = fields.get('email'), message = fields.get('message');
-        const mailto = `mailto:${form.dataset.email}?subject=${encodeURIComponent(`Hello from ${name}`)}&body=${encodeURIComponent(`${message}\n\n— ${name} (${email})`)}`;
-        form.dataset.lastMailto = mailto;
-        form.querySelector('[data-mailto-status]').hidden = false;
-        location.href = mailto;
-      });
-    });
-    initRail();
     document.querySelectorAll('[data-nav]').forEach(link => {
       const href = link.getAttribute('href');
       if (!href.startsWith('#')) return;
       const section = document.querySelector(`[data-chapter="${link.dataset.nav}"]`) || document.getElementById(link.dataset.nav); if (!section) return;
       const previous = navObservers.get(link); if (previous?.section === section) return;
       previous?.observer.disconnect();
+      if (!('IntersectionObserver' in window)) return;
       const observer = new IntersectionObserver(entries => entries.forEach(entry => { if (entry.isIntersecting) { document.querySelectorAll('[data-nav]').forEach(a => a.removeAttribute('aria-current')); link.setAttribute('aria-current', 'true'); } else link.removeAttribute('aria-current'); }), {rootMargin: '-35% 0px -64% 0px'});
       observer.observe(section); navObservers.set(link, {section, observer});
     });

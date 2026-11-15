@@ -1,4 +1,4 @@
 {% extends 'base.html' %}{% block content %}
-<section class="shell pt-28 lg:pt-36"><p class="chapter-tag mb-6 md:mb-8">[ 02 / 04 ] · Work</p><h1 class="h2-display">Selected work</h1><p class="mt-6 max-w-[52ch] text-paper/70">{{profile.work_intro}}</p></section>
+<section class="shell pt-28 lg:pt-36"><p class="chapter-tag mb-6 md:mb-8">[ 01 / 04 ] · Work</p><h1 class="h2-display">Selected work</h1><p class="mt-6 max-w-[52ch] text-paper/70">{{profile.work_intro}}</p></section>
 <div class="shell mt-12 grid gap-6 pb-24 md:grid-cols-2 md:pb-32">{% for project in profile.projects %}{% set project_index = loop.index %}{% include 'partials/project_card.html' %}{% endfor %}</div>
 {% endblock %}

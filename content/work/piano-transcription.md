@@ -8,6 +8,12 @@ ownership: 'Independently developed'
 status: 'Public repository; prototype pipeline with documented limitations'
 format: 'Engineering case study'
 public: true
+summary:
+  problem: "Turning expressive piano audio into readable notation forces a choice between preserving performance timing and regularizing it into a grid."
+  built: "Audio-to-MIDI-to-score pipeline (Transkun transcription, MusicXML output, optional MuseScore PDF) that keeps the performance MIDI and defaults to timing-preserving conversion."
+  result: "Working pipeline with timing-preserving and simplified-score modes; a source-separation stage was removed after it suppressed real notes in tests."
+  limitation: "Prototype: pitch-split hand assignment, heuristic key inference, 4/4 default, grid-mode tempo can halve or double; notation is editable, not guaranteed professional engraving."
+  evidence: "Public repository: source and usage notes."
 ---
 ## The problem
 

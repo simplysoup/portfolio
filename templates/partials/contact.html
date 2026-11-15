@@ -12,19 +12,11 @@
         {% endfor %}
       </div>
     </div>
-    <form data-mailto data-email="{{site.email}}" action="mailto:{{site.email}}" method="post" enctype="text/plain" class="contact-form relative border border-line p-5 lg:col-span-6 lg:col-start-7">
+    <div class="contact-email relative border border-line p-5 lg:col-span-6 lg:col-start-7">
       <span class="tick -left-[5px] -top-[5px]"></span><span class="tick -right-[5px] -top-[5px]"></span><span class="tick -left-[5px] -bottom-[5px]"></span><span class="tick -right-[5px] -bottom-[5px]"></span>
-      <div class="flex justify-between label"><span>› New message</span><span>mailto</span></div>
-      <div class="contact-fields">
-        {% for name, type, label in [('name','text','Name'),('email','email','Email'),('message','textarea','Message')] %}
-        <label class="block{% if type == 'textarea' %} contact-message{% endif %}">
-          <span class="label">0{{loop.index}} · {{label}}</span>
-          {% if type == 'textarea' %}<textarea name="{{name}}" rows="3" required class="contact-input w-full border-0 border-b border-line bg-transparent px-0 text-[15px] text-paper placeholder:text-paper/30 focus:border-paper focus:outline-none focus:ring-0"></textarea>{% else %}<input name="{{name}}" type="{{type}}" required class="contact-input w-full border-0 border-b border-line bg-transparent px-0 text-[15px] text-paper placeholder:text-paper/30 focus:border-paper focus:outline-none focus:ring-0">{% endif %}
-        </label>
-        {% endfor %}
-      </div>
-      <button class="btn-solid contact-submit w-full sm:w-auto" type="submit">Compose email →</button>
-      <p data-mailto-status hidden class="label text-signal mt-3" role="status">Opening your mail app…</p>
-    </form>
+      <p class="label">› Email</p>
+      <p class="mt-6 max-w-[44ch] text-[15px] leading-[1.65] text-paper/75">No form, no extra fields — one click opens your mail app with my address already filled in.</p>
+      <a class="btn-solid mt-6" href="mailto:{{site.email}}">Email {{site.email}} →</a>
+    </div>
   </div>
 </section>

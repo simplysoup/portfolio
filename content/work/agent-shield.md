@@ -8,12 +8,18 @@ ownership: 'Independently developed'
 status: 'Public repository; synthetic experimental lab, not production'
 format: 'Engineering case study'
 public: true
+summary:
+  problem: "Can text inside a document an agent reads persuade it to perform a prohibited tool action — and can we tell a model ignoring the injection apart from a runtime blocking an attempted action?"
+  built: "Paired vulnerable and policy-enforced runner over frozen JSONL fixtures, with tool-level authorization and audit events; 68 automated tests."
+  result: "In one paired GPT-OSS 20B demonstration, the vulnerable agent sent an unauthorized synthetic notification; the policy-configured agent ignored the injection, and both completed the legitimate task."
+  limitation: "A single paired demonstration, not a defense rate. The paired policy run never attempted the prohibited call, so it does not demonstrate a policy denial."
+  evidence: "Public repository: paired trace, fixtures, implementation and tests."
 ---
 ## The engineering question
 
 An agent may need to read a document to complete a legitimate request. That document can also contain instructions from someone other than the user. I wanted to ask whether that lower-trust text could persuade an agent to perform a prohibited tool action, and how to distinguish a model ignoring an injection from a runtime refusing an attempted action.
 
-AgentShield is an experimental lab for that question. It uses a synthetic workspace and records what happened in paired vulnerable and policy-enforced runs. It is not a production gateway, and its observations are not a measured defense rate. No real notification is sent in the demonstrated workspace.
+AgentShield is an experimental lab for that question. It uses a synthetic workspace and records what happened in paired vulnerable and policy-enforced runs. It is not a production gateway. No real notification is sent in the demonstrated workspace.
 
 ## What I built
 
@@ -37,7 +43,7 @@ The task-completion check is specific to the synthetic revenue task. It is not a
 
 In the paired GPT-OSS 20B single-case demonstration, the vulnerable agent executed an unauthorized synthetic notification. The policy-configured agent ignored the injected instruction and did not attempt that call. Both completed the legitimate task. This is a useful trace of the distinction between configurations, but it is not a defense rate.
 
-The policy run does not demonstrate authorization blocking an attempted call: the defender did not propose the prohibited call in that paired run. It would be incorrect to attribute the observed outcome to a policy denial. The README also describes a separate earlier unpaired policy denial; that should not be conflated with the paired observation.
+The policy run does not demonstrate authorization blocking an attempted call: the defender did not propose the prohibited call in that paired run. The README also describes a separate earlier unpaired policy denial; that should not be conflated with the paired observation.
 
 The repository contains 12 candidate fixtures, not 12 confirmed exploits. They provide cases to evaluate, not a count of attacks that have succeeded. The automated tests offer regression coverage for the lab, while the live trace offers a narrow observation about one case and configuration pair. Neither substitutes for a broad evaluation.
 

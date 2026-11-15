@@ -1,6 +1,6 @@
 # Nicholas Bode — Portfolio
 
-A static portfolio for independent AI engineering, data systems, research, and selected public projects. The v14 “Instrument” design uses a typographic grid, restrained monochrome styling, original canvas illustrations, and a native-scroll work rail.
+A static portfolio for independent AI engineering, data systems, research, and selected public projects. The v14 “Instrument” design uses a typographic grid, restrained monochrome styling, original canvas illustrations, and a project grid with a visible index.
 
 ## Build and preview
 
@@ -33,9 +33,9 @@ The included Big Shoulders Display font is copyright The Big Shoulders Project A
 
 ## Interaction and accessibility
 
-Navigation uses ordinary links and native scrolling. The work rail is sticky and progress-driven on wide screens, with no wheel interception; reduced-motion and small-screen modes show a vertical project list. The mobile menu supports keyboard operation and restores focus when closed. Decorative animation respects `prefers-reduced-motion`, and content remains available as static HTML.
+Navigation uses ordinary links and native scrolling. Projects are shown in a grid with a visible index at every width. The mobile menu supports keyboard operation and restores focus when closed. Decorative animation respects `prefers-reduced-motion`, and content remains available as static HTML.
 
-RAG and trend-lab examples are synthetic, client-side exhibits. Contact form submission creates a `mailto:` link; it does not send information to a server.
+RAG and trend-lab examples are synthetic, client-side exhibits. The contact section is a direct email button; it does not send information to a server.
 
 ## Verification
 

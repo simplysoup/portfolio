@@ -8,6 +8,12 @@ ownership: 'Independently developed'
 status: 'Public repository; locally verified synthetic-data demo'
 format: 'Engineering case study'
 public: true
+summary:
+  problem: "Do incremental warehouse models handle changed history, duplicates, nulls and disappearing rows — or fail silently?"
+  built: "Local DuckDB and dbt pipeline on synthetic orders and customers, with a merge-key incremental fact, data-quality tests gating CI, and integration checks."
+  result: "18 dbt tests; verified run PASS=22, WARN=1; a mutated run produced 1,012 fact rows versus a 1,010 baseline and stayed at 1,012 on repeat, with no duplicates from reruns."
+  limitation: "Full-staging merge and snapshot reloads prioritize correctness over large-scale throughput; facts for vanished source rows are not deleted; DuckDB only, Snowflake untested."
+  evidence: "Public repository: setup, tests, lineage and tradeoff notes."
 ---
 ## The problem
 

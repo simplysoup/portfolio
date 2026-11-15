@@ -1,5 +1,8 @@
-# V14 work rail
+# V14 work grid
 
-The work section uses a sticky viewport whose horizontal track follows native vertical scroll progress. On wide screens, each project card moves through the viewport as the page advances. There is no wheel capture, scroll locking, or scroll-jacking.
-
-On small screens and when `prefers-reduced-motion: reduce` is active, the rail is disabled and all six projects appear in the regular vertical grid. The cards and their links remain ordinary, accessible content in either layout.
+The work section shows all six projects in a plain grid with a numbered
+project index above it, at every screen width. There is no horizontal rail,
+no sticky viewport, no wheel capture, scroll locking, or scroll-jacking:
+visitors scroll the page normally and can jump straight to any project
+from the index. The cards and their links remain ordinary, accessible
+content in every layout, including reduced-motion and no-JS browsing.

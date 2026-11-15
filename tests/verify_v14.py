@@ -133,30 +133,33 @@ def main():
                 check(f"hero wordmark {width}×{height}", lambda m=m, h=height: (0 < m['ratio'] <= 1.02 and m['bottom'] <= h + 1 and m['transform'] == 'none') or (_ for _ in ()).throw(AssertionError(str(m))))
                 page.close()
 
-            # Outcome cards stay compact and readable on mobile.
-            for width in (320, 390):
-                page = browser.new_page(viewport={"width": width, "height": 844})
+            # Homepage order: work first, then concise experience, then about/research.
+            # The project index lists all six projects and the first three are featured,
+            # led by AgentShield and Evaluated RAG ahead of TrainStore.
+            for width in (390, 1440):
+                page = browser.new_page(viewport={"width": width, "height": 900})
                 page.goto(base + "/", wait_until="networkidle")
-                m = page.evaluate("""() => [...document.querySelectorAll('.outcome-card')].map(card => {
-                  const number = card.querySelector('.outcome-number').getBoundingClientRect();
-                  const copy = card.querySelector('.outcome-copy').getBoundingClientRect();
-                  return {height: card.getBoundingClientRect().height, separated: number.right <= copy.left, contained: copy.right <= card.getBoundingClientRect().right};
-                })""")
-                check(f"compact outcomes {width}px", lambda m=m: (len(m) == 6 and all(c['height'] < 160 and c['separated'] and c['contained'] for c in m)) or (_ for _ in ()).throw(AssertionError(str(m))))
+                m = page.evaluate("""() => {
+                  const order = [...document.querySelectorAll('#work, #about, #research, #contact')].map(e => e.id);
+                  const cards = [...document.querySelectorAll('.rail-card')].map(c => c.querySelector('h3').textContent.trim());
+                  const index = [...document.querySelectorAll('nav[aria-label="Project index"] a')].map(a => a.getAttribute('href'));
+                  const targets = index.map(h => !!document.querySelector(h));
+                  const featured = [...document.querySelectorAll('.rail-card')].slice(0, 3).map(c => c.textContent.includes('Featured'));
+                  return {order, cards, index, targets, featured, rail: document.documentElement.classList.contains('rail-on')};
+                }""")
+                check(f"homepage order and project index {width}px", lambda m=m: (m['order'] == ['work', 'about', 'research', 'contact'] and m['cards'][:3] == ['AgentShield', 'Evaluated RAG', 'TrainStore'] and len(m['index']) == 6 and all(m['targets']) and all(m['featured']) and not m['rail']) or (_ for _ in ()).throw(AssertionError(str(m))))
                 page.close()
 
-            # Contact details and form share the viewport at desktop sizes.
+            # Contact offers a direct email button instead of a mailto form.
             for width, height in [(1280, 633), (1440, 900)]:
                 page = browser.new_page(viewport={"width": width, "height": height})
                 page.goto(base + "/contact/", wait_until="networkidle")
                 m = page.evaluate("""() => {
-                  const form = document.querySelector('.contact-form').getBoundingClientRect();
-                  const links = document.querySelector('.contact-links').getBoundingClientRect();
-                  const name = document.querySelector('[name=name]').getBoundingClientRect();
-                  const email = document.querySelector('[name=email]').getBoundingClientRect();
-                  return {bottom: Math.max(form.bottom, links.bottom), aligned: Math.abs(name.top - email.top) < 1, inputHeight: name.height};
+                  const btn = document.querySelector('.contact-email a[href^="mailto:"]');
+                  const section = document.querySelector('#contact').getBoundingClientRect();
+                  return {href: btn?.getAttribute('href'), text: btn?.textContent.trim(), form: !!document.querySelector('form[data-mailto]'), bottom: section.bottom};
                 }""")
-                check(f"contact layout {width}×{height}", lambda m=m, h=height: (m['bottom'] <= h - 8 and m['aligned'] and m['inputHeight'] <= 44) or (_ for _ in ()).throw(AssertionError(str(m))))
+                check(f"contact email button {width}x{height}", lambda m=m, h=height: (m['href'] == "mailto:nickbode71@gmail.com" and not m['form'] and m['bottom'] <= h - 8) or (_ for _ in ()).throw(AssertionError(str(m))))
                 page.close()
 
             # The band moves with scrolling, then comes to rest.
@@ -171,11 +174,13 @@ def main():
             page.wait_for_timeout(1300)
             band_after = page.locator('[data-motion-track]').evaluate('e => getComputedStyle(e).transform')
             check("band follows scroll and rests", lambda: (band_before == band_idle and band_after != band_before) or (_ for _ in ()).throw(AssertionError(f'{band_before} / {band_idle} / {band_after}')))
-            card = page.locator('.motion-copy').first
+            # Expertise (and its .motion-copy rows) now lives on /about/; the homepage
+            # reveal check uses the about statement instead.
+            card = page.locator('#about [data-scroll-reveal]').first
             page.evaluate("scrollTo({top:0,behavior:'instant'})")
             page.wait_for_timeout(200)
             hidden_opacity = float(card.evaluate("e => getComputedStyle(e).opacity"))
-            page.evaluate("""() => { const r=document.querySelector('.motion-copy').getBoundingClientRect(); scrollTo({top:scrollY+r.top-innerHeight*.55,behavior:'instant'}); }""")
+            page.evaluate("""() => { const r=document.querySelector('#about [data-scroll-reveal]').getBoundingClientRect(); scrollTo({top:scrollY+r.top-innerHeight*.55,behavior:'instant'}); }""")
             page.wait_for_timeout(300)
             shown_opacity = float(card.evaluate("e => getComputedStyle(e).opacity"))
             check("description reveal follows scroll", lambda: (hidden_opacity < shown_opacity and shown_opacity > .95) or (_ for _ in ()).throw(AssertionError(f'{hidden_opacity} / {shown_opacity}')))
@@ -191,7 +196,9 @@ def main():
                 if width == 1440:
                     for section in ("about", "work", "research", "contact"):
                         page.evaluate("id => { const y=document.getElementById(id).getBoundingClientRect().top+scrollY-innerHeight*.355; scrollTo({top:y,behavior:'instant'}); }", section)
-                        page.wait_for_timeout(200)
+                        # IntersectionObserver delivery can lag under load; wait for the
+                        # nav state instead of sampling it on a fixed short delay.
+                        page.wait_for_function("s => document.querySelector(`[data-nav='${s}']`)?.getAttribute('aria-current') === 'true'", arg=section, timeout=5000)
                         active = page.locator(f'[data-nav="{section}"]').get_attribute("aria-current")
                         check(f"nav active at #{section}", lambda a=active, s=section: a == "true" or (_ for _ in ()).throw(AssertionError(f"aria-current={a}")))
                 if width in (390, 1440):
@@ -210,34 +217,23 @@ def main():
             check("mobile menu opens by Enter", lambda: (page.locator("#site-menu").is_visible() and page.evaluate("document.activeElement.closest('#site-menu') !== null")) or (_ for _ in ()).throw(AssertionError("keyboard open/focus failed")))
             page.keyboard.press("Escape"); page.close()
 
-            # Rail transform and card sizing at desktop; progressive fallback at reduced motion/mobile.
-            page = browser.new_page(viewport={"width": 1440, "height": 900})
+            # Work is a plain grid with a visible project index at every width:
+            # no horizontal rail, no rail-on class, all six cards present.
+            for width, height in [(1440, 900), (390, 844)]:
+                page = browser.new_page(viewport={"width": width, "height": height})
+                page.goto(base + "/", wait_until="networkidle")
+                page.evaluate("document.fonts.ready")
+                m = page.evaluate("""() => ({
+                  rail: document.documentElement.classList.contains('rail-on'),
+                  cards: document.querySelectorAll('.rail-card').length,
+                  grid: getComputedStyle(document.querySelector('#work .grid')).display === 'grid',
+                  first: document.querySelector('.rail-card h3')?.textContent.trim(),
+                })""")
+                check(f"work grid {width}x{height}", lambda m=m: (not m['rail'] and m['cards'] == 6 and m['grid'] and m['first'] == 'AgentShield') or (_ for _ in ()).throw(AssertionError(str(m))))
+                page.close()
+            page = browser.new_page(viewport={"width": 1440, "height": 900}, reduced_motion="reduce")
             page.goto(base + "/", wait_until="networkidle")
-            page.evaluate("document.fonts.ready")
-            check("work rail desktop active", lambda: page.locator("html").evaluate("e => e.classList.contains('rail-on')") or (_ for _ in ()).throw(AssertionError("rail-on absent")))
-            rail_data = page.evaluate("""() => {
-              const w=document.querySelector('[data-rail-wrapper]'), v=document.querySelector('[data-rail-viewport]'), t=document.querySelector('[data-rail-track]');
-              return {top:w.getBoundingClientRect().top+scrollY, range:w.offsetHeight-v.offsetHeight-56, distance:t.scrollWidth-v.clientWidth,
-                cards:[...document.querySelectorAll('.rail-card')].map(c=>{const r=c.getBoundingClientRect();return {center:r.left+r.width/2, top:r.top,bottom:r.bottom}}), vw:v.clientWidth};
-            }""")
-            transforms = []
-            for fraction in (0, .5, 1):
-                page.evaluate("({top,range,p})=>scrollTo({top:top-56+p*range,behavior:'instant'})", {"top": rail_data["top"], "range": rail_data["range"], "p": fraction})
-                page.wait_for_timeout(120)
-                transforms.append(page.locator("[data-rail-track]").evaluate("e => new DOMMatrixReadOnly(getComputedStyle(e).transform).m41"))
-            check("work rail transform monotonic", lambda: (transforms[0] >= transforms[1] >= transforms[2] and transforms[0] > transforms[2]) or (_ for _ in ()).throw(AssertionError(f"x positions {transforms}")))
-            for index, card in enumerate(rail_data["cards"]):
-                pcent = max(0, min(1, (card["center"] - rail_data["vw"] / 2) / rail_data["distance"]))
-                page.evaluate("({top,range,p})=>scrollTo({top:top-56+p*range,behavior:'instant'})", {"top": rail_data["top"], "range": rail_data["range"], "p": pcent})
-                page.wait_for_timeout(80)
-                box = page.locator(".rail-card").nth(index).bounding_box()
-                check(f"rail card {index+1} fits viewport at center", lambda b=box: (b and b["y"] >= 0 and b["y"] + b["height"] <= 900) or (_ for _ in ()).throw(AssertionError(f"card box={b}")))
-            page.emulate_media(reduced_motion="reduce"); page.wait_for_timeout(300)
-            check("reduced-motion work rail grid", lambda: (not page.locator("html").evaluate("e=>e.classList.contains('rail-on')") and page.locator(".rail-card").count() == 6) or (_ for _ in ()).throw(AssertionError("rail did not fall back to 6-card grid")))
-            page.close()
-            page = browser.new_page(viewport={"width": 390, "height": 844})
-            page.goto(base + "/", wait_until="networkidle")
-            check("mobile work rail disabled", lambda: not page.locator("html").evaluate("e=>e.classList.contains('rail-on')") or (_ for _ in ()).throw(AssertionError("rail-on on mobile")))
+            check("reduced-motion work grid visible", lambda: (page.locator(".rail-card").count() == 6 and all(float(page.locator(".rail-card").nth(i).evaluate("e => getComputedStyle(e).opacity")) > 0.9 for i in range(6))) or (_ for _ in ()).throw(AssertionError("cards hidden under reduced motion")))
             page.close()
 
             # Reduced motion suppresses marquee and recurring canvas RAF loops.
@@ -250,16 +246,10 @@ def main():
             check("reduced-motion band and canvas RAF", lambda: (page.locator("[data-motion-track]").evaluate("e=>getComputedStyle(e).transform") == "none" and page.evaluate("window.__rafRequests") == before) or (_ for _ in ()).throw(AssertionError(f"raf={page.evaluate('window.__rafRequests')}")))
             page.close()
 
-            # Contact uses a local submit dispatch so no mail client is launched.
+            # Contact section links straight to email with no form in between.
             page = browser.new_page(viewport={"width": 1440, "height": 900})
             page.goto(base + "/", wait_until="networkidle")
-            form = page.locator("form[data-mailto]")
-            form.locator('[name="name"]').fill("Verification Name")
-            form.locator('[name="email"]').fill("verify@example.test")
-            form.locator('[name="message"]').fill("Verification message")
-            page.evaluate("document.querySelector('form[data-mailto]').dispatchEvent(new SubmitEvent('submit',{bubbles:true,cancelable:true}))")
-            mailto = form.get_attribute("data-last-mailto") or ""
-            check("contact mailto encodes submitted name", lambda: (mailto.startswith("mailto:") and "Verification%20Name" in mailto) or (_ for _ in ()).throw(AssertionError(f"data-last-mailto={mailto}")))
+            check("contact email button on homepage", lambda: (page.locator('#contact a[href="mailto:nickbode71@gmail.com"]').count() >= 1 and page.locator("form[data-mailto]").count() == 0) or (_ for _ in ()).throw(AssertionError("email button missing or mailto form still present")))
             page.close()
 
             # Articles: heading, real TOC targets, responsive labeled tables, interactive exhibits.
@@ -271,6 +261,8 @@ def main():
                 page.on("console", lambda message: exhibit_errors.append(message.text) if message.type == "error" else None)
                 page.goto(base + route, wait_until="networkidle")
                 check(f"article {route} h1 and TOC", lambda pg=page: (pg.locator("h1").count() == 1 and pg.locator("nav[aria-label='On this page'] a").count() > 0 and all(pg.locator("#" + pg.locator("nav[aria-label='On this page'] a").nth(i).get_attribute("href").lstrip("#")).count() == 1 for i in range(pg.locator("nav[aria-label='On this page'] a").count()))) or (_ for _ in ()).throw(AssertionError("h1/TOC target absent")))
+                if route.startswith("/work/"):
+                    check(f"article {route} at-a-glance summary", lambda pg=page: (pg.locator(".at-a-glance").count() == 1 and [pg.locator(".at-a-glance dt").nth(i).text_content() for i in range(5)] == ["Problem", "What I built", "Key result", "Main limitation", "Evidence"]) or (_ for _ in ()).throw(AssertionError("at-a-glance summary missing or incomplete")))
                 page.screenshot(path=str(OUT / (route.strip("/").replace("/", "-") + ".png")))
                 if route.endswith("evaluated-rag/"):
                     for option in page.locator('[data-exhibit="rag"] [data-case]').all(): option.click()
@@ -295,6 +287,7 @@ def main():
             pages = len(re.findall(rb"/Type\s*/Page\b", pdf))
             color = page.locator("body").evaluate("e=>getComputedStyle(e).color")
             check("resume print pages and black body text", lambda: (pages <= 3 and color in ("rgb(0, 0, 0)", "rgb(0,0,0)")) or (_ for _ in ()).throw(AssertionError(f"PDF pages={pages}, body color={color}")))
+            check("resume PDF download link", lambda: (page.locator('a[href$="nicholas-bode-resume.pdf"]').count() == 1) or (_ for _ in ()).throw(AssertionError("downloadable resume PDF link missing")))
             page.screenshot(path=str(OUT / "resume.png"), full_page=True)
             page.close()
 

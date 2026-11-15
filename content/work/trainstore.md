@@ -8,6 +8,12 @@ ownership: 'Independently developed'
 status: 'Public repository; experimental lab, not production'
 format: 'Engineering case study'
 public: true
+summary:
+  problem: "Can training storage read fast enough to keep the model working, publish checkpoints without exposing partial state, and recover after interruptions?"
+  built: "k3s lab on EC2 with S3 plus JuiceFS POSIX access, a manifest-committed checkpoint protocol with conditional writes, and interoperating Go and Python checkpoint clients."
+  result: "POSIX with two workers delivered about 197 samples/s at 5% loader wait versus 33 samples/s at 85% for single-threaded S3; a 133.9 MiB checkpoint published in 4.4 s and resume was bit-exact; 235 writes and 291 reads under interruption produced no torn reads."
+  limitation: "No replication by design; one region, CPU-only, a 10,000-image dataset — figures should not be generalized to larger machines or GPU training."
+  evidence: "Public repository: experiment code, checkpoint clients and results."
 ---
 ## The engineering question
 

@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-14",
+  "generated": "2026-11-15",
   "base": "/",
   "routes": [
     "/",
@@ -8,12 +8,12 @@
     "/about/",
     "/contact/",
     "/resume/",
-    "/work/trainstore/",
-    "/work/piano-transcription/",
-    "/work/casestruct-lora/",
     "/work/analytics-pipeline/",
-    "/work/evaluated-rag/",
     "/work/agent-shield/",
+    "/work/piano-transcription/",
+    "/work/evaluated-rag/",
+    "/work/casestruct-lora/",
+    "/work/trainstore/",
     "/research/trend-dependencies/"
   ],
   "excluded_drafts": []

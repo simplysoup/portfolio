@@ -100,13 +100,6 @@ education:
     org: "Springer Nature"
     detail: "Encyclopedia entry · first & corresponding author"
     link: "https://doi.org/10.1007/978-3-031-23161-2_501"
-highlights:
-  - "Agent tool servers with permission-gated tool families and authenticated remote access."
-  - "OAuth + PKCE secured remote tooling with encrypted server-side token storage."
-  - "LLM review workflows that pair automatic rules with audits and a human queue."
-  - "A QC-gated mobility data product, built end to end on Snowflake."
-  - "A four-version, nine-dimension release benchmark ending in a go / no-go call."
-  - "XGBoost foot-traffic models carried into production QA."
 offclock:
   body: "I passed Grade 10 piano with the Royal Conservatory of Music, and from 2011 to 2016 I worked as a professional screen actor — including roles on Hannibal and Murdoch Mysteries. Both taught me the same thing engineering does: rehearse, then perform under scrutiny."
   stats: [["10", "RCM piano grade"], ["5", "Years on set"]]
@@ -121,13 +114,6 @@ research:
 # Retain the phase-1 component classes in generated CSS before phase-2 templates use them.
 # shell label label-strong chip display heading btn btn-solid btn-ghost h2-display section chapter-tag prose-nb tick
 projects:
-  - slug: trainstore
-    title: "TrainStore"
-    tagline: "Kubernetes-native ML storage"
-    year: "2026"
-    desc: "S3-compatible object storage, JuiceFS POSIX access and checkpointing for PyTorch on a k3s cluster across two AWS availability zones — with a manifest-committed checkpoint protocol that a stale writer cannot overwrite."
-    chips: [Python, Go, k3s, AWS, JuiceFS, PyTorch]
-    repo: "https://github.com/simplysoup/trainstore"
   - slug: agent-shield
     title: "AgentShield"
     tagline: "Prompt-injection evaluation for tool-using agents"
@@ -135,13 +121,6 @@ projects:
     desc: "Paired vulnerable and policy-enforced agent runs, frozen fixtures, adaptive attack generation and tool-level authorization with audit events. 68 automated tests."
     chips: [Python, LangGraph, OpenAI, Groq, pytest]
     repo: "https://github.com/simplysoup/agent-shield"
-  - slug: casestruct-lora
-    title: "CaseStruct-LoRA"
-    tagline: "LoRA study for incident-text classification"
-    year: "2026"
-    desc: "A reproducible Qwen3-0.6B LoRA study on construction-accident and occupational-injury classification, with paired-bootstrap confidence intervals against the strongest baselines."
-    chips: [PyTorch, PEFT, TRL, Hugging Face, Qwen]
-    repo: "https://github.com/simplysoup/casestruct-lora"
   - slug: evaluated-rag
     title: "Evaluated RAG"
     tagline: "Grounded document QA, measured"
@@ -149,6 +128,20 @@ projects:
     desc: "A reproducible document-QA experiment comparing a deterministic baseline with a bounded tool-using model."
     chips: [Python, LangGraph, Pydantic, MLflow]
     repo: "https://github.com/simplysoup/evaluated-rag-agentic"
+  - slug: trainstore
+    title: "TrainStore"
+    tagline: "Kubernetes-native ML storage"
+    year: "2026"
+    desc: "S3-compatible object storage, JuiceFS POSIX access and checkpointing for PyTorch on a k3s cluster across two AWS availability zones — with a manifest-committed checkpoint protocol that a stale writer cannot overwrite."
+    chips: [Python, Go, k3s, AWS, JuiceFS, PyTorch]
+    repo: "https://github.com/simplysoup/trainstore"
+  - slug: casestruct-lora
+    title: "CaseStruct-LoRA"
+    tagline: "LoRA study for incident-text classification"
+    year: "2026"
+    desc: "A reproducible Qwen3-0.6B LoRA study on construction-accident and occupational-injury classification, with paired-bootstrap confidence intervals against the strongest baselines."
+    chips: [PyTorch, PEFT, TRL, Hugging Face, Qwen]
+    repo: "https://github.com/simplysoup/casestruct-lora"
   - slug: analytics-pipeline
     title: "Analytics pipeline"
     tagline: "Incremental dbt models that prove idempotency"

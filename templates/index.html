@@ -1,14 +1,13 @@
 {% extends 'base.html' %}{% block content %}
 {% include 'partials/hero.html' %}
 {% include 'partials/marquee.html' %}
+{% include 'partials/work.html' %}
+{% set concise_experience = true %}
+{% include 'partials/experience.html' %}
+{% set concise_experience = false %}
 <div data-chapter="about">
 {% include 'partials/about.html' %}
-{% include 'partials/expertise.html' %}
-{% include 'partials/skills.html' %}
-{% include 'partials/experience.html' %}
-{% include 'partials/highlights.html' %}
 </div>
-{% include 'partials/work.html' %}
 {% include 'partials/research.html' %}
 {% include 'partials/contact.html' %}
 {% endblock %}

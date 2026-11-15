@@ -9,6 +9,12 @@ status: 'Public repository; development benchmark, not production'
 format: 'Engineering case study + educational trace'
 public: true
 exhibit: 'rag'
+summary:
+  problem: "When a language model gives a fluent answer, how do we know it was supported by the retrieved source?"
+  built: "Synthetic 8-document corpus with a fixed 30-question development set, a deterministic extractive baseline versus a bounded tool-using model, six guardrail checks and MLflow tracking."
+  result: "Baseline 28/30 correct; tool-using model 29/30, then 30/30 after a grounding validator was added — while retrieval precision fell from 0.689 to 0.480."
+  limitation: "A 30-question development set used during development, not a clean holdout; two model runs do not quantify nondeterministic variation."
+  evidence: "Public repository: evaluation data, implementation, tests and run logs."
 ---
 ## The engineering question
 

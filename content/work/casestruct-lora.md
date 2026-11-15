@@ -8,12 +8,18 @@ ownership: 'Independently developed'
 status: 'Public repository; exploratory study, not validated for deployment'
 format: 'Engineering case study'
 public: true
+summary:
+  problem: "Can a small LoRA-adapted model beat its strongest evaluated baseline on incident-text classification, and how certain is the difference?"
+  built: "Qwen3-0.6B LoRA (rank 8, alpha 16) with a paired-bootstrap comparison (10,000 resamples, seed 71) against the strongest evaluated baseline per task."
+  result: "ConstructCIE accident type +11.0 points (93.1% vs 82.1% macro-F1, 80 cases, 95% CI +1.7 to +21.1); OSHA injury nature +16.0 points (80.1% vs 64.0%, 333 cases, 95% CI +9.2 to +22.1)."
+  limitation: "The test split was inspected during development, so it is not a pristine holdout; the source-only distribution does not independently reproduce the v2.1 outputs."
+  evidence: "Public repository: methodology, aggregate results and code; per-example reports stay local."
 ---
 ## The engineering question
 
 Can a small adapted language model classify incident narratives better than its strongest evaluated baseline, and how much uncertainty remains in that comparison? I built CaseStruct-LoRA to study the training and evaluation path rather than to claim that a model is ready to make safety decisions.
 
-The external tasks are construction accident type and occupational injury nature. Neither external benchmark is a legal-document dataset. The project also retains an earlier synthetic legal-intake prototype as historical work; it should not be confused with the external task results. The reported outcomes are exploratory, and the test split was inspected during development.
+The external tasks are construction accident type and occupational injury nature. Neither external benchmark is a legal-document dataset. The project also retains an earlier synthetic legal-intake prototype as historical work; it should not be confused with the external task results. The reported outcomes are exploratory.
 
 ## What I built
 
