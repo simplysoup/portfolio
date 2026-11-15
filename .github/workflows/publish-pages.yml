@@ -1,0 +1,40 @@
+name: Publish portfolio (design/interactive-refinements) to GitHub Pages
+
+on:
+  push:
+    branches: [design/interactive-refinements]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-24.04
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+      - name: Sync build dependencies
+        run: uv sync --frozen
+      - name: Build for the custom domain root
+        env:
+          SITE_BASE: ""
+          SITE_URL: https://nicholasbode.myaddr.io
+        run: uv run python scripts/build.py
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+      - id: deployment
+        uses: actions/deploy-pages@v4
